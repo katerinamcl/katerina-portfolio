@@ -1656,17 +1656,29 @@ body {
   .nav-toggle.is-ready ~ nav .nav li { width: 100%; }
   .nav-toggle.is-ready ~ nav .nav a { display: block; padding: calc(var(--u) * 2.5) calc(var(--u) * 2); }
 
-  /* ---- hero CTAs: one row, equal halves ---- */
-  .hero__cta { flex-wrap: nowrap; gap: calc(var(--u) * 2.5); }
-  .hero__cta li { flex: 1 1 0; min-width: 0; }
+  /* ---- hero CTAs: STACKED, full width, matched ----
+     ⚠️ Two across does not work here and the numbers say why, measured at
+     375px: the row is 298px, so each button is 145px — but the pill sprite's
+     rounded caps are a 25.6px border on each side, taking 51.2px (35% of the
+     button) before any content. That leaves 66px for the label once the arrow
+     is included, and "View My Work" needs 69px even at 12px type. So a
+     side-by-side pair could only fit by dropping the arrow AND shrinking the
+     text below 12px — and it still wrapped to two lines, which is what made
+     the two buttons different heights (108px vs 81px).
+     Stacked, each button is the full 298px with 218px for the label: both fit
+     on one line at full size, both keep the arrow, and the two are identical
+     in width AND height, which is the "matched pair" the desktop has. */
+  .hero__cta { flex-direction: column; flex-wrap: nowrap; gap: calc(var(--u) * 2.5); }
+  .hero__cta li { flex: 0 0 auto; width: 100%; min-width: 0; }
   .hero__cta .btn {
     width: 100%;
     justify-content: center;
     padding-inline: calc(var(--u) * 1.5);
     font-size: 1.05rem;
   }
-  /* the arrow glyphs cost width the labels need to stay on one line */
-  .hero__cta .btn .ico { display: none; }
+  /* ⚠️ The arrow is NOT hidden here any more. It used to be, to buy width for
+     the labels — but the label wrapped anyway, so the icon was given up for
+     nothing. Stacking removes the width pressure entirely. */
 
   /* ---- everything that was ragged becomes an even grid ---- */
   .classes { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--u) * 2); }
