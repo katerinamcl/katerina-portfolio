@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en" data-proj="parent-guidance-app">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parent Guidance App — Katerina Michael</title>
+<meta name="description" content="Parent Guidance App — the same parenting support app designed twice in Figma: once to a fixed set of rules, once in my own style.">
+<meta property="og:title" content="Parent Guidance App — Katerina Michael">
+<meta property="og:description" content="Two UI design directions in Figma for a parenting support app — stress management, emotional wellbeing, motherhood and child-focused activities.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="../../assets/img/p-parent.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/styles.css?v=62">
+<style id="pg-theme">
+/* Parent Guidance App — a calm pixel desktop. The references share one thread:
+   a soft retro OS — windows with title bars, folders, dialogs, desktop icons.
+   That reads as ORGANISATION, which is what a parenting-and-wellbeing product
+   is selling, and the pastel palette carries the CALM. Every panel here is a
+   window; the decoration layer is the desktop behind them, scattered with the
+   things the app is about — a folder, a checklist, a plant, a heart, a teacup,
+   a speech bubble, a clock, a sparkle.
+   All CSS + inline SVG, no image assets (an external decoration file or CSS
+   mask cannot be verified locally and fails silently — the helmet bug, §10k).
+   ⚠️ This page is LIGHT-panelled (cream windows on a violet ground), so the
+   dark-theme ink tokens must be overridden or every label is pale-on-pale. */
+:root[data-proj="parent-guidance-app"]{
+  /* --- given --- */
+  --pg-deep:#4A2E7C; --pg-violet:#7C4AD9; --pg-pink:#E83E9E;
+  --pg-lav:#C9B8E8; --pg-cream:#F5EFE8;
+  /* --- derived --- */
+  --pg-night:#2E1B52;      /* deepest — top bar, window keylines */
+  --pg-pink-ink:#C0277D;   /* text-safe pink — see below */
+  --pg-violet-lt:#A98AE8;  /* --pg-violet lifted — decoration */
+  --pg-mist:#EFE7FA;       /* inset fills inside a window */
+  --pg-arrow:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 24'><g fill='%23C0277D'><rect x='0' y='9' width='30' height='6' rx='1'/><path d='M28 3 L44 12 L28 21 Z'/></g></svg>");
+
+  /* ⚠️ THE PINK CANNOT CARRY SMALL TEXT. #E83E9E is 3.28:1 on the cream
+     window — large display only. --pg-pink-ink #C0277D is the same hue taken
+     darker and reaches 4.81:1. That is the SIXTH two-tone split on this site
+     (§12b, §13d, §15b, §17b, §18b) — it is now the rule, not the exception.
+     Safe on cream: --pg-deep 9.33:1, --pg-violet 4.80:1, --pg-pink-ink 4.81:1.
+     Inverted surfaces: cream on --pg-violet 4.80:1 (title bars), cream on
+     --pg-night 13.16:1 (top bar), --pg-deep on --pg-lav 5.81:1. */
+
+  --ink:var(--pg-deep); --ink-soft:var(--pg-deep); --bar-ink:var(--pg-cream);
+  --bezel:var(--pg-violet); --bezel-out:var(--pg-night);
+  /* ⚠️ --sky-1/--sky-2 come from the generated PROJECT MOTIFS block (§9a), and
+     body's frame colour is var(--sky-1) — override (§15c trap 3). */
+  --sky-1:#2E1B52; --sky-2:#3E2568;
+  /* ⚠️ Narrower than the site default 1180px so the desktop icons have gutters
+     to sit in — same measured reason as §17d.
+     ⚠️⚠️ 1060 was NOT narrow enough and left a 40px gutter, while the icons are
+     38–78px wide. Every one of them was therefore sliced by the window edge —
+     half in the gutter, half hidden behind the window — which reads as debris
+     stuck to the window's dark outline. Measured worst case: the speech bubble
+     reaches 122.5px from the sheet edge, so the gutter has to clear that.
+     860 gives 126.5px each side and all 13 sit fully in the open.
+     ⚠️ Do not raise this without re-checking that NO icon straddles a window
+     edge — the content inside is capped at 520/560px, so the windows can be
+     this narrow at no cost to the artwork. */
+  --shell:860px;
+
+  /* --- artwork. Colours inside a data URI are %23, never # (§10b.6).
+         shape-rendering='crispEdges' keeps the pixel edges hard at any size. */
+  --pg-winbtns:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 14' shape-rendering='crispEdges'><g fill='%23F5EFE8'><rect x='0' y='0' width='12' height='14'/><rect x='16' y='0' width='12' height='14'/><rect x='32' y='0' width='12' height='14'/></g><g fill='%232E1B52'><rect x='3' y='10' width='6' height='2'/><rect x='19' y='3' width='6' height='8'/><rect x='35' y='4' width='2' height='2'/><rect x='37' y='6' width='2' height='2'/><rect x='39' y='4' width='2' height='2'/><rect x='35' y='8' width='2' height='2'/><rect x='39' y='8' width='2' height='2'/></g><rect x='20' y='5' width='4' height='5' fill='%23F5EFE8'/></svg>");
+  --pg-folder:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 20' shape-rendering='crispEdges'><g fill='%232E1B52'><rect x='1' y='3' width='9' height='1'/><rect x='1' y='4' width='1' height='15'/><rect x='10' y='4' width='1' height='1'/><rect x='11' y='5' width='12' height='1'/><rect x='23' y='6' width='1' height='13'/><rect x='2' y='18' width='21' height='1'/></g><g fill='%23C9B8E8'><rect x='2' y='4' width='8' height='2'/><rect x='2' y='6' width='21' height='12'/></g><rect x='2' y='14' width='21' height='4' fill='%23A98AE8'/><g fill='%23F5EFE8'><rect x='4' y='8' width='12' height='1'/><rect x='4' y='11' width='8' height='1'/></g></svg>");
+  --pg-note:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24' shape-rendering='crispEdges'><rect x='1' y='2' width='18' height='21' fill='%232E1B52'/><rect x='2' y='3' width='16' height='19' fill='%23F5EFE8'/><g fill='%237C4AD9'><rect x='4' y='6' width='3' height='3'/><rect x='4' y='12' width='3' height='3'/><rect x='4' y='18' width='3' height='3'/></g><g fill='%23C9B8E8'><rect x='9' y='7' width='8' height='1'/><rect x='9' y='13' width='8' height='1'/><rect x='9' y='19' width='6' height='1'/></g><g fill='%23E83E9E'><rect x='5' y='7' width='1' height='1'/><rect x='6' y='6' width='1' height='1'/><rect x='5' y='13' width='1' height='1'/><rect x='6' y='12' width='1' height='1'/></g></svg>");
+  --pg-heart:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 13' shape-rendering='crispEdges'><g fill='%23E83E9E'><rect x='2' y='2' width='3' height='1'/><rect x='9' y='2' width='3' height='1'/><rect x='1' y='3' width='5' height='1'/><rect x='8' y='3' width='5' height='1'/><rect x='1' y='4' width='12' height='2'/><rect x='2' y='6' width='10' height='1'/><rect x='3' y='7' width='8' height='1'/><rect x='4' y='8' width='6' height='1'/><rect x='5' y='9' width='4' height='1'/><rect x='6' y='10' width='2' height='1'/></g><g fill='%23F5EFE8'><rect x='3' y='4' width='2' height='1'/><rect x='2' y='5' width='1' height='1'/></g></svg>");
+  --pg-plant:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 26' shape-rendering='crispEdges'><rect x='10' y='6' width='2' height='11' fill='%237C4AD9'/><g fill='%23A98AE8'><rect x='6' y='8' width='4' height='2'/><rect x='4' y='9' width='2' height='2'/><rect x='12' y='6' width='4' height='2'/><rect x='16' y='7' width='2' height='2'/><rect x='7' y='12' width='3' height='2'/><rect x='12' y='11' width='4' height='2'/></g><g fill='%232E1B52'><rect x='5' y='17' width='12' height='1'/><rect x='5' y='18' width='1' height='7'/><rect x='16' y='18' width='1' height='7'/><rect x='6' y='25' width='10' height='1'/></g><rect x='6' y='18' width='10' height='7' fill='%23E83E9E'/><rect x='6' y='18' width='10' height='2' fill='%23C0277D'/></svg>");
+  --pg-cup:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 20' shape-rendering='crispEdges'><g fill='%23C9B8E8'><rect x='7' y='1' width='1' height='4'/><rect x='11' y='0' width='1' height='4'/><rect x='14' y='1' width='1' height='4'/></g><rect x='3' y='7' width='14' height='12' fill='%232E1B52'/><rect x='4' y='8' width='12' height='10' fill='%23F5EFE8'/><rect x='4' y='8' width='12' height='2' fill='%23E83E9E'/><g fill='%232E1B52'><rect x='17' y='9' width='3' height='1'/><rect x='19' y='10' width='1' height='3'/><rect x='17' y='13' width='3' height='1'/></g></svg>");
+  --pg-bubble:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 20' shape-rendering='crispEdges'><rect x='1' y='1' width='24' height='14' fill='%232E1B52'/><rect x='2' y='2' width='22' height='12' fill='%23F5EFE8'/><g fill='%232E1B52'><rect x='5' y='15' width='6' height='1'/><rect x='5' y='16' width='4' height='1'/><rect x='5' y='17' width='2' height='1'/></g><g fill='%237C4AD9'><rect x='5' y='5' width='16' height='2'/><rect x='5' y='9' width='11' height='2'/></g></svg>");
+  --pg-clock:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'><circle cx='11' cy='11' r='10' fill='%232E1B52'/><circle cx='11' cy='11' r='8' fill='%23F5EFE8'/><g fill='%237C4AD9' shape-rendering='crispEdges'><rect x='10' y='5' width='2' height='7'/><rect x='11' y='10' width='5' height='2'/></g><g fill='%23C9B8E8' shape-rendering='crispEdges'><rect x='10' y='1' width='2' height='2'/><rect x='19' y='10' width='2' height='2'/><rect x='10' y='19' width='2' height='2'/><rect x='1' y='10' width='2' height='2'/></g></svg>");
+  --pg-star:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' shape-rendering='crispEdges'><g fill='%23E83E9E'><rect x='9' y='1' width='2' height='18'/><rect x='1' y='9' width='18' height='2'/><rect x='7' y='7' width='6' height='6'/><rect x='5' y='5' width='2' height='2'/><rect x='13' y='5' width='2' height='2'/><rect x='5' y='13' width='2' height='2'/><rect x='13' y='13' width='2' height='2'/></g></svg>");
+  /* the desktop wallpaper: a quiet pixel dot grid */
+  --pg-dots:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' shape-rendering='crispEdges'><g fill='%23F5EFE8' opacity='.3'><rect x='0' y='0' width='2' height='2'/><rect x='18' y='18' width='2' height='2'/></g></svg>");
+}
+
+/* ---- the desktop ---------------------------------------------------------
+   ⚠️ --pg-dots is a TILE, so its background-size must stay `auto` or it
+   stretches across the sheet width (§12c). */
+:root[data-proj="parent-guidance-app"] .sky{ background:#2E1B52; }
+/* ⚠️ .proj-hero carries its OWN linear-gradient as a background-IMAGE and would
+   paint over the scene. backgroundColor reads transparent, so a colour probe
+   will not find it — check backgroundImage (§15c trap 1). */
+:root[data-proj="parent-guidance-app"] .proj-hero{ background:none; }
+:root[data-proj="parent-guidance-app"] .sheet{
+  background:linear-gradient(180deg,
+    #F0E6F7 0%,    /* pale blush, meets the top bar */
+    #DCCBF0 12%,
+    #C9B8E8 28%,   /* lavender */
+    #A98AE8 48%,
+    #7C4AD9 70%,   /* violet */
+    #4A2E7C 88%,
+    #3A2364 100%);
+}
+:root[data-proj="parent-guidance-app"] .sheet::before{
+  content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:var(--pg-dots) 0 0 repeat; opacity:.5;
+}
+/* ⚠️ The shared PROJECT MOTIFS block in styles.css also paints — switch it off
+   or its motif bleeds through, including behind .foot (§10b.1). */
+:root[data-proj="parent-guidance-app"] .hero::before,
+:root[data-proj="parent-guidance-app"] .band::before,
+:root[data-proj="parent-guidance-app"] .level::before,
+:root[data-proj="parent-guidance-app"] .foot::before,
+:root[data-proj="parent-guidance-app"] .proj-hero::before,
+:root[data-proj="parent-guidance-app"] .proj-sec::before{ display:none !important; }
+/* ⚠️ ::before is NOT enough — .proj-hero::after is the pink hotbar ground strip
+   (styles.css:533) and it paints a magenta band across the page (§15c trap 2). */
+:root[data-proj="parent-guidance-app"] .proj-hero::after{ display:none !important; }
+/* ⚠️ Decoration layers paint ABOVE unpositioned content (§10b.2). */
+:root[data-proj="parent-guidance-app"] .sheet .topbar{ position:relative; z-index:20; }
+:root[data-proj="parent-guidance-app"] .shell{ position:relative; z-index:3; }
+
+/* ---- the desktop icons (parallaxed by app.js section 6) -------------------
+   ⚠️ .pg-desk had to be added to the hard-coded selector list in app.js
+   section 6 — no automatic hook, and without it this does not parallax (§15e).
+   That edit forced the JS ?v= sweep 15 -> 16. */
+:root[data-proj="parent-guidance-app"] .pg-desk{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+:root[data-proj="parent-guidance-app"] .pg-desk span{
+  position:absolute; background-position:center; background-size:contain;
+  background-repeat:no-repeat;
+}
+/* ⚠️ Each element's aspect ratio must MATCH its SVG viewBox or background-size:
+   contain letterboxes it, which reads as a mystery gap (§10b.3). Ratios:
+   folder 24:20, note 20:24, heart 14:13, plant 22:26, cup 22:20,
+   bubble 26:20, clock 22:22, star 20:20. */
+:root[data-proj="parent-guidance-app"] .pg-folder{ background-image:var(--pg-folder); width:72px; height:60px; }
+:root[data-proj="parent-guidance-app"] .pg-note{ background-image:var(--pg-note); width:56px; height:67px; }
+:root[data-proj="parent-guidance-app"] .pg-heart{ background-image:var(--pg-heart); width:52px; height:48px;
+  animation:pgBeat 6s ease-in-out infinite; }
+:root[data-proj="parent-guidance-app"] .pg-plant{ background-image:var(--pg-plant); width:60px; height:71px;
+  animation:pgSway 9s ease-in-out infinite; transform-origin:50% 100%; }
+:root[data-proj="parent-guidance-app"] .pg-cup{ background-image:var(--pg-cup); width:62px; height:56px; }
+:root[data-proj="parent-guidance-app"] .pg-bubble{ background-image:var(--pg-bubble); width:78px; height:60px; }
+:root[data-proj="parent-guidance-app"] .pg-clock{ background-image:var(--pg-clock); width:56px; height:56px; }
+:root[data-proj="parent-guidance-app"] .pg-star{ background-image:var(--pg-star); width:38px; height:38px;
+  animation:pgTwinkle 5s ease-in-out infinite; }
+@keyframes pgBeat{ 0%,100%{ transform:scale(1) } 50%{ transform:scale(1.12) } }
+@keyframes pgSway{ 0%,100%{ transform:rotate(-2.4deg) } 50%{ transform:rotate(2.4deg) } }
+@keyframes pgTwinkle{ 0%,100%{ opacity:.45 } 50%{ opacity:1 } }
+@media (prefers-reduced-motion: reduce){
+  :root[data-proj="parent-guidance-app"] .pg-desk span{ animation:none }
+}
+/* ⚠️ The band starts at 18%, not 0% — the layer is SHORTENED by the parallax
+   travel (§10d), so at rest its 0-100% maps onto roughly the top two-thirds of
+   the page and anything above ~18% hides behind the full-width hero (§17d). */
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(1){ top:18%; left:3%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(2){ top:24%; right:4%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(3){ top:31%; left:5%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(4){ top:37%; right:2%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(5){ top:43%; left:2%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(6){ top:50%; right:5%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(7){ top:56%; left:4%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(8){ top:62%; right:3%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(9){ top:69%; left:2%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(10){ top:75%; right:4%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(11){ top:81%; left:5%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(12){ top:88%; right:2%; }
+:root[data-proj="parent-guidance-app"] .pg-desk span:nth-child(13){ top:94%; left:3%; }
+@media (max-width:900px){ :root[data-proj="parent-guidance-app"] .pg-desk{ display:none } }
+
+/* ---- chrome ---- */
+:root[data-proj="parent-guidance-app"] .topbar{ background:var(--pg-night); border-bottom:3px solid var(--pg-pink); }
+:root[data-proj="parent-guidance-app"] .brand__mark{ background-image:none; background-color:var(--pg-pink); color:#fff;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.3), inset 0 -4px 0 rgba(0,0,0,.22), 0 0 0 3px var(--pg-night), 0 0 0 6px var(--pg-lav); }
+:root[data-proj="parent-guidance-app"] .brand__name{ color:var(--pg-cream); }
+:root[data-proj="parent-guidance-app"] .nav a{ color:var(--pg-lav); }
+/* ⚠️ The active pill and the level badge use --pg-pink-ink, NOT --pg-pink.
+   White on #E83E9E measures 3.74:1 and fails AA for small text; white on
+   #C0277D is 5.49:1. The bright pink stays on graphics and large display. */
+:root[data-proj="parent-guidance-app"] .nav a[aria-current]{ background:var(--pg-pink-ink); color:#fff; }
+:root[data-proj="parent-guidance-app"] .nav a:hover{ background:rgba(201,184,232,.18); }
+
+/* ---- panels are WINDOWS --------------------------------------------------
+   ⚠️ .proj-sec > .shell is deliberately NOT a panel. 10 images in one section
+   would make a single slab most of the sheet tall and bury the desktop behind
+   it — measured and fixed on Hydro-Grow (§17c). The copy block and each group
+   are their own window instead. */
+:root[data-proj="parent-guidance-app"] .proj-hero > .shell,
+:root[data-proj="parent-guidance-app"] .pager > .shell,
+:root[data-proj="parent-guidance-app"] .proj-sec__body,
+:root[data-proj="parent-guidance-app"] .pg-group{
+  background:var(--pg-cream); color:var(--pg-deep);
+  border:3px solid var(--pg-night); border-radius:5px;
+  padding:30px 26px 26px;
+  box-shadow:6px 6px 0 rgba(46,27,82,.35);
+}
+:root[data-proj="parent-guidance-app"] .proj-sec__body,
+:root[data-proj="parent-guidance-app"] .pg-group{ position:relative; z-index:3; }
+
+/* the title bar. It is a real heading with negative margins pulling it out to
+   the window edges, so the bar IS the section label rather than decoration. */
+:root[data-proj="parent-guidance-app"] .pg-group__name,
+:root[data-proj="parent-guidance-app"] .proj-sec__count{
+  margin:-30px -26px 20px; padding:9px 14px;
+  background:var(--pg-violet); color:var(--pg-cream);
+  border-bottom:3px solid var(--pg-night); border-radius:2px 2px 0 0;
+  font-family:var(--display); font-size:1.12rem; letter-spacing:.06em;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+:root[data-proj="parent-guidance-app"] .pg-group__name::after,
+:root[data-proj="parent-guidance-app"] .proj-sec__count::after{
+  content:""; flex:none; width:44px; height:14px;
+  background:var(--pg-winbtns) center/contain no-repeat;
+}
+:root[data-proj="parent-guidance-app"] .pg-group__note{
+  margin:0 0 18px; max-width:74ch; color:var(--pg-deep);
+  font-size:.95rem; line-height:1.5;
+}
+
+:root[data-proj="parent-guidance-app"] .crumb{ color:var(--pg-lav); }
+:root[data-proj="parent-guidance-app"] .crumb img{ display:none; }
+:root[data-proj="parent-guidance-app"] .crumb::before{ content:"\25C4"; margin-right:.5em; }
+:root[data-proj="parent-guidance-app"] .level__badge.ui-bar{ border-image:none; border:2.5px solid var(--pg-night);
+  background:var(--pg-pink-ink); color:#fff; padding:4px 14px; border-radius:3px; }
+:root[data-proj="parent-guidance-app"] .level__panel.ui-panel{ border-image:none; border:3px solid var(--pg-night);
+  background:var(--pg-lav); border-radius:4px; padding:10px 22px;
+  box-shadow:4px 4px 0 rgba(46,27,82,.3); }
+:root[data-proj="parent-guidance-app"] .proj-title.arcade{ color:var(--pg-deep); text-shadow:2px 2px 0 var(--pg-cream); }
+:root[data-proj="parent-guidance-app"] .proj-lede,
+:root[data-proj="parent-guidance-app"] .proj-sec__text{ color:var(--pg-deep); }
+:root[data-proj="parent-guidance-app"] .meta > div{ border-image:none; border:2px solid var(--pg-violet);
+  background:var(--pg-mist); border-radius:3px; padding:5px 10px; }
+:root[data-proj="parent-guidance-app"] .meta__k{ color:var(--pg-pink-ink); }
+:root[data-proj="parent-guidance-app"] .meta__v{ color:var(--pg-deep); }
+:root[data-proj="parent-guidance-app"] .proj-sec__title{ color:var(--pg-deep); text-shadow:none; }
+:root[data-proj="parent-guidance-app"] .tags li{ border-image:none; border:2px solid var(--pg-violet);
+  background:var(--pg-mist); color:var(--pg-deep); border-radius:99px; padding:1px 10px; }
+:root[data-proj="parent-guidance-app"] .divider{ display:none; }
+
+/* ---- pager + foot ---- */
+:root[data-proj="parent-guidance-app"] .pager__link.ui-panel{ border-image:none; border:2px solid var(--pg-violet);
+  background:var(--pg-mist); border-radius:3px; box-shadow:4px 4px 0 rgba(46,27,82,.28); }
+:root[data-proj="parent-guidance-app"] .pager__name{ color:var(--pg-deep); }
+:root[data-proj="parent-guidance-app"] .pager__dir{ color:var(--pg-pink-ink); }
+/* ⚠️ .foot__credits carries its OWN colour in styles.css and does not inherit
+   from .foot — name it explicitly or it stays the dark theme's lavender (§10k).
+   The footer sits on the deep purple ground, so it takes the pale lavender. */
+:root[data-proj="parent-guidance-app"] .foot,
+:root[data-proj="parent-guidance-app"] .foot a,
+:root[data-proj="parent-guidance-app"] .foot__credits{ color:var(--pg-lav); }
+:root[data-proj="parent-guidance-app"] .skip{ color:var(--pg-deep); }
+</style>
+<style id="pg-work-layout">
+/* ---- the work, grouped into windows (§15g shape) -------------------------
+   Three windows: Option 2, Option 1, Draft. The old portfolio capture (filed
+   as "ui-practices", titled "Parent Guidance Mobile App") confirms these are
+   TWO SEPARATE UI DESIGN DIRECTIONS, so they get equal billing — do not
+   demote either. ⚠️ Option 2 goes FIRST, by instruction.
+   The draft window is presented as an earlier alternative idea for a similar
+   app, NOT as a different project — it lives here on purpose. */
+:root[data-proj="parent-guidance-app"] .proj-sec__text{ max-width:74ch; }
+:root[data-proj="parent-guidance-app"] .pg-groups{
+  list-style:none; margin:40px 0 0; padding:0; display:grid; gap:40px;
+}
+/* ⚠️ align-items:start — these are full-length landing pages at wildly
+   different heights (665 to 1400px tall at native), and without it the grid
+   stretches every short one to match the tallest in its row. */
+:root[data-proj="parent-guidance-app"] .pg-shots{
+  list-style:none; margin:0; padding:0; display:grid; gap:14px;
+  grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start;
+  margin-inline:auto;
+}
+/* Tall mobile captures: shown small on the page and opened full size with the
+   lightbox (§19), which is exactly what that feature is for. */
+/* ⚠️ These caps exist to stop UPSCALING. Every tile here is 367–393px wide
+   natively, so a container wider than that renders it blurry — which is
+   exactly what happened when the add-on step sat in a 560px box and drew at
+   532px. Check `naturalWidth` against rendered width before widening any of
+   these; three of the ten were wrong on the first pass. */
+@media (min-width:560px){
+  /* Option 2 — the assembled page beside the other screen in its flow */
+  :root[data-proj="parent-guidance-app"] .pg-shots--o1lead{
+    grid-template-columns:repeat(2,minmax(0,1fr)); max-width:520px;
+  }
+  /* …and the three sections it is built from, smaller and underneath */
+  :root[data-proj="parent-guidance-app"] .pg-shots--o1parts{
+    grid-template-columns:repeat(3,minmax(0,1fr)); max-width:560px;
+  }
+}
+:root[data-proj="parent-guidance-app"] .pg-shots--draft{
+  grid-template-columns:minmax(0,1fr); max-width:560px;
+}
+/* ⚠️ Below 560px --o1parts loses its 3-column rule and falls back to the base
+   2-column .pg-shots grid, which leaves the THIRD section stranded alone on a
+   second row, hard left. It is placed under the MIDDLE section (column 2) by
+   instruction — and that is also the tighter of the two options, because the
+   course grid is the TALLER of the first row, so row 2 starts directly beneath
+   it with no dead space. Sitting it under "Top — offer" instead would leave
+   the gap that row 1's height creates.
+   ⚠️ Pulling it up flush ALONGSIDE row 1 is not possible in grid without
+   masonry or reordering the sections. */
+@media (max-width:559.98px){
+  :root[data-proj="parent-guidance-app"] .pg-shots--o1parts > :last-child{
+    grid-column:2;
+  }
+}
+/* ---- "full design -> its parts" layout -----------------------------------
+   Each option shows the WHOLE page on the left in a scroll frame, an arrow,
+   then the sections it is built from on the right. */
+:root[data-proj="parent-guidance-app"] .pg-build{
+  display:grid; gap:16px; grid-template-columns:minmax(0,1fr); align-items:start;
+}
+@media (min-width:760px){
+  :root[data-proj="parent-guidance-app"] .pg-build{
+    grid-template-columns:236px 46px minmax(0,1fr);
+  }
+}
+/* ⚠️ max-width is NOT optional and must sit outside the 760px query. Below
+   760 the .pg-build grid collapses to a single column, and without this cap
+   the full-page capture stretched to 463px from a 390px source — upscaled and
+   blurry, the exact fault this page was fixed for. */
+/* ⚠️ margin-inline is AUTO, not 0. Above 760px this block is a grid item in a
+   236px column so centring is a no-op — but below 760 the .pg-build grid
+   collapses to one column and a 236px block with margin 0 sat hard against the
+   left edge of a much wider window, which is what "centre the long scrollable
+   version" was about. The cap stays; only the alignment changed. */
+:root[data-proj="parent-guidance-app"] .pg-build__full{
+  grid-template-columns:minmax(0,1fr); margin-inline:auto; max-width:236px;
+}
+:root[data-proj="parent-guidance-app"] .pg-build__parts{
+  grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-inline:0;
+}
+/* the arrow that says "these are the parts of that" */
+:root[data-proj="parent-guidance-app"] .pg-build__arrow{
+  align-self:center; height:26px; min-height:26px;
+  background:var(--pg-arrow) center/contain no-repeat;
+}
+@media (max-width:759px){
+  :root[data-proj="parent-guidance-app"] .pg-build__arrow{
+    width:44px; margin-inline:auto; transform:rotate(90deg);
+  }
+}
+
+/* ⚠️ Full-page captures go in a fixed-height SCROLL FRAME. These are 1:7
+   strips — ungoverned they render ~1,700px tall and swallow the window. The
+   frame keeps "this is the whole page" readable without eating the panel, and
+   the lightbox (§19) is still the full-size route.
+   ⚠️ 05 and 08 were REBUILT at native resolution (393x2758 / 390x3096). The
+   original pass capped the LONGEST edge at 1400px, which on a 1:7 strip caps
+   the HEIGHT and crushes the width to 199 and 176 — they were being upscaled
+   in the frame and read blurry. Native width is the ceiling here; do not
+   re-run the 1400px optimiser over these two. */
+:root[data-proj="parent-guidance-app"] .pg-scroll{
+  height:520px; overflow-y:auto; overflow-x:hidden;
+  border-radius:2px; background:#fff;
+  scrollbar-width:thin;
+}
+:root[data-proj="parent-guidance-app"] .pg-scroll img{ border-radius:0; }
+/* the "built from" label between the two rows inside the Option 1 window */
+:root[data-proj="parent-guidance-app"] .pg-subrow{
+  margin:26px 0 12px; text-align:center;
+  font-family:var(--display); font-size:.98rem; letter-spacing:.05em;
+  color:var(--pg-pink-ink);
+}
+/* the draft window is the quiet one — flatter, no violet title bar fill */
+:root[data-proj="parent-guidance-app"] .pg-group--draft{
+  background:var(--pg-mist);
+  box-shadow:4px 4px 0 rgba(46,27,82,.22);
+}
+:root[data-proj="parent-guidance-app"] .pg-group--draft .pg-group__name{
+  background:var(--pg-lav); color:var(--pg-deep);
+}
+:root[data-proj="parent-guidance-app"] .pg-piece{
+  background:#fff; padding:7px 7px 4px;
+  border:2px solid var(--pg-night); border-radius:4px;
+  box-shadow:3px 3px 0 rgba(46,27,82,.28);
+}
+/* native ratio, no crop; width/height reserve the box before the lazy load */
+:root[data-proj="parent-guidance-app"] .pg-piece img{
+  display:block; width:100%; height:auto; border-radius:2px;
+}
+:root[data-proj="parent-guidance-app"] .pg-piece__cap{
+  margin:7px 2px 2px; font-family:var(--display); font-size:.82rem;
+  letter-spacing:.05em; color:var(--pg-deep);
+}
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<div class="pg-desk" aria-hidden="true">
+  <span class="pg-folder"></span><span class="pg-plant"></span>
+  <span class="pg-note"></span><span class="pg-heart"></span>
+  <span class="pg-cup"></span><span class="pg-star"></span>
+  <span class="pg-bubble"></span><span class="pg-clock"></span>
+  <span class="pg-plant"></span><span class="pg-folder"></span>
+  <span class="pg-heart"></span><span class="pg-note"></span>
+  <span class="pg-star"></span>
+</div>
+
+<a class="skip ui-bar ui-bar-cream" href="#overview">Skip to the work</a>
+
+<div class="stage-top">
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../index.html#experience">Experience</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="proj-hero proj-hero--solo" id="top">
+  <div class="shell">
+    <a class="crumb" href="../../index.html#level-5">
+      <img src="../../assets/ui6/arrow-left.png" alt="" width="48" height="103">
+      Back to Level 5
+    </a>
+
+    <div class="proj-hero__grid">
+      <div>
+        <p class="level__badge ui-bar">Level&nbsp;&ndash;&nbsp;5</p>
+        <div class="level__panel ui-panel"><h1 class="proj-title arcade">Parent Guidance App</h1></div>
+        <p class="proj-lede">
+          The same app designed twice. Two UI directions in Figma for a parenting support
+          app covering stress management, emotional wellbeing, motherhood and child-focused
+          activities &mdash; same product, same content, same screens. What changes is the
+          visual language: one version follows a fixed set of rules I committed to before
+          starting, the other is my own style with nothing to follow.
+        </p>
+
+        <dl class="meta">
+          <div>
+            <dt class="meta__k">Discipline</dt>
+            <dd class="meta__v">Mobile UX</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Year</dt>
+            <dd class="meta__v">2025</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Tools</dt>
+            <dd class="meta__v">Figma</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Brief</dt>
+            <dd class="meta__v">Self-directed</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.stage-top -->
+
+<section class="proj-sec" id="overview" aria-labelledby="ov-title">
+  <div class="shell">
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Mobile UX</p>
+        <h2 class="proj-sec__title" id="ov-title">Landing &amp; plan</h2>
+        <p class="proj-sec__text">
+          Both directions cover the same ground &mdash; the promise, what you actually get, the
+          proof that it works, and the point of payment &mdash; so the comparison is purely one of
+          visual language. Option 1 is mine: warm, pink, and built the way I would build it.
+          Option 2 was made to a fixed brief instead, a set of rules and a prescribed design
+          path I held myself to from the first screen, to see what the same product becomes
+          when the visual decisions are not mine to make.
+        </p>
+        <ul class="tags"><li>Two directions</li><li>Same screens</li><li>My style vs. set rules</li><li>Figma</li></ul>
+      </div>
+    <!-- Two separate UI design directions, per the old portfolio capture
+         ("ui-practices" / "Parent Guidance Mobile App"). Option 2 first.
+         ⚠️ img 08 (Task2Final.png) is deliberately NOT shown: it is the whole
+         Option 2 page assembled from the other three, at 176x1400 it is
+         blurry, and it duplicates them. It is now ORPHANED on disk. -->
+    <!-- ⚠️⚠️ THE DISPLAYED LABELS ARE INVERTED vs THE SOURCE FOLDERS.
+         Katerina's call: whichever direction is shown first must read
+         "Option 1". So:
+           displayed "Option 1"  =  source folder Option2/  (Beat Mom Burnout)
+           displayed "Option 2"  =  source folder Option1/  (the Upsell*.png files)
+         Do NOT "correct" these back to the folder names.
+
+         ⚠️⚠️ AND DO NOT REINTRODUCE THE "POST-PURCHASE / UPSELL FLOW" STORY.
+         Katerina, 2026-08-14: the two options are the SAME page in two visual
+         styles, not two stages of a funnel. Option 1 is her own style; Option 2
+         was built to a fixed set of rules she committed to following. The old
+         copy said Option 2 "takes the post-purchase flow" - that was inferred
+         from the source filenames (Upsell1/Upsell2.png), and it is exactly the
+         trap section 20h already warned about: open the captures, do not trust
+         their filenames. Her own old-portfolio page agrees - "two separate UI
+         design directions ... each version explores a unique visual identity".
+         Each option shows the WHOLE page on the left in a scroll frame, an
+         arrow, then the sections it is built from on the right. -->
+    <ul class="pg-groups">
+
+      <li class="pg-group">
+        <h3 class="pg-group__name">Option 1</h3>
+        <p class="pg-group__note">My own direction, with nothing to follow. A warm, single-column page that leads on the promise, then earns it — the offer, the change it claims to make with its pricing, and the reviews that have to make that credible without reading as a sales tactic.</p>
+        <div class="pg-build">
+          <ul class="pg-shots pg-build__full">
+            <li class="pg-piece pg-piece--scroll">
+              <div class="pg-scroll"><img src="../../assets/img/parent-guidance-app/parent-guidance-app-08.jpg" width="390" height="3096"
+                   loading="lazy" decoding="async"
+                   alt="The full Option 1 landing page in one piece: the Beat Mom Burnout hero, the Imagine the difference comparison, pricing, and the customer reviews"></div>
+              <p class="pg-piece__cap">Full design</p>
+            </li>
+          </ul>
+          <span class="pg-build__arrow" aria-hidden="true"></span>
+          <ul class="pg-shots pg-build__parts">
+            <li class="pg-piece">
+              <img src="../../assets/img/parent-guidance-app/parent-guidance-app-09.jpg" width="378" height="1019"
+                   loading="lazy" decoding="async"
+                   alt="Landing screen: a pink gradient hero reading Beat Mom Burnout and Find Your Joy Again in Just 8 Weeks, over a step-by-step guide pitch with three tilted benefit notes">
+              <p class="pg-piece__cap">Landing screen</p>
+            </li>
+            <li class="pg-piece">
+              <img src="../../assets/img/parent-guidance-app/parent-guidance-app-06.jpg" width="378" height="1124"
+                   loading="lazy" decoding="async"
+                   alt="Plan section headed Imagine the difference, contrasting a Now list against an In 2 months list, then guide cost, intro discount, new total and an Add to Order button">
+              <p class="pg-piece__cap">Plan and pricing</p>
+            </li>
+            <li class="pg-piece">
+              <img src="../../assets/img/parent-guidance-app/parent-guidance-app-07.jpg" width="378" height="889"
+                   loading="lazy" decoding="async"
+                   alt="Reviews section headed What Our Customers Say, with three five-star testimonials on pink cards">
+              <p class="pg-piece__cap">Reviews</p>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="pg-group">
+        <h3 class="pg-group__name">Option 2</h3>
+        <p class="pg-group__note">
+          The same page again, this time to a fixed brief: a set of rules and a prescribed
+          design path I committed to before starting, as an exercise in designing inside
+          constraints that were not my own. Cooler and more conventional by design — the
+          restraint is the brief, not the taste.
+        </p>
+        <ul class="pg-shots pg-shots--o1lead">
+          <li class="pg-piece pg-piece--scroll">
+            <div class="pg-scroll"><img src="../../assets/img/parent-guidance-app/parent-guidance-app-05.jpg" width="393" height="2758"
+                 loading="lazy" decoding="async"
+                 alt="The assembled Option 2 page: limited-time offer header, an exclusive challenges block, the What's Inside course grid and a Trusted by Over 1.2M Parents testimonial, ending in a secure-payment footer"></div>
+            <p class="pg-piece__cap">Assembled page</p>
+          </li>
+          <li class="pg-piece pg-piece--scroll">
+            <div class="pg-scroll"><img src="../../assets/img/parent-guidance-app/parent-guidance-app-04.jpg" width="367" height="1400"
+                 loading="lazy" decoding="async"
+                 alt="A second screen in the same flow, headed Boost your results with these quick-add tools, offering an all-five bundle above five individually priced add-on packs with toggles"></div>
+            <p class="pg-piece__cap">Add-ons screen</p>
+          </li>
+        </ul>
+        <p class="pg-subrow">The assembled page, section by section</p>
+        <ul class="pg-shots pg-shots--o1parts">
+          <li class="pg-piece">
+            <img src="../../assets/img/parent-guidance-app/parent-guidance-app-03.jpg" width="381" height="991"
+                 loading="lazy" decoding="async"
+                 alt="Top section: the limited-time subscribers-only offer, a stats card, and the Get Exclusive Challenges block with an Add Challenges button">
+            <p class="pg-piece__cap">Top — offer</p>
+          </li>
+          <li class="pg-piece">
+            <img src="../../assets/img/parent-guidance-app/parent-guidance-app-02.jpg" width="386" height="1082"
+                 loading="lazy" decoding="async"
+                 alt="Middle section: a course grid headed What's Inside, with eight photo tiles covering topics from picky eating to social media use">
+            <p class="pg-piece__cap">Middle — course grid</p>
+          </li>
+          <li class="pg-piece">
+            <img src="../../assets/img/parent-guidance-app/parent-guidance-app-01.jpg" width="381" height="665"
+                 loading="lazy" decoding="async"
+                 alt="Bottom section: a Trusted by Over 1.2M Parents testimonial above the card logos and secure-payment line">
+            <p class="pg-piece__cap">Bottom — social proof</p>
+          </li>
+        </ul>
+      </li>
+
+      <li class="pg-group pg-group--draft">
+        <h3 class="pg-group__name">Draft</h3>
+        <p class="pg-group__note">
+          An earlier alternative idea for a similar app, drafted while testing how this kind
+          of visual language holds up at mobile size — a lotus splash, a mood check-in and a
+          breathing exercise.
+        </p>
+        <ul class="pg-shots pg-shots--draft">
+          <li class="pg-piece">
+            <img src="../../assets/img/parent-guidance-app/parent-guidance-app-10.jpg" width="1400" height="933"
+                 loading="lazy" decoding="async"
+                 alt="Draft screens for a calm and breathing concept: a lotus splash screen, a mood check-in with suggested practices, and a breathing exercise">
+            <p class="pg-piece__cap">Three screens</p>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<nav class="pager" aria-label="Other projects">
+  <div class="shell">
+    <ul class="pager__list">
+      <li>
+        <a class="pager__link ui-panel" href="../apocalyptic-game-ui/">
+          <span class="pager__dir">Previous &mdash; Level 5</span>
+          <span class="pager__name">Apocalyptic Game UI</span>
+        </a>
+      </li>
+      <li>
+        <a class="pager__link ui-panel pager__link--next" href="../game-store-ui/">
+          <span class="pager__dir">Next &mdash; Level 5</span>
+          <span class="pager__name">Game Store UI</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="divider" role="presentation"></div>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p>
+      <a href="../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerinamcl/" rel="me noopener">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a> &middot;
+      <a href="../../index.html#work">All work</a>
+    </p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.
+    </p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+
+<script src="../../assets/app.js?v=17" defer></script>
+
+</body>
+</html>

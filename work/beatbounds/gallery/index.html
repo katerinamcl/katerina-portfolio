@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en" data-proj="beatbounds">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BeatBounds &mdash; all work &mdash; Katerina Michael</title>
+<meta name="description" content="Every asset from BeatBounds, a rhythm platformer made as a final-year university major project &mdash; interface, character and object sprite sheets, tilesets, backgrounds, logos, story panels and the level drafts behind them.">
+<meta property="og:title" content="BeatBounds &mdash; all work">
+<meta property="og:description" content="57 pieces of art and interface work from BeatBounds, a rhythm platformer.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="../../../assets/img/beatbounds/interface-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../../assets/styles.css?v=62">
+<style id="gal-theme">
+/* BeatBounds gallery - the full asset set.
+   Deliberately slim, like the Kryat and Studio Work galleries: it re-declares
+   the palette, the ground and the frames only. No walk-cycle diorama, no
+   floating hearts or ? boxes - the project page owns those. */
+:root[data-proj="beatbounds"]{
+  --bb-navy:#1A2B4A; --bb-sky:#3E7CB1; --bb-gold:#F5C518;
+  --bb-coral:#D94E4E; --bb-cream:#F2EDE2; --bb-dark:#0d1729;
+  --ink:#dce8f5; --ink-soft:#9fb6d2; --bar-ink:#cfe0f5;
+  --bezel:#2b4a72; --bezel-out:#0a1424;
+}
+:root[data-proj="beatbounds"] .sky{ background:#0d1729; }
+:root[data-proj="beatbounds"] .sheet{
+  background:linear-gradient(180deg,#0d1729 0%,#1A2B4A 44%,#24406b 78%,#3E7CB1 100%);
+}
+:root[data-proj="beatbounds"] .topbar{ background:#0b1322; border-bottom-color:var(--bb-sky); }
+:root[data-proj="beatbounds"] .sheet .topbar{ position:relative; z-index:20; }
+:root[data-proj="beatbounds"] .nav a[aria-current]{ background:var(--bb-coral); color:#fff; }
+:root[data-proj="beatbounds"] .brand__mark{ background-image:none; background-color:var(--bb-coral); color:#fff;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.35), inset 0 -4px 0 rgba(0,0,0,.25), 0 0 0 3px var(--bb-dark), 0 0 0 6px var(--bb-gold); }
+:root[data-proj="beatbounds"] .brand__name{ color:var(--bb-cream); }
+/* the shared project motif also paints - switch it off (10b.1). .foot too. */
+:root[data-proj="beatbounds"] .hero::before,
+:root[data-proj="beatbounds"] .band::before,
+:root[data-proj="beatbounds"] .level::before,
+:root[data-proj="beatbounds"] .foot::before,
+:root[data-proj="beatbounds"] .proj-hero::before,
+:root[data-proj="beatbounds"] .proj-sec::before{ display:none !important; }
+:root[data-proj="beatbounds"] .foot, :root[data-proj="beatbounds"] .foot a{ color:#aec3dc; }
+:root[data-proj="beatbounds"] .foot__credits{ color:#aec3dc; }   /* 10k: it sets its own colour */
+.shell{ position:relative; z-index:3; }
+
+/* ---- header ---- */
+.gal-head{ padding:calc(var(--u)*10) 0 calc(var(--u)*4); }
+.gal-head .crumb{ color:var(--bb-gold); font-family:var(--display); font-size:1.05rem; display:inline-block; }
+.gal-title{ font-family:var(--display); font-size:clamp(2rem,5vw,3rem); color:var(--bb-gold);
+  margin:calc(var(--u)*2) 0; letter-spacing:.04em; text-shadow:3px 3px 0 var(--bb-coral); }
+.gal-lede{ color:var(--bb-cream); max-width:62ch; margin:0; font-size:1.02rem; }
+
+/* ---- jump nav ---- */
+.gal-jump{ padding:calc(var(--u)*4) 0 calc(var(--u)*6); }
+.gal-jump__head{ font-family:var(--display); font-size:1.1rem; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--bb-gold); margin:0 0 calc(var(--u)*3); }
+.gal-jump ul{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:9px; }
+.gal-jump__link{ display:inline-block; padding:5px 12px; text-decoration:none;
+  border:2px solid var(--bb-sky); color:var(--bb-cream); font-weight:700; font-size:.9rem; }
+.gal-jump__link:hover{ background:var(--bb-sky); color:#fff; }
+
+/* ---- sections ---- */
+.gal-sec{ padding:calc(var(--u)*8) 0; scroll-margin-top:16px; }
+.gal-sec__title{ font-family:var(--display); font-size:clamp(1.5rem,3.4vw,2.1rem);
+  color:var(--bb-gold); margin:0; letter-spacing:.04em; text-shadow:2px 2px 0 rgba(0,0,0,.35); }
+.gal-sec__count{ color:var(--bb-coral); font-weight:800; font-size:.82rem;
+  letter-spacing:.08em; text-transform:uppercase; margin:calc(var(--u)*1) 0 calc(var(--u)*4); }
+.gal-grouplabel{ margin:calc(var(--u)*5) 0 calc(var(--u)*2); color:var(--bb-gold);
+  font-family:var(--display); font-size:1rem; letter-spacing:.06em; }
+.gal-grouplabel:first-of-type{ margin-top:0; }
+
+/* The gallery mat: cream mount, sky-blue frame, dark keyline. Native ratios -
+   no aspect-ratio and no object-fit - so nothing is ever cropped. The sources
+   here run from 128x128 tiles to a 1409x2000 sprite sheet. */
+.gal-grid{ list-style:none; margin:0; padding:0; display:grid; gap:18px;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); align-items:start; }
+.gal-grid--two{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+/* --three was USED before it was DEFINED, so level-backgrounds and narrative
+   both fell back to the base auto-fill grid, which makes 4 columns at this
+   width: 217px tiles and narrative laid out 4+2 instead of 3+3. */
+.gal-grid--three{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+.gal-grid--four{ grid-template-columns:repeat(4,minmax(0,1fr)); }
+.gal-grid--banner{ grid-template-columns:minmax(0,1fr); }
+.gal-grid--tiles{ grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:10px; }
+
+/* Interface screens run bigger than the default grid on purpose: they are the
+   only tiles carrying readable UI copy, and at the auto-fill width (~276px)
+   they read as thumbnails next to everything else on the page. 2-up capped at
+   940px puts them near 460px without letting them dominate the section. */
+.gal-grid--ui{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+/* The two button-state sheets are 1.78 and 3.01 aspect, so side by side their
+   heights disagree badly. Pin a common height and CONTAIN - never cover, which
+   would crop a reference sheet. The fill matches the keyline so the letterbox
+   reads as part of the frame rather than as a gap. */
+/* Common height for a pair whose native ratios disagree. CONTAIN, never cover -
+   these are reference sheets and cropping one loses content. Per-group height
+   comes from --eqh so each pair can be tuned to what it actually holds. */
+.gal-grid--eqh .gal-piece img{ height:var(--eqh,240px); object-fit:contain; background:#0d1729; }
+
+/* Justified row. Each tile carries its own aspect ratio as an inline
+   flex-grow against flex-basis 0, so the widths distribute in proportion, the
+   row fills the shell exactly and every tile in it ends up the same height
+   without any cropping. The row composition is FIXED (4 notes, then 3
+   sketches) - it must not reflow and mix the two kinds together. */
+.bb-row{ list-style:none; margin:0 0 18px; padding:0; display:flex;
+  flex-wrap:nowrap; gap:18px; align-items:flex-start; }
+.bb-row:last-child{ margin-bottom:0; }
+.bb-row .gal-piece{ flex:1 1 0; min-width:0; }
+.bb-row .gal-piece img{ width:100%; height:auto; }
+@media (max-width:640px){
+  .bb-row{ flex-wrap:wrap; }
+  .bb-row .gal-piece{ flex:1 1 100% !important; }
+}
+/* A narrowed, centred group. The wrapper holds the LABEL as well as the grid,
+   so the label sits directly above the image and lines up with its left edge -
+   capping only the grid left the label stranded out at the shell edge while
+   the image sat in the middle, which read as unrelated. */
+.bb-group{ max-width:var(--mid,620px); margin-inline:auto; }
+
+/* ---- tilesets, rebuilt into the shapes the AllTilesTogether sheets showed ---
+   Tiles must butt together with NO gap and NO frame between them, or the whole
+   point (do the edges meet?) is lost. So the mat goes around the assembled
+   shape, not around each tile. */
+.gal-sec__note{ color:var(--bb-cream); margin:calc(var(--u)*-2) 0 calc(var(--u)*4);
+  max-width:60ch; font-size:.95rem; }
+.bb-shapes{ display:flex; flex-wrap:wrap; gap:22px; align-items:flex-start; }
+.bb-shape{ background:var(--bb-cream); padding:10px 10px 7px;
+  border:4px solid var(--bb-sky); box-shadow:0 0 0 3px var(--bb-dark); }
+.bb-shape__row{ list-style:none; margin:0; padding:0; display:flex; font-size:0; }
+.bb-cell{ margin:0; padding:0; }
+.bb-cell img{ display:block; width:96px; height:96px; }
+.bb-shape__cap{ display:block; margin-top:7px; font-family:var(--display);
+  font-size:.8rem; letter-spacing:.06em; color:var(--bb-navy); }
+@media (max-width:520px){ .bb-cell img{ width:68px; height:68px; } }
+
+.gal-piece{ background:var(--bb-cream); padding:10px 10px 7px;
+  border:4px solid var(--bb-sky); box-shadow:0 0 0 3px var(--bb-dark); }
+.gal-piece img{ display:block; width:100%; height:auto; box-shadow:0 0 0 2px var(--bb-dark); }
+/* --display-num: pixel lettering, legible numerals (styles.css @font-face).
+   The narrative panels are numbered 1-6 and Jersey 15's 6 reads as an 8. */
+.gal-piece__no{ display:block; margin-top:7px; font-family:var(--display-num);
+  font-size:.82rem; letter-spacing:.06em; color:var(--bb-navy); }
+.gal-grid--tiles .gal-piece{ padding:6px 6px 4px; border-width:3px; }
+.gal-grid--tiles .gal-piece__no{ font-size:.72rem; margin-top:5px; }
+
+/* The two cleaned sprite sheets are transparent PNGs, so they need the cream
+   mount showing THROUGH them - no keyline box around the image itself, and
+   capped so a 3764px-wide sheet does not become the tallest thing on the page. */
+.gal-piece--sheet img{ box-shadow:none; margin-inline:auto; }
+.gal-piece--sheet{ padding:18px 18px 12px; }
+/* the 820px cap now lives on .bb-group so the label is capped with it */
+
+.gal-top{ display:inline-block; margin-top:calc(var(--u)*4); color:var(--bb-gold);
+  font-family:var(--display); font-size:.95rem; letter-spacing:.06em; }
+
+@media (max-width:760px){
+  .gal-grid--four{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .gal-grid--two{ grid-template-columns:minmax(0,1fr); }
+}
+@media (max-width:520px){
+  .gal-grid{ grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; }
+  .gal-grid--tiles{ grid-template-columns:repeat(auto-fill,minmax(72px,1fr)); }
+}
+
+/* ---- phones: ONE image per row, as large as the shell allows --------------
+   Every group here (2-up, 3-up, 4-up, the UI screens) collapses to a single
+   column on a phone. Two-up left these at ~140px, and they are game screens
+   and reference sheets whose whole value is the detail in them.
+   ⚠️ `.gal-grid:not(.gal-grid--tiles)` is deliberate on both counts:
+     - matching on .gal-grid catches every modifier at once, so no group can
+       be silently missed the way a listed-out set would be;
+     - :not() EXCLUDES the tileset cells. Those are 68-72px squares butted
+       together to rebuild the tileset shapes, and one-per-row would destroy
+       the assembly the section exists to show.
+   Its (0,2,0) specificity also beats every single-class modifier above
+   regardless of source order, so this cannot be silently undone by one.
+   ⚠️ --eqh pins a shared height so mismatched pairs line up SIDE BY SIDE.
+   One per row means there is no pair to match, so the height is released and
+   each sheet gets its own again. */
+@media (max-width:640px){
+  .gal-grid:not(.gal-grid--tiles){ grid-template-columns:minmax(0,1fr); }
+  .gal-grid--eqh .gal-piece img{ height:auto; }
+
+  /* Ground tiles come up to the same size as everything else. Each shape is
+     3 cells butted together inside a .gal-piece mount, and the mount costs
+     28px (10px padding + 4px border, both sides), so 3 x 90 + 28 = 298px =
+     the full phone shell - the same width the one-per-row images now get.
+     ⚠️ Safe because the cells are 128x128 NATIVE and were only drawing at
+     68px; 90px is still a downscale, so nothing blurs. 128px is the ceiling.
+     ⚠️ This must stay AFTER the 520px rule that pins them to 68px - equal
+     specificity, so source order is what decides it.
+     ⚠️ Cell size is the ONLY thing being changed. The cells must keep butting
+     together with a zero seam or the tileset stops demonstrating the one
+     thing it exists to show - re-measure the seam after touching this. */
+  .bb-cell img{ width:90px; height:90px; }
+}
+</style>
+</head>
+<body>
+<a class="skip ui-bar ui-bar-cream" href="#gal-top">Skip to sections</a>
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../../index.html#experience">Experience</a></li>
+        <li><a href="../../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="gal-head">
+  <div class="shell">
+    <a class="crumb" href="../">&#9664; Back to BeatBounds</a>
+    <h1 class="gal-title arcade">All Work</h1>
+    <p class="gal-lede">The art and interface work I contributed to the project, grouped by
+      kind &mdash; 57 pieces in total, from the first handwritten note that set the
+      movement rule through to the sprite sheets that went into the build.</p>
+  </div>
+</div>
+
+<nav class="gal-jump" id="gal-top" aria-label="Sections">
+  <div class="shell">
+    <p class="gal-jump__head">Jump to</p>
+    <ul>
+        <li><a class="gal-jump__link" href="#interface">Interface</a></li>
+        <li><a class="gal-jump__link" href="#character-design">Character Design</a></li>
+        <li><a class="gal-jump__link" href="#ground-tiles">Ground Tiles</a></li>
+        <li><a class="gal-jump__link" href="#level-backgrounds">Level Backgrounds</a></li>
+        <li><a class="gal-jump__link" href="#in-game-assets">In-Game Assets</a></li>
+        <li><a class="gal-jump__link" href="#logos">Logos</a></li>
+        <li><a class="gal-jump__link" href="#narrative">Narrative</a></li>
+        <li><a class="gal-jump__link" href="#drafts">Drafts &amp; Process</a></li>
+    </ul>
+  </div>
+</nav>
+
+  <section class="gal-sec" id="interface" aria-labelledby="interface-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="interface-h">Interface</h2>
+      <p class="gal-sec__count">6 pieces</p>
+      <p class="gal-grouplabel">Title &amp; pause</p>
+      <ul class="gal-grid gal-grid--ui gal-grid--eqh" style="--eqh:340px">
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/interface-01.jpg" width="1184" height="666"
+               loading="lazy" decoding="async"
+               alt="Title screen: the BeatBounds wordmark over a waveform, Play and Settings, social links and a shop button, on a moonlit pine-forest ridge">
+          <span class="gal-piece__no">Title screen</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/interface-02.jpg" width="1400" height="987"
+               loading="lazy" decoding="async"
+               alt="Pause menu over a stone-ruins level: Resume, Restart Level, Settings and Exit, with the life hearts still showing top-left">
+          <span class="gal-piece__no">Pause</span>
+        </li>
+      </ul>
+      <p class="gal-grouplabel">Shop</p>
+      <ul class="gal-grid gal-grid--ui">
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/interface-03.jpg" width="1184" height="666"
+               loading="lazy" decoding="async"
+               alt="Shop screen: a daily mystery chest on a countdown, note-currency packs at two price points, chest bundles and a Go Pro slot, under the hearts and note counter">
+          <span class="gal-piece__no">Shop</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/interface-04.jpg" width="1184" height="666"
+               loading="lazy" decoding="async"
+               alt="Alternative shop treatment: the same layout reframed in a neon outline on a brick wall">
+          <span class="gal-piece__no">Shop — neon variant</span>
+        </li>
+      </ul>
+      <p class="gal-grouplabel">Button states</p>
+      <ul class="gal-grid gal-grid--ui gal-grid--eqh" style="--eqh:270px">
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/interface-05.jpg" width="1184" height="666"
+               loading="lazy" decoding="async"
+               alt="Button state sheet: default, highlighted, pressed and disabled drawn for the purple primary button">
+          <span class="gal-piece__no">Button states</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/interface-06.jpg" width="1400" height="466"
+               loading="lazy" decoding="async"
+               alt="The full button matrix: normal, highlight/selected, pressed and disabled across the purple, magenta, grey and green button colours">
+          <span class="gal-piece__no">Full state matrix</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="character-design" aria-labelledby="character-design-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="character-design-h">Character Design</h2>
+      <p class="gal-sec__count">4 pieces</p>
+      <div class="bb-group" style="--mid:620px">
+      <p class="gal-grouplabel">Design</p>
+      <ul class="gal-grid gal-grid--banner">
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/character-design-01.jpg" width="714" height="1000"
+               loading="lazy" decoding="async"
+               alt="Player character design: a figure in a long red coat and a goggled top hat, drawn full-length, in bust and in profile">
+          <span class="gal-piece__no">Player — turnaround</span>
+        </li>
+      </ul>
+      </div>
+      <p class="gal-grouplabel">Movement &amp; controls</p>
+      <ul class="gal-grid gal-grid--two gal-grid--eqh" style="--eqh:300px">
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/character-design-02.jpg" width="814" height="370"
+               loading="lazy" decoding="async"
+               alt="Five walk poses of the player lined up to check the silhouette reads at small size">
+          <span class="gal-piece__no">Walk line-up</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/character-design-03.jpg" width="518" height="370"
+               loading="lazy" decoding="async"
+               alt="Working note setting the PC controls — A and D to walk, W to jump, Alt to run while walking — illustrated with three player poses">
+          <span class="gal-piece__no">Controls note</span>
+        </li>
+      </ul>
+      <div class="bb-group" style="--mid:820px">
+      <p class="gal-grouplabel">The sprite sheet that shipped</p>
+      <ul class="gal-grid gal-grid--banner">
+        <li class="gal-piece gal-piece--sheet">
+          <img src="../../../assets/img/beatbounds/character-design-04.png" width="818" height="1400"
+               loading="lazy" decoding="async"
+               alt="The player sprite sheet as it went into the build, with the green screen removed: eleven labelled animation rows including stand, small dance, pull out pocket watch, walk, run, jump, fall, hurt knockback, get up and crouch">
+          <span class="gal-piece__no">Sprite sheet</span>
+        </li>
+      </ul>
+      </div>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="ground-tiles" aria-labelledby="ground-tiles-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="ground-tiles-h">Ground Tiles</h2>
+      <p class="gal-sec__count">20 tiles</p>
+      <p class="gal-sec__note">Shown assembled, the way the tilesets were checked &mdash;
+        each shape below is built from the individual tiles butted together.</p>
+      <p class="gal-grouplabel">Forest</p>
+      <div class="bb-shapes">
+        <div class="bb-shape">
+          <ul class="bb-shape__row">
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-08.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Forest ground tile 2"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-07.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Forest ground tile 1"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-09.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Forest ground tile 3"></li>
+          </ul>
+          <span class="bb-shape__cap">Flat-topped block</span>
+        </div>
+        <div class="bb-shape">
+          <ul class="bb-shape__row">
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-12.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Forest ground tile 6"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-07.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Forest ground tile 1"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-11.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Forest ground tile 5"></li>
+          </ul>
+          <span class="bb-shape__cap">Sloped block</span>
+        </div>
+        <div class="bb-shape">
+          <ul class="bb-shape__row">
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-10.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Forest ground tile 4"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-10.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Forest ground tile 4"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-10.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Forest ground tile 4"></li>
+          </ul>
+          <span class="bb-shape__cap">Fill</span>
+        </div>
+      </div>
+      <p class="gal-grouplabel">Cave</p>
+      <div class="bb-shapes">
+        <div class="bb-shape">
+          <ul class="bb-shape__row">
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-02.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Cave ground tile 2"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-01.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Cave ground tile 1"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-03.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Cave ground tile 3"></li>
+          </ul>
+          <span class="bb-shape__cap">Flat-topped block</span>
+        </div>
+        <div class="bb-shape">
+          <ul class="bb-shape__row">
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-06.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Cave ground tile 6"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-01.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Cave ground tile 1"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-05.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Cave ground tile 5"></li>
+          </ul>
+          <span class="bb-shape__cap">Sloped block</span>
+        </div>
+        <div class="bb-shape">
+          <ul class="bb-shape__row">
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-04.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Cave ground tile 4"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-04.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Cave ground tile 4"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-04.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Cave ground tile 4"></li>
+          </ul>
+          <span class="bb-shape__cap">Fill</span>
+        </div>
+      </div>
+      <p class="gal-grouplabel">Mountain</p>
+      <div class="bb-shapes">
+        <div class="bb-shape">
+          <ul class="bb-shape__row">
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-14.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Mountain ground tile 2"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-13.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Mountain ground tile 1"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-15.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Mountain ground tile 3"></li>
+          </ul>
+          <span class="bb-shape__cap">Flat-topped block</span>
+        </div>
+        <div class="bb-shape">
+          <ul class="bb-shape__row">
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-18.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Mountain ground tile 6"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-13.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Mountain ground tile 1"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-17.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Mountain ground tile 5"></li>
+          </ul>
+          <span class="bb-shape__cap">Sloped block</span>
+        </div>
+        <div class="bb-shape">
+          <ul class="bb-shape__row">
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-16.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Mountain ground tile 4"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-16.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Mountain ground tile 4"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-16.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Mountain ground tile 4"></li>
+          </ul>
+          <span class="bb-shape__cap">Fill</span>
+        </div>
+      </div>
+      <p class="gal-grouplabel">Poison water</p>
+      <div class="bb-shapes">
+        <div class="bb-shape">
+          <ul class="bb-shape__row">
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-19.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Poison water tile 1"></li>
+            <li class="bb-cell"><img src="../../../assets/img/beatbounds/ground-tiles-20.png"
+                 width="128" height="128" loading="lazy" decoding="async"
+                 alt="Poison water tile 2"></li>
+          </ul>
+          <span class="bb-shape__cap">Surface run</span>
+        </div>
+      </div>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="level-backgrounds" aria-labelledby="level-backgrounds-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="level-backgrounds-h">Level Backgrounds</h2>
+      <p class="gal-sec__count">3 pieces</p>
+      <ul class="gal-grid gal-grid--three">
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/level-backgrounds-01.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Painted level background: an aurora over layered mountains and pine silhouettes in violet and rose, with a small tower on the ridge">
+          <span class="gal-piece__no">Aurora ridge</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/level-backgrounds-02.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Painted level background: deep blue mountains under a crescent moon with a pale teal lake in the valley">
+          <span class="gal-piece__no">Moonlit lake</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/level-backgrounds-03.jpg" width="648" height="360"
+               loading="lazy" decoding="async"
+               alt="Painted level background: a cracked green stone-block cave wall for the underground levels">
+          <span class="gal-piece__no">Cave wall</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="in-game-assets" aria-labelledby="in-game-assets-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="in-game-assets-h">In-Game Assets</h2>
+      <p class="gal-sec__count">2 pieces</p>
+      <div class="bb-group" style="--mid:820px">
+      <p class="gal-grouplabel">The object sheet that shipped</p>
+      <ul class="gal-grid gal-grid--banner">
+        <li class="gal-piece gal-piece--sheet">
+          <img src="../../../assets/img/beatbounds/in-game-assets-01.png" width="1500" height="1223"
+               loading="lazy" decoding="async"
+               alt="The object sprite sheet with the green screen removed: hazards and props including spiked bars, maces, flame plumes, saw blades, a cannon, crates, platforms, trees, bushes, flowers, rocks, torches, crystals, a heart pickup and a music note">
+          <span class="gal-piece__no">Object sprite sheet</span>
+        </li>
+      </ul>
+      </div>
+      <div class="bb-group" style="--mid:532px">
+      <p class="gal-grouplabel">Exploration</p>
+      <ul class="gal-grid gal-grid--banner">
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/in-game-assets-02.jpg" width="504" height="360"
+               loading="lazy" decoding="async"
+               alt="Obstacle exploration sheet: hand-drawn passes at spiked rollers, a swinging mace, flame jets, a saw blade, a cannon, spikes and a snare">
+          <span class="gal-piece__no">Obstacle exploration</span>
+        </li>
+      </ul>
+      </div>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="logos" aria-labelledby="logos-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="logos-h">Logos</h2>
+      <p class="gal-sec__count">4 pieces</p>
+      <div class="bb-group" style="--mid:620px">
+      <p class="gal-grouplabel">The mark</p>
+      <ul class="gal-grid gal-grid--two">
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/logos-01.jpg" width="666" height="666"
+               loading="lazy" decoding="async"
+               alt="The BeatBounds wordmark in flat black, with and without the waveform rule beneath it">
+          <span class="gal-piece__no">Wordmark — mono</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/logos-02.jpg" width="666" height="666"
+               loading="lazy" decoding="async"
+               alt="The finished BeatBounds logo in violet and magenta with the headphone-and-gear mark, shown with and without the waveform">
+          <span class="gal-piece__no">Wordmark — final</span>
+        </li>
+      </ul>
+      </div>
+      <p class="gal-grouplabel">Logo exploration</p>
+      <ul class="gal-grid gal-grid--two">
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/logos-03.jpg" width="578" height="578"
+               loading="lazy" decoding="async"
+               alt="Typeface exploration sheet: the wordmark set in a dozen candidate faces, each annotated in red with the font name">
+          <span class="gal-piece__no">Typeface exploration</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/logos-04.jpg" width="666" height="666"
+               loading="lazy" decoding="async"
+               alt="Colourway sheet: twenty-four palette variants of the final logo tested against black">
+          <span class="gal-piece__no">Colourways</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="narrative" aria-labelledby="narrative-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="narrative-h">Narrative</h2>
+      <p class="gal-sec__count">6 pieces</p>
+      <ul class="gal-grid gal-grid--three">
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/narrative-01.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Story panel: the guardian of the timelines sits back at a wall of monitors, feet up, watching every alternative world at once">
+          <span class="gal-piece__no">1 — On watch</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/narrative-02.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Story panel: the same room, now washed in red as one of the timelines goes wrong">
+          <span class="gal-piece__no">2 — Something breaks</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/narrative-03.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Story panel: close on the guardian as a red WARNING and a list of locations fills the screen">
+          <span class="gal-piece__no">3 — The alarm</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/narrative-04.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Story panel: he leaves the office through a doorway onto moonlit stone stairs beneath a clock arch">
+          <span class="gal-piece__no">4 — Through the gates</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/narrative-05.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Story panel: the guardian silhouetted against a bright doorway, seen from behind, about to step through">
+          <span class="gal-piece__no">5 — The threshold</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/beatbounds/narrative-06.jpg" width="763" height="432"
+               loading="lazy" decoding="async"
+               alt="Story panel: he reaches the great clock that keeps time for every world and finds it broken, a burning city inside its face">
+          <span class="gal-piece__no">6 — The broken clock</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="drafts" aria-labelledby="drafts-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="drafts-h">Drafts &amp; Process</h2>
+      <p class="gal-sec__count">12 pieces</p>
+      <p class="gal-grouplabel">Starting notes &amp; quick sketches</p>
+      <ul class="bb-row">
+        <li class="gal-piece" style="flex-grow:1.0067">
+          <img src="../../../assets/img/beatbounds/drafts-01.jpg" width="1200" height="1192"
+               loading="lazy" decoding="async"
+               alt="The note that sets the core rule: numbered beat rings govern movement — 2 lets you only walk, 3 lets you walk and jump, and a dashed 3 restricts movement">
+          <span class="gal-piece__no">The rule, written down</span>
+        </li>
+        <li class="gal-piece" style="flex-grow:1.7778">
+          <img src="../../../assets/img/beatbounds/drafts-02.jpg" width="1200" height="675"
+               loading="lazy" decoding="async"
+               alt="Early level layout note: jump arcs plotted between ledges over a gap">
+          <span class="gal-piece__no">Layout note 1</span>
+        </li>
+        <li class="gal-piece" style="flex-grow:1.6086">
+          <img src="../../../assets/img/beatbounds/drafts-03.jpg" width="1200" height="746"
+               loading="lazy" decoding="async"
+               alt="Early level layout note: a longer traverse with a moving platform and collectible notes">
+          <span class="gal-piece__no">Layout note 2</span>
+        </li>
+        <li class="gal-piece" style="flex-grow:1.6000">
+          <img src="../../../assets/img/beatbounds/drafts-04.jpg" width="1200" height="750"
+               loading="lazy" decoding="async"
+               alt="Earliest shop note: the shop laid out in white line on black, with the daily mystery chest, currency packs and a gold pack">
+          <span class="gal-piece__no">Shop UI note</span>
+        </li>
+      </ul>
+      <ul class="bb-row">
+        <li class="gal-piece" style="flex-grow:1.7778">
+          <img src="../../../assets/img/beatbounds/drafts-05.jpg" width="1200" height="675"
+               loading="lazy" decoding="async"
+               alt="Quick level sketch: a full layout in line, with hazards, a saw blade and collectibles placed">
+          <span class="gal-piece__no">Quick sketch 1</span>
+        </li>
+        <li class="gal-piece" style="flex-grow:1.7778">
+          <img src="../../../assets/img/beatbounds/drafts-06.jpg" width="1200" height="675"
+               loading="lazy" decoding="async"
+               alt="Quick level sketch annotated with a routing note and an optional side-quest branch marked in red">
+          <span class="gal-piece__no">Quick sketch 2</span>
+        </li>
+        <li class="gal-piece" style="flex-grow:1.7778">
+          <img src="../../../assets/img/beatbounds/drafts-07.jpg" width="1200" height="675"
+               loading="lazy" decoding="async"
+               alt="Quick level sketch: a wider, sparser layout with a swinging hazard and a stepped climb">
+          <span class="gal-piece__no">Quick sketch 3</span>
+        </li>
+      </ul>
+      <p class="gal-grouplabel">Painted level concepts</p>
+      <ul class="bb-row">
+        <li class="gal-piece" style="flex-grow:1.8000">
+          <img src="../../../assets/img/beatbounds/drafts-08.jpg" width="648" height="360"
+               loading="lazy" decoding="async"
+               alt="Painted level concept in green stone, with a switch marked turns on/off and three beat rings across the gap">
+          <span class="gal-piece__no">Level concept — cave</span>
+        </li>
+        <li class="gal-piece" style="flex-grow:1.8000">
+          <img src="../../../assets/img/beatbounds/drafts-09.jpg" width="648" height="360"
+               loading="lazy" decoding="async"
+               alt="Painted level concept in teal and rose, annotated with a trampoline and an end-of-level reward">
+          <span class="gal-piece__no">Level concept — grove</span>
+        </li>
+        <li class="gal-piece" style="flex-grow:1.7778">
+          <img src="../../../assets/img/beatbounds/drafts-10.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Painted level concept in pale blue, annotated with blocks that fall once the character steps on them">
+          <span class="gal-piece__no">Level concept — sky</span>
+        </li>
+      </ul>
+      <ul class="bb-row">
+        <li class="gal-piece" style="flex-grow:1.7778">
+          <img src="../../../assets/img/beatbounds/drafts-11.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Painted level concept in magenta and green with sliding platforms and a key at the exit">
+          <span class="gal-piece__no">Level concept — magenta</span>
+        </li>
+        <li class="gal-piece" style="flex-grow:1.5000">
+          <img src="../../../assets/img/beatbounds/drafts-12.jpg" width="1200" height="800"
+               loading="lazy" decoding="async"
+               alt="Painted level concept in muted grey-teal: floating islands stepped up toward a single beat ring">
+          <span class="gal-piece__no">Level concept — grey</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p><a href="../../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerina-michael-6b0b13232/">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a>
+      &middot; <a href="../../personal-projects/">All work</a></p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.</p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+<script src="../../../assets/app.js?v=17"></script>
+</body>
+</html>

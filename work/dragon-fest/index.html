@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en" data-proj="dragon-fest">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dragon Fest — Katerina Michael</title>
+<meta name="description" content="Dragon Fest — a limited-time event concept: event pop-up, offer screen, rich push notification and social post.">
+<meta property="og:title" content="Dragon Fest — Katerina Michael">
+<meta property="og:description" content="A limited-time event concept — the pop-up, the offer, and the surfaces that reach a player outside the game.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="../../assets/img/p-dragonfest.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/styles.css?v=62">
+<style id="df-theme">
+/* Dragon Fest — a fantasy valley at dusk: pale sky over a layered blue range,
+   a low sun, blossom trees, a torii gate and eastern dragons riding the
+   thermals, closing on a dark foreground ridge. All CSS + inline SVG, no image
+   assets (a CSS mask or an external decoration file cannot be verified locally
+   and fails silently — see the helmet bug in §10k).
+   Palette is Katerina's five, plus derived shades. This page is LIGHT-panelled,
+   so the dark-theme ink tokens are overridden or every label is pale-on-pale. */
+:root[data-proj="dragon-fest"]{
+  /* --- given --- */
+  --df-deep:#4A3E7C; --df-blue:#8FA8D9; --df-ember:#E8825A;
+  --df-rose:#D9497E; --df-mist:#E8EDF5;
+  /* --- derived --- */
+  --df-night:#221C40;      /* foreground ridge, top bar, silhouettes */
+  --df-mid:#6B5CA5;        /* --df-deep lifted, mid hills */
+  --df-blue-deep:#6E86B8;  /* --df-blue darkened, front ridge */
+  --df-blue-pale:#A9BEE4;  /* --df-blue lightened, back ridge */
+  --df-rose-lt:#E9709B;    /* blossom highlight */
+  /* ⚠️ TWO ROSES, same reason as Studio Work (§12b) and Art & Concept (§13d):
+     #D9497E is only 3.43:1 on the #E8EDF5 panel, so it fails AA as text.
+     #B8305F is the same hue taken darker — 4.93:1. Decorative rose stays
+     #D9497E; anything carrying text uses --df-rose-ink.
+     ⚠️ --df-ember is 2.30:1 on the pale panel — NEVER text there. It is
+     5.94:1 on --df-night, which is the only place it may carry type. */
+  --df-rose-ink:#B8305F;
+  --ink:#4A3E7C; --ink-soft:#5F5490; --bar-ink:#4A3E7C;
+  --bezel:#D9497E; --bezel-out:#221C40;
+  /* ⚠️ --sky-1/--sky-2 come from the generated PROJECT MOTIFS block, where
+     dragon-fest is assigned a FLAME hue (#98503e). body's frame colour is
+     var(--sky-1) (§9a), so without this override the page sits in a rust
+     border that belongs to no colour in this palette. */
+  --sky-1:#221C40; --sky-2:#2E2758;
+
+  /* --- artwork. Colours inside a data URI are %23, never # (§10b.6) --- */
+  --df-range:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 420'><path fill='%23A9BEE4' d='M0 300 L180 170 L300 250 L430 120 L560 240 L700 160 L860 260 L1000 140 L1150 250 L1300 180 L1450 260 L1600 200 L1600 420 L0 420 Z'/><path fill='%238FA8D9' d='M0 340 L140 250 L280 320 L420 220 L560 310 L720 240 L880 330 L1040 230 L1200 320 L1360 260 L1520 330 L1600 300 L1600 420 L0 420 Z'/><path fill='%236E86B8' d='M0 380 L200 320 L360 370 L520 300 L680 365 L840 310 L1000 375 L1160 320 L1320 370 L1480 330 L1600 370 L1600 420 L0 420 Z'/></svg>");
+  --df-fg:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 300'><path fill='%236B5CA5' d='M0 150 C120 120 240 160 360 140 C480 120 600 165 720 150 C840 135 960 170 1080 150 C1200 130 1320 165 1440 148 C1500 140 1560 145 1600 140 L1600 300 L0 300 Z'/><path fill='%234A3E7C' d='M0 205 C140 180 260 215 400 200 C540 185 660 220 800 205 C940 190 1060 223 1200 207 C1340 191 1460 219 1600 203 L1600 300 L0 300 Z'/><path fill='%23221C40' d='M0 250 C160 232 300 258 460 246 C620 234 760 262 920 250 C1080 238 1220 264 1380 252 C1470 245 1530 250 1600 246 L1600 300 L0 300 Z'/></svg>");
+  --df-dragon:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 190 60'><g fill='%23221C40'><path d='M8 45 C12 38 18 39 21 43 C16 47 11 48 8 45 Z'/><path d='M18 43 C40 50 52 26 74 27 C94 28 100 48 120 45 C136 42 142 26 156 22 C158 26 158 30 156 34 C144 38 138 52 120 55 C98 58 90 38 74 37 C56 36 44 56 18 47 Z'/><path d='M152 24 C160 14 174 10 184 14 C178 18 175 22 176 27 C170 24 162 25 156 30 Z'/><path d='M162 15 C160 9 162 5 167 3 C166 8 167 12 169 15 Z'/><path d='M84 30 C80 20 82 13 88 9 C90 17 92 24 92 31 Z'/><path d='M118 48 C114 39 116 31 122 27 C124 35 126 42 126 49 Z'/><path d='M46 40 C42 32 44 25 50 21 C52 29 54 35 54 42 Z'/></g></svg>");
+  --df-tree:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 100'><path d='M58 100 C58 82 52 68 40 58 M58 80 C60 68 70 60 84 56' stroke='%23221C40' stroke-width='5' fill='none' stroke-linecap='round'/><g fill='%23D9497E'><circle cx='40' cy='48' r='18'/><circle cx='62' cy='40' r='20'/><circle cx='84' cy='48' r='16'/><circle cx='52' cy='58' r='14'/><circle cx='74' cy='58' r='13'/></g><g fill='%23E9709B'><circle cx='56' cy='36' r='10'/><circle cx='78' cy='44' r='8'/><circle cx='44' cy='44' r='7'/></g></svg>");
+  --df-torii:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 94'><g fill='%23E8825A'><rect x='6' y='16' width='88' height='8' rx='3'/><path d='M2 8 h96 a4 4 0 0 1 0 8 h-96 a4 4 0 0 1 0-8 Z'/><rect x='20' y='24' width='9' height='66' rx='3'/><rect x='71' y='24' width='9' height='66' rx='3'/><rect x='24' y='38' width='52' height='6' rx='2'/></g></svg>");
+  --df-sparks:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><g fill='%23E8825A' opacity='.55'><path d='M30 18 L33 27 L42 30 L33 33 L30 42 L27 33 L18 30 L27 27 Z'/><path d='M150 96 L152 102 L158 104 L152 106 L150 112 L148 106 L142 104 L148 102 Z'/><path d='M96 200 L99 209 L108 212 L99 215 L96 224 L93 215 L84 212 L93 209 Z'/></g><g fill='%23E8EDF5' opacity='.5'><circle cx='210' cy='40' r='3'/><circle cx='72' cy='128' r='2.4'/><circle cx='232' cy='176' r='2.6'/><circle cx='18' cy='232' r='2.4'/><circle cx='186' cy='246' r='3'/></g></svg>");
+}
+
+/* ---- the valley ---------------------------------------------------------
+   Layer order top-to-bottom: sun glow, mountain range, sky gradient.
+   ⚠️ The range uses `100% auto` deliberately — it is ONE wide scene meant to
+   span the sheet, not a repeating tile. §12c's "background-size must stay
+   auto" warning applies to TILES; a percentage width there re-created the
+   stretched-tile bug. Do not copy this line onto a repeating layer. */
+:root[data-proj="dragon-fest"] .sky{ background:#221C40; }
+/* ⚠️ .proj-hero carries its OWN linear-gradient (the light-theme hero ramp,
+   #cfe0e8 -> #f7eff0) as a background-IMAGE. It painted straight over the sky
+   and buried the sun, which looked like the sun was mispositioned when it was
+   actually just covered. backgroundColor reads transparent here, so a colour
+   probe will not find it — check backgroundImage. */
+:root[data-proj="dragon-fest"] .proj-hero{ background:none; }
+/* ⚠️ The horizon is MEASURED, not fixed — same lesson as Studio Work (§12c).
+   The hero panel is opaque and sits right over the middle of the sheet; at a
+   fixed 250px the sun was completely buried behind it. placeHorizon() at the
+   foot of this page parks the sun in the gap between the hero panel and the
+   first section panel, and re-runs on resize. The values below are only a
+   pre-script fallback. If the hero copy changes length this still works —
+   do not hard-code it. */
+:root[data-proj="dragon-fest"] .sheet{
+  background:
+    radial-gradient(circle 80px at 50% var(--df-horizon,722px), rgba(255,255,255,.95) 0%, rgba(232,130,90,.5) 52%, rgba(232,130,90,0) 74%),
+    var(--df-range) center var(--df-range-top,604px)/100% auto no-repeat,
+    linear-gradient(180deg,#E8EDF5 0%, #CBD8EE 14%, #A9BEE4 28%, #8FA8D9 42%, #6B5CA5 64%, #4A3E7C 84%, #2E2758 100%);
+}
+/* drifting motes over the whole page */
+:root[data-proj="dragon-fest"] .sheet::before{
+  content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:var(--df-sparks) 0 0 repeat; opacity:.5;
+}
+/* the dark ridge the page closes on */
+:root[data-proj="dragon-fest"] .sheet::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:300px; z-index:0;
+  pointer-events:none;
+  background:var(--df-fg) center bottom/100% auto no-repeat;
+}
+/* ⚠️ The shared PROJECT MOTIFS block in styles.css also paints — switch it
+   off or its motif bleeds through, including behind .foot (§10b.1). */
+:root[data-proj="dragon-fest"] .hero::before,
+:root[data-proj="dragon-fest"] .band::before,
+:root[data-proj="dragon-fest"] .level::before,
+:root[data-proj="dragon-fest"] .foot::before,
+:root[data-proj="dragon-fest"] .proj-hero::before,
+:root[data-proj="dragon-fest"] .proj-sec::before{ display:none !important; }
+/* ⚠️ ::before is NOT enough. .proj-hero::after is the pink hotbar "ground
+   strip" (styles.css:533) and it painted a magenta band straight across the
+   valley. Art & Concept disables this one too — it is easy to miss because
+   every other motif lives on ::before. */
+:root[data-proj="dragon-fest"] .proj-hero::after{ display:none !important; }
+/* ⚠️ Decoration layers paint ABOVE unpositioned content. On the dark theme
+   .sheet .topbar is position:static and the shells are never positioned, so
+   both end up under the scene layer (§10b.2). */
+:root[data-proj="dragon-fest"] .sheet .topbar{ position:relative; z-index:20; }
+:root[data-proj="dragon-fest"] .shell{ position:relative; z-index:3; }
+
+/* ---- the flying layer (parallaxed by app.js section 6) ---- */
+:root[data-proj="dragon-fest"] .df-scene{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+:root[data-proj="dragon-fest"] .df-scene span{
+  position:absolute; background-position:center; background-size:contain;
+  background-repeat:no-repeat;
+}
+/* ⚠️ Each element's aspect ratio must MATCH its SVG viewBox or background-size:
+   contain letterboxes it, which reads as a mystery gap (§10b.3). Ratios here:
+   dragon 190:60, tree 120:100, torii 100:94. */
+:root[data-proj="dragon-fest"] .df-drag{ background-image:var(--df-dragon); width:190px; height:60px;
+  animation:dfGlide 14s ease-in-out infinite; }
+:root[data-proj="dragon-fest"] .df-drag--sm{ width:114px; height:36px; opacity:.8; }
+:root[data-proj="dragon-fest"] .df-tree{ background-image:var(--df-tree); width:120px; height:100px;
+  animation:dfSway 7s ease-in-out infinite; transform-origin:50% 100%; }
+:root[data-proj="dragon-fest"] .df-tree--sm{ width:78px; height:65px; }
+:root[data-proj="dragon-fest"] .df-torii{ background-image:var(--df-torii); width:100px; height:94px; }
+@keyframes dfGlide{ 0%,100%{ transform:translate(0,0) } 50%{ transform:translate(26px,-16px) } }
+@keyframes dfSway{ 0%,100%{ transform:rotate(-1.6deg) } 50%{ transform:rotate(1.6deg) } }
+@media (prefers-reduced-motion: reduce){
+  :root[data-proj="dragon-fest"] .df-scene span{ animation:none }
+}
+/* scatter — kept to the outer margins so the panels stay clear */
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(1){ top:5%;  left:4%; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(2){ top:9%;  right:5%; animation-delay:-4s; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(3){ top:17%; left:2%; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(4){ top:24%; right:3%; animation-delay:-2s; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(5){ top:33%; left:3%; animation-delay:-6s; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(6){ top:41%; right:4%; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(7){ top:52%; left:5%; animation-delay:-3s; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(8){ top:60%; right:2%; animation-delay:-5s; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(9){ top:70%; left:2%; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(10){ top:78%; right:5%; animation-delay:-1s; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(11){ top:86%; left:6%; }
+:root[data-proj="dragon-fest"] .df-scene span:nth-child(12){ top:91%; right:6%; animation-delay:-7s; }
+@media (max-width:900px){ :root[data-proj="dragon-fest"] .df-scene{ display:none } }
+
+/* ---- chrome ---- */
+:root[data-proj="dragon-fest"] .topbar{ background:#221C40; border-bottom:3px solid var(--df-ember); }
+:root[data-proj="dragon-fest"] .brand__mark{ background-image:none; background-color:var(--df-rose); color:#fff;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.3), inset 0 -4px 0 rgba(0,0,0,.25), 0 0 0 3px var(--df-night), 0 0 0 6px var(--df-ember); }
+:root[data-proj="dragon-fest"] .brand__name{ color:var(--df-mist); }
+:root[data-proj="dragon-fest"] .nav a{ color:var(--df-blue); }
+:root[data-proj="dragon-fest"] .nav a[aria-current]{ background:var(--df-rose); color:#fff; }
+:root[data-proj="dragon-fest"] .nav a:hover{ background:rgba(143,168,217,.18); }
+
+/* ---- panels: pale sheets floating over the valley ---- */
+:root[data-proj="dragon-fest"] .proj-hero > .shell,
+:root[data-proj="dragon-fest"] .proj-sec > .shell,
+:root[data-proj="dragon-fest"] .pager > .shell{
+  background:var(--df-mist); color:var(--df-deep);
+  border:3px solid var(--df-night); border-radius:18px;
+  padding:30px 26px 26px;
+  box-shadow:7px 7px 0 rgba(34,28,64,.28);
+}
+:root[data-proj="dragon-fest"] .crumb{ color:var(--df-rose-ink); }
+:root[data-proj="dragon-fest"] .crumb img{ display:none; }
+:root[data-proj="dragon-fest"] .crumb::before{ content:"\25C4"; margin-right:.5em; }
+:root[data-proj="dragon-fest"] .level__badge.ui-bar{ border-image:none; border:2.5px solid var(--df-night);
+  background:var(--df-rose); color:#fff; padding:4px 14px; border-radius:99px; }
+:root[data-proj="dragon-fest"] .level__panel.ui-panel{ border-image:none; border:3px solid var(--df-night);
+  background:var(--df-deep); border-radius:14px; padding:10px 22px; box-shadow:4px 4px 0 rgba(34,28,64,.28); }
+:root[data-proj="dragon-fest"] .proj-title.arcade{ color:var(--df-mist); text-shadow:3px 3px 0 var(--df-rose); }
+:root[data-proj="dragon-fest"] .proj-lede,
+:root[data-proj="dragon-fest"] .proj-sec__text{ color:var(--df-deep); }
+:root[data-proj="dragon-fest"] .meta > div{ border-image:none; border:2.5px solid var(--df-blue-deep);
+  background:#fff; border-radius:10px; padding:5px 10px; }
+:root[data-proj="dragon-fest"] .meta__k{ color:var(--df-rose-ink); }
+:root[data-proj="dragon-fest"] .meta__v{ color:var(--df-deep); }
+:root[data-proj="dragon-fest"] .proj-sec__count{ color:var(--df-rose-ink); font-weight:800; }
+:root[data-proj="dragon-fest"] .proj-sec__title{ color:var(--df-deep); text-shadow:none; }
+:root[data-proj="dragon-fest"] .tags li{ border-image:none; border:2.5px solid var(--df-blue-deep);
+  background:#fff; color:var(--df-deep); border-radius:99px; padding:1px 10px; }
+:root[data-proj="dragon-fest"] .plate.ui-card{ border-image:none; border:3px solid var(--df-night);
+  border-radius:12px; padding:0; background:#fff; box-shadow:4px 4px 0 rgba(34,28,64,.28); }
+:root[data-proj="dragon-fest"] .plate img{ border-radius:8px; }
+:root[data-proj="dragon-fest"] .plate__no{ color:var(--df-rose-ink); }
+:root[data-proj="dragon-fest"] .divider{ display:none; }
+
+/* ---- the work itself, straight after the context --------------------------
+   Individual-project pages show the actual surfaces rather than a placeholder
+   thumbnail: the copy sits full width on top, the work sits underneath. That
+   means the two-column .proj-sec__grid is not used here at all — the section
+   has no .proj-sec__media, so the 860px flip rules (§10b.5) do not apply. */
+:root[data-proj="dragon-fest"] .proj-sec__body{ max-width:74ch; }
+/* 2 up on desktop, not auto-fit: auto-fit gave 3 columns in the 1180px shell,
+   which left the 4th board alone on its own row. A 2x2 also renders each board
+   at ~570px instead of ~357px, which these need — they are dense UI with real
+   copy on them. */
+:root[data-proj="dragon-fest"] .df-work{
+  list-style:none; margin:26px 0 0; padding:0;
+  display:grid; gap:22px; grid-template-columns:minmax(0,1fr);
+}
+@media (min-width:860px){
+  :root[data-proj="dragon-fest"] .df-work{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+:root[data-proj="dragon-fest"] .df-piece{
+  background:#fff; padding:10px 10px 6px;
+  border:3px solid var(--df-night); border-radius:12px;
+  box-shadow:4px 4px 0 rgba(34,28,64,.28);
+}
+/* native ratio, no crop — all four boards are 1620x1000. width/height on the
+   img reserves the box before the lazy image lands so the grid does not jump. */
+:root[data-proj="dragon-fest"] .df-piece img{
+  display:block; width:100%; height:auto; border-radius:7px;
+}
+:root[data-proj="dragon-fest"] .df-piece__cap{
+  margin:8px 2px 2px; font-family:var(--display); font-size:.95rem;
+  letter-spacing:.06em; color:var(--df-rose-ink);
+}
+
+/* ---- pager + foot ---- */
+:root[data-proj="dragon-fest"] .pager__link.ui-panel{ border-image:none; border:3px solid var(--df-night);
+  background:#fff; border-radius:12px; box-shadow:4px 4px 0 rgba(34,28,64,.28); }
+:root[data-proj="dragon-fest"] .pager__name{ color:var(--df-deep); }
+:root[data-proj="dragon-fest"] .pager__dir{ color:var(--df-rose-ink); }
+/* ⚠️ .foot__credits carries its OWN colour in styles.css, so it does not
+   inherit from .foot — it must be named explicitly or the colophon line stays
+   the dark theme's lavender (§10k). It sits on the dark ridge, so it takes the
+   pale mist (13.66:1), not the deep purple. */
+:root[data-proj="dragon-fest"] .foot,
+:root[data-proj="dragon-fest"] .foot a,
+:root[data-proj="dragon-fest"] .foot__credits{ color:var(--df-mist); }
+:root[data-proj="dragon-fest"] .skip{ color:var(--df-deep); }
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<div class="df-scene" aria-hidden="true">
+  <span class="df-drag"></span><span class="df-tree"></span>
+  <span class="df-drag df-drag--sm"></span><span class="df-tree df-tree--sm"></span>
+  <span class="df-torii"></span><span class="df-tree"></span>
+  <span class="df-drag df-drag--sm"></span><span class="df-tree df-tree--sm"></span>
+  <span class="df-tree"></span><span class="df-drag"></span>
+  <span class="df-tree df-tree--sm"></span><span class="df-torii"></span>
+</div>
+
+<a class="skip ui-bar ui-bar-cream" href="#overview">Skip to the work</a>
+
+<div class="stage-top">
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../index.html#experience">Experience</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="proj-hero proj-hero--solo" id="top">
+  <div class="shell">
+    <a class="crumb" href="../../index.html#level-5">
+      <img src="../../assets/ui6/arrow-left.png" alt="" width="48" height="103">
+      Back to Level 5
+    </a>
+
+    <div class="proj-hero__grid">
+      <div>
+        <p class="level__badge ui-bar">Level&nbsp;&ndash;&nbsp;5</p>
+        <div class="level__panel ui-panel"><h1 class="proj-title arcade">Dragon Fest</h1></div>
+        <p class="proj-lede">
+          A limited-time event concept, taken past the pop-up. The event screen and its offer,
+          plus the two surfaces that have to reach a player who isn&rsquo;t currently in the
+          game — a rich push notification and a social post.
+        </p>
+
+        <dl class="meta">
+          <div>
+            <dt class="meta__k">Discipline</dt>
+            <dd class="meta__v">Event concept &amp; marketing art</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Year</dt>
+            <dd class="meta__v">2025</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Tools</dt>
+            <dd class="meta__v">Photoshop, Figma</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Brief</dt>
+            <dd class="meta__v">Self-directed</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.stage-top -->
+
+<section class="proj-sec" id="overview" aria-labelledby="ov-title">
+  <div class="shell">
+    <div class="proj-sec__body">
+      <p class="proj-sec__count">4 surfaces</p>
+      <h2 class="proj-sec__title" id="ov-title">One event, four surfaces</h2>
+      <p class="proj-sec__text">
+        The event runs across escalating floors — 20, 40 and 60 — each one harder than the
+        last and each paying out its own rewards. The deal screen sells the way through:
+        dragon eggs and diamonds, bought to keep climbing.
+      </p>
+      <p class="proj-sec__text">
+        An event only works if it looks like the same event everywhere it appears. The
+        in-game pop-up, the deal screen, the push notification and the social post were
+        designed as one set — same dragon, same palette, same promise — with each one
+        reworked for the space it actually gets rather than cropped down from the largest.
+      </p>
+      <ul class="tags"><li>Event pop-up</li><li>Offer screen</li><li>Push notification</li><li>Social post</li></ul>
+    </div>
+
+    <ul class="df-work">
+      <li class="df-piece">
+        <img src="../../assets/img/dragon-fest/df-01-event-popup.jpg" width="1400" height="864"
+             loading="lazy" decoding="async"
+             alt="Dragon Fest event pop-up: a gold-framed panel with a countdown, a tower-climb goal and three floor reward tiers, each showing a dragon at a different growth stage">
+        <p class="df-piece__cap">Event pop-up</p>
+      </li>
+      <li class="df-piece">
+        <img src="../../assets/img/dragon-fest/df-02-offer-screen.jpg" width="1400" height="864"
+             loading="lazy" decoding="async"
+             alt="Dragon Deal offer screen: four purchase tiers of dragon eggs and gems, priced 4.99 to 19.99, with Most Popular and Best Value ribbons">
+        <p class="df-piece__cap">Offer screen</p>
+      </li>
+      <li class="df-piece">
+        <img src="../../assets/img/dragon-fest/df-03-push-notification.jpg" width="1400" height="864"
+             loading="lazy" decoding="async"
+             alt="Rich push notification: a wide banner with the Dragon Fest logo, a large gem, a Play Now button and the event dragon at the right">
+        <p class="df-piece__cap">Push notification</p>
+      </li>
+      <li class="df-piece">
+        <img src="../../assets/img/dragon-fest/df-04-social-post.jpg" width="1400" height="864"
+             loading="lazy" decoding="async"
+             alt="Square social post: a dragon egg and an arrow pointing to a grown dragon silhouette, over the event tower, captioned Can you climb to the top?">
+        <p class="df-piece__cap">Social post</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<nav class="pager" aria-label="Other projects">
+  <div class="shell">
+    <ul class="pager__list">
+      <li>
+        <a class="pager__link ui-panel" href="../hydro-grow-station/">
+          <span class="pager__dir">Previous &mdash; Level 5</span>
+          <span class="pager__name">Hydro-Grow Station</span>
+        </a>
+      </li>
+      <li>
+        <a class="pager__link ui-panel pager__link--next" href="../apocalyptic-game-ui/">
+          <span class="pager__dir">Next &mdash; Level 5</span>
+          <span class="pager__name">Apocalyptic Game UI</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="divider" role="presentation"></div>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p>
+      <a href="../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerinamcl/" rel="me noopener">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a> &middot;
+      <a href="../../index.html#work">All work</a>
+    </p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.
+    </p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+
+<script src="../../assets/app.js?v=17" defer></script>
+
+<script>
+/* placeHorizon — park the sun and the mountain ridge in the gap between the
+   hero panel and the first section panel. See the note on .sheet above: the
+   panels are opaque, so a fixed horizon ends up hidden behind one of them.
+   The range SVG is 1600x420 drawn at `100% auto`, so its rendered height
+   scales with the sheet width — the ridge line sits at about 0.094 x width
+   down from the layer's top, which is why the offset is a proportion and not
+   a constant. */
+(function () {
+  var sheet = document.querySelector(".sheet");
+  var heroShell = document.querySelector(".proj-hero > .shell");
+  var secShell = document.querySelector(".proj-sec > .shell");
+  if (!sheet || !heroShell || !secShell) return;
+
+  var RIDGE_RATIO = 0.094;
+
+  function placeHorizon() {
+    var sheetTop = sheet.getBoundingClientRect().top + window.scrollY;
+    var heroBottom = heroShell.getBoundingClientRect().bottom + window.scrollY - sheetTop;
+    var secTop = secShell.getBoundingClientRect().top + window.scrollY - sheetTop;
+    var horizon = Math.round(heroBottom + (secTop - heroBottom) / 2);
+    var rangeTop = Math.round(horizon - RIDGE_RATIO * sheet.getBoundingClientRect().width);
+    var root = document.documentElement;
+    root.style.setProperty("--df-horizon", horizon + "px");
+    root.style.setProperty("--df-range-top", rangeTop + "px");
+  }
+
+  placeHorizon();
+  window.addEventListener("resize", placeHorizon);
+  /* the page grows after first paint as lazy images land, so re-measure */
+  if (window.ResizeObserver) new ResizeObserver(placeHorizon).observe(sheet);
+})();
+</script>
+
+</body>
+</html>

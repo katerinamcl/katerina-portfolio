@@ -1,0 +1,1890 @@
+/* ============================================================
+   Katerina Michael — Portfolio
+   Chrome built from the Cozy UI Pack (dobo_ui). Frames are real
+   9-sliced pack sprites via border-image, so they stretch to any
+   size without distorting their rounded corners.
+   Palette sampled from the pack's own containers.
+   ============================================================ */
+
+@font-face {
+  font-family: "Jersey 15";
+  src: url("fonts/Jersey15-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("fonts/SourceSans3-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 200 900;
+  font-display: swap;
+}
+/* ⚠️ DIGITS-ONLY FACE. Jersey 15's 6 and 8 are near-identical below ~1.4rem —
+   rendered as a specimen and looked at, they only separate at display sizes,
+   which is far bigger than any label here. That caused real misreadings
+   ("2-06" as "2-08", "Unlock 6" as "Unlock 8").
+   Switching whole labels to the body font fixed the digits but made the pixel
+   chrome look plain, so instead: `unicode-range` limits this face to U+0030-0039,
+   which means the browser pulls ONLY the numerals from Source Sans 3 and lets
+   every letter fall through to the next font in the stack — Jersey 15.
+   Used via --display-num. No new font asset: it reuses the file already served.
+   ⚠️ Weight is pinned at 700 here so the digits carry enough colour to sit
+   beside the pixel lettering; the element's own font-weight does not reach it. */
+@font-face {
+  font-family: "Jersey Digits";
+  src: url("fonts/SourceSans3-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+
+/* ============================================================
+   THEMES
+   ============================================================
+   Two complete themes live here. DARK is the default; LIGHT is the
+   original design, kept intact and reachable by setting
+   data-theme="light" on <html>. Nothing was deleted to make the switch.
+
+   Sprite paths are custom properties, not literal urls, because the
+   chrome is PNG artwork with colour baked in — CSS cannot recolour an
+   image, so each theme points at its own set. `ui7/` mirrors `ui6/`
+   filename for filename, which is what makes the swap a one-line change.
+
+   Adding a visible toggle later is therefore only: a button that sets
+   data-theme and writes it to localStorage. The themes already work.
+   ------------------------------------------------------------ */
+
+:root {
+  /* ---------- DARK (default) ---------- */
+  --pastel:    #e0d5fe;
+  --lilac:     #b999fa;
+  --pink:      #feb3fc;
+  --accent:    #dd4f9a;
+  --night:     #19156f;
+  --night-2:   #2e1b5a;
+
+  --ink:       #e0d5fe;   /* body text sits ON the dark sheet      */
+  --ink-soft:  #b999fa;
+  --on-panel:  #2e1b5a;   /* text that sits ON a pastel sprite     */
+  --cream:     #e0d5fe;
+  --outline:   #2e1b5a;
+  --btn:       #dd4f9a;
+  --rail:      #b999fa;
+  --slot-bg:   #b999fa;
+
+  --sheet-1: #241a63;  --sheet-2: #2e1b5a;
+  --sheet-3: #34205f;  --sheet-4: #3b2668;
+  --bezel:   #6b52b8;  --bezel-out: #150f3f;
+  --bar-bg:  #19156f;  --bar-rule:  #3d2c8f;
+  --bar-ink: #e0d5fe;  --bar-hover: rgba(185,153,250,.18);
+
+  /* sprite set */
+  --sp: "ui7";
+  --sp-panel:      url("ui7/panel.png");
+  --sp-panel-node: url("ui7/panel-node.png");
+  --sp-panel-major:url("ui7/panel-major.png");
+  --sp-card:       url("ui7/card.png");
+  --sp-slot:       url("ui7/slot.png");
+  --sp-slot-on:    url("ui7/slot-on.png");
+  --sp-btn:        url("ui7/btn-square.png");
+  --sp-pill:       url("ui7/pill-primary.png");
+  --sp-pill-2:     url("ui7/pill-secondary-soft.png");
+  --sp-bar:        url("ui7/bar-rose.png");
+  --sp-bar-2:      url("ui7/bar-cream-soft.png");
+  --sp-bar-red:    url("ui7/bar-red.png");
+  --sp-bar-peach:  url("ui7/bar-peach.png");
+  --sp-round:      url("ui7/round-soft.png");
+  --sp-round-2:    url("ui7/round.png");
+  --sp-check:      url("ui7/check-on-soft.png");
+  --sp-hotbar:     url("ui7/hotbar-bold.png");
+  --sp-slot-fill:  url("ui7/slot-fill.png");   /* dark-only: filled Loadout chip */
+
+  --portrait: url("img/avatar-pink.jpg");
+}
+
+/* ---------- LIGHT — the original design, preserved ---------- */
+:root[data-theme="light"] {
+  --ink:       #4a3e55;
+  --ink-soft:  #6b5a6e;
+  --on-panel:  #4a3e55;
+  --cream:     #fbf7f2;
+  --outline:   #2e1b5a;
+  --btn:       #c93a85;
+  --rail:      #afa9ec;
+  --slot-bg:   #5a3e86;
+
+  --bar-bg:  #8cb2bf;  --bar-rule: #83a9b6;
+  --bar-ink: #2e1b5a;  --bar-hover: #e6e2ee;
+
+  /* the original one-gradient-for-the-whole-document page background */
+  --page-gradient: linear-gradient(180deg,
+    #f7eff0 0%, #f7eff0 20%, #f2e3ee 34%, #e8dcf2 48%,
+    #dbd6f0 62%, #cfd8ec 76%, #c8dcea 88%, #cfe3ec 100%);
+
+  --sp: "ui6";
+  --sp-panel:      url("ui6/panel.png");
+  --sp-panel-node: url("ui6/panel-node.png");
+  --sp-panel-major:url("ui6/panel-major.png");
+  --sp-card:       url("ui6/card.png");
+  --sp-slot:       url("ui6/slot.png");
+  --sp-slot-on:    url("ui6/slot-on.png");
+  --sp-btn:        url("ui6/btn-square.png");
+  --sp-pill:       url("ui6/pill-primary.png");
+  --sp-pill-2:     url("ui6/pill-secondary-soft.png");
+  --sp-bar:        url("ui6/bar-rose.png");
+  --sp-bar-2:      url("ui6/bar-cream-soft.png");
+  --sp-bar-red:    url("ui6/bar-red.png");
+  --sp-bar-peach:  url("ui6/bar-peach.png");
+  --sp-round:      url("ui6/round-soft.png");
+  --sp-round-2:    url("ui6/round.png");
+  --sp-check:      url("ui6/check-on-soft.png");
+  --sp-hotbar:     url("ui6/hotbar-bold.png");
+
+  --portrait: url("img/avatar-blue.jpg");
+}
+
+:root {
+  /* --- dusty rose / lavender / cream, gold as a small accent --- */
+  --cream-2:   #f2eae4;
+  --lav-pale:  #e6e2ee;   /* pale lavender-grey ground   */
+  --lav:       #bdb6d4;   /* periwinkle, secondary       */
+  --lav-deep:  #7e7799;
+  --rose-pale: #f3dde2;
+  --rose:      #d9a0ae;   /* dusty rose, primary         */
+  --rose-deep: #a97182;
+  --plum:      #8e6e96;
+  --plum-deep: #6b4f63;
+  --gold:      #d9b36a;   /* small details only          */
+
+  /* one supporting blue-teal — quieter than the pinks and purples, and
+     never placed against pink. It bookends the page (top bar, footer)
+     and carries the portrait background. */
+  --blue-pale: #d2e6ec;
+  --blue:      #9bbecb;
+  --blue-deep: #6a93a2;
+
+  /* Type ink is deep plum. On the lavender surfaces, cream measured
+     1.82:1 and mid-plum 3.26:1 — both failing. Deep plum reaches
+     5.11:1 on lavender and 6.94:1 on the sky. Only the type is dark;
+     the palette itself stays pastel. */
+
+  /* legacy token names still used through the sheet */
+  --tan:       var(--lav);
+  --tan-shade: var(--lav-deep);
+  --blush:     var(--rose-pale);
+  --brown:     var(--rose-deep);
+  --green:     var(--lav);
+  --red:       var(--rose-deep);
+
+  /* hazy lavender sky */
+  --sky:       #d9d5e8;
+  --sky-lit:   #f4eff1;
+  --sky-deep:  #c3bcd9;
+
+  /* --- accent layer -------------------------------------------------
+     Applied only where a surface was previously a muddy mid-pastel.
+     Cream and white surfaces keep their soft edge — a heavy stroke on a
+     cream chip reads as fencing, not emphasis.
+     #C93A85 rather than #E14699: visually near-identical, but white on
+     it measures 4.74:1 and clears AA, where #E14699 only reached 3.79:1
+     and failed for the 13px nav pill.
+     ------------------------------------------------------------------ */
+
+  /* section-scoped accents — deliberately not site-wide */
+  --coral:   #f5876a;   /* featured card fill only             */
+
+  /* --- background decoration ----------------------------------------
+     Two independent layers on deliberately mismatched tile sizes
+     (1600 and 1150) so their repeats never line up — that is what stops
+     a tiled pattern reading as a grid. Clouds sit on both sides at four
+     different scales; stars are scattered at five.
+     ------------------------------------------------------------------ */
+  --decor-clouds: url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1180" shape-rendering="crispEdges">\
+<g fill="%23f2b79c">\
+<g transform="translate(80,60)"><rect x="12" y="10" width="54" height="9"/><rect x="0" y="19" width="78" height="9"/><rect x="24" y="1" width="28" height="9"/></g>\
+<g transform="translate(1180,150) scale(0.72)"><rect x="12" y="10" width="54" height="9"/><rect x="0" y="19" width="78" height="9"/><rect x="24" y="1" width="28" height="9"/></g>\
+<g transform="translate(620,430) scale(0.95)"><rect x="12" y="10" width="54" height="9"/><rect x="0" y="19" width="78" height="9"/><rect x="24" y="1" width="28" height="9"/></g>\
+<g transform="translate(1390,690) scale(0.6)"><rect x="12" y="10" width="54" height="9"/><rect x="0" y="19" width="78" height="9"/><rect x="24" y="1" width="28" height="9"/></g>\
+<g transform="translate(180,880) scale(0.85)"><rect x="12" y="10" width="54" height="9"/><rect x="0" y="19" width="78" height="9"/><rect x="24" y="1" width="28" height="9"/></g>\
+<g transform="translate(880,1020) scale(1.1)"><rect x="12" y="10" width="54" height="9"/><rect x="0" y="19" width="78" height="9"/><rect x="24" y="1" width="28" height="9"/></g>\
+</g><g fill="%23efa184">\
+<rect x="80" y="88" width="78" height="7"/><rect x="620" y="477" width="74" height="6"/><rect x="880" y="1076" width="86" height="7"/>\
+</g></svg>');
+
+  --decor-stars: url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" width="1150" height="940" shape-rendering="crispEdges">\
+<g fill="%23e9c68c">\
+<g transform="translate(300,80)"><rect x="7" y="1" width="2" height="14"/><rect x="6" y="4" width="4" height="8"/><rect x="1" y="7" width="14" height="2"/><rect x="4" y="6" width="8" height="4"/></g>\
+<g transform="translate(940,260) scale(0.8)"><rect x="7" y="1" width="2" height="14"/><rect x="6" y="4" width="4" height="8"/><rect x="1" y="7" width="14" height="2"/><rect x="4" y="6" width="8" height="4"/></g>\
+<g transform="translate(120,380) scale(0.62)"><rect x="7" y="1" width="2" height="14"/><rect x="6" y="4" width="4" height="8"/><rect x="1" y="7" width="14" height="2"/><rect x="4" y="6" width="8" height="4"/></g>\
+<g transform="translate(700,560) scale(1.05)"><rect x="7" y="1" width="2" height="14"/><rect x="6" y="4" width="4" height="8"/><rect x="1" y="7" width="14" height="2"/><rect x="4" y="6" width="8" height="4"/></g>\
+<g transform="translate(1040,760) scale(0.7)"><rect x="7" y="1" width="2" height="14"/><rect x="6" y="4" width="4" height="8"/><rect x="1" y="7" width="14" height="2"/><rect x="4" y="6" width="8" height="4"/></g>\
+<g transform="translate(430,880) scale(0.9)"><rect x="7" y="1" width="2" height="14"/><rect x="6" y="4" width="4" height="8"/><rect x="1" y="7" width="14" height="2"/><rect x="4" y="6" width="8" height="4"/></g>\
+<rect x="560" y="180" width="4" height="4"/><rect x="860" y="60" width="3" height="3"/><rect x="200" y="640" width="4" height="4"/>\
+<rect x="1100" y="470" width="3" height="3"/><rect x="60" y="160" width="3" height="3"/><rect x="780" y="900" width="4" height="4"/>\
+</g></svg>');
+
+  --u: 4px;
+  --shell: 1180px;
+  --gutter: clamp(16px, 4vw, 40px);
+
+  /* ⚠️ "Jersey Digits" is FIRST on purpose and must stay there. It only covers
+     U+0030-0039, so it supplies the NUMERALS and every letter falls through to
+     Jersey 15 — the pixel lettering is untouched.
+     It sits in --display itself rather than in a separate token so that every
+     display-font label on every page inherits it automatically. Scattering a
+     second token across 16 pages of inline CSS would guarantee one gets missed,
+     which is the exact failure being fixed. */
+  --display: "Jersey Digits", "Jersey 15", "Courier New", monospace;
+  /* alias kept so the per-page rules that already reference it keep working */
+  --display-num: var(--display);
+  --body: "Source Sans 3", system-ui, -apple-system, sans-serif;
+}
+
+@media (max-width: 700px) { :root { --u: 3px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* ONE gradient for the whole document, sized to the body box so it
+   stretches across the full page height (~13,700px) rather than
+   restarting per section. That makes the drift far slower than the
+   hero's, which is the intent — the hero keeps its own quicker shift and
+   simply paints over the top fifth of this one.
+   The 20% stop is deliberate: it is where the hero block ends, and it
+   holds #f7eff0 so the join is invisible. */
+body {
+  margin: 0;
+  background: linear-gradient(180deg,
+    #f7eff0 0%,     /* under the hero — matches its final stop */
+    #f7eff0 20%,    /* hero ends here                          */
+    #f2e3ee 34%,    /* soft pink                               */
+    #e8dcf2 48%,    /* lilac                                   */
+    #dbd6f0 62%,    /* periwinkle                              */
+    #cfd8ec 76%,    /* blue-lavender                           */
+    #c8dcea 88%,    /* soft blue                               */
+    #cfe3ec 100%    /* pale blue-teal, tying back to the bar   */
+  ) no-repeat;
+  background-size: 100% 100%;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: clamp(16px, 1rem + .2vw, 18px);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  cursor: var(--cursor) 2 2, auto;
+}
+
+a, button, summary, [role="button"], label { cursor: var(--cursor-click) 3 2, pointer; }
+a:active, button:active { cursor: var(--cursor-click) 3 2, pointer; }
+input, textarea, select { cursor: auto; }
+
+/* ---- per-page cursor ------------------------------------------------------
+   The cursor is sprite artwork, so it cannot be recoloured in CSS — each page
+   gets its own recoloured pair in assets/cursors/, swapped by the one
+   `data-proj` attribute the page already carries. Same mechanism as the sprite
+   paths in §7: the URL is the custom property.
+
+   Each accent is taken from that page's OWN palette — the five themed pages use
+   their declared accent, the six unthemed ones use their motif hue at L60, which
+   is the mid tint already painted on them. Click state is the same accent lifted
+   14% so it still reads as a state change without introducing a new colour.
+
+   The default below is the original pink and stays in force on the landing page
+   and the colophon, which have no `data-proj`. */
+:root { --cursor: url("ui6/cursor.png"); --cursor-click: url("ui6/cursor-click.png"); }
+:root[data-proj="studio-work"]        { --cursor:url("cursors/studio-work.png?v=2");        --cursor-click:url("cursors/studio-work-click.png?v=2"); }
+:root[data-proj="beatbounds"]         { --cursor:url("cursors/beatbounds.png");         --cursor-click:url("cursors/beatbounds-click.png"); }
+:root[data-proj="project-kryat"]      { --cursor:url("cursors/project-kryat.png");      --cursor-click:url("cursors/project-kryat-click.png"); }
+:root[data-proj="art-character-art"]  { --cursor:url("cursors/art-character-art.png");  --cursor-click:url("cursors/art-character-art-click.png"); }
+:root[data-proj="personal-projects"]  { --cursor:url("cursors/personal-projects.png");  --cursor-click:url("cursors/personal-projects-click.png"); }
+:root[data-proj="apocalyptic-game-ui"]{ --cursor:url("cursors/apocalyptic-game-ui.png");--cursor-click:url("cursors/apocalyptic-game-ui-click.png"); }
+:root[data-proj="dragon-fest"]        { --cursor:url("cursors/dragon-fest.png");        --cursor-click:url("cursors/dragon-fest-click.png"); }
+:root[data-proj="game-store-ui"]      { --cursor:url("cursors/game-store-ui.png");      --cursor-click:url("cursors/game-store-ui-click.png"); }
+:root[data-proj="hydro-grow-station"] { --cursor:url("cursors/hydro-grow-station.png"); --cursor-click:url("cursors/hydro-grow-station-click.png"); }
+:root[data-proj="parent-guidance-app"]{ --cursor:url("cursors/parent-guidance-app.png");--cursor-click:url("cursors/parent-guidance-app-click.png"); }
+:root[data-proj="ui-studies"]         { --cursor:url("cursors/ui-studies.png");         --cursor-click:url("cursors/ui-studies-click.png"); }
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--ink); }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:where(a, button, summary, input):focus-visible {
+  outline: calc(var(--u) * .75) solid var(--red);
+  outline-offset: calc(var(--u) * .75);
+}
+
+.shell { width: min(100% - (var(--gutter) * 2), var(--shell)); margin-inline: auto; }
+
+/* ---------- background decoration layer ---------------------------
+   Behind everything, non-interactive, and offset per section so the
+   two tiles start at a different point in each one — another break
+   against visible repetition.                                       */
+.hero, .band, .level, .foot, .proj-hero, .proj-sec { position: relative; }
+
+.hero::before, .band::before, .level::before, .foot::before,
+.proj-hero::before, .proj-sec::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .62;
+  background:
+    var(--decor-stars)  repeat left top / 1150px auto,
+    var(--decor-clouds) repeat left top / var(--decor-motif-size, 1600px) auto;
+  /* Mid-depth parallax. These layers are pseudo-elements, so they can't be
+     translated the way the themed pages' decoration divs are — instead each
+     section's offset is held in --dx/--dy vars and app.js adds a single
+     scroll-derived --decor-shift to the Y. The tiles repeat, so sliding the
+     pattern can never expose a gap. Falls back to 0 with JS off. */
+  background-position:
+    var(--dx1, 0px) calc(var(--dy1, 0px) + var(--decor-shift, 0px)),
+    var(--dx2, 0px) calc(var(--dy2, 0px) + var(--decor-shift, 0px));
+}
+/* stagger the starting offset section by section */
+.band::before   { --dx1:-320px; --dy1:-180px; --dx2:-140px; --dy2:-260px; }
+.level::before  { --dx1:-640px; --dy1:-420px; --dx2:-880px; --dy2:-520px; }
+.foot::before   { --dx1:-180px; --dy1:-700px; --dx2:-520px; --dy2:-840px; }
+/* project sections alternate their offset so two stacked sections never
+   show the same patch of sky */
+.proj-sec::before        { --dx1:-640px; --dy1:-420px; --dx2:-880px; --dy2:-520px; }
+.proj-sec--flip::before  { --dx1:-260px; --dy1:-880px; --dx2:-420px; --dy2:-140px; }
+
+.hero > .shell, .band > .shell, .level > .shell, .foot > .shell,
+.proj-hero > .shell, .proj-sec > .shell { position: relative; z-index: 2; }
+.hero::after, .proj-hero::after { z-index: 1; }
+
+/* ============================================================
+   PACK CHROME — 9-sliced sprites
+   ============================================================ */
+
+/* tan rounded container */
+.ui-panel {
+  border: 26px solid transparent;
+  border-image: var(--sp-panel) 46 fill / 26px / 0 stretch;
+}
+
+/* cream card with a tan title bar baked into the top slice */
+.ui-card {
+  border-style: solid;
+  border-width: 52px 22px 30px;
+  border-color: transparent;
+  border-image: var(--sp-card) 92 40 56 40 fill / 52px 22px 30px / 0 stretch;
+}
+
+/* inventory slot */
+.ui-slot {
+  border: 16px solid transparent;
+  border-image: var(--sp-slot) 42 fill / 16px / 0 stretch;
+}
+.ui-slot-on { border-image-source: var(--sp-slot-on); }
+
+/* square button */
+.ui-btn {
+  border: 22px solid transparent;
+  border-image: var(--sp-btn) 48 fill / 22px / 0 stretch;
+}
+
+/* pill button */
+.ui-pill {
+  border: 26px solid transparent;
+  border-image: var(--sp-pill) 70 fill / 26px / 0 stretch;
+}
+/* secondary is cream — soft edge, and it must out-specify the primary
+   colour rule below since it carries both classes */
+.ui-pill-cream { border-image-source: var(--sp-pill-2); }
+.btn.ui-pill:not(.ui-pill-cream) { color: #fff; }
+.btn.ui-pill-cream { color: var(--ink); }
+
+/* flat bars */
+.ui-bar       { border: 18px solid transparent; border-image: var(--sp-bar)   52 fill / 18px / 0 stretch; }
+.ui-bar-cream { border-image-source: var(--sp-bar-2); }
+.ui-bar-red   { border-image-source: var(--sp-bar-red); }
+
+/* round icon button — fixed aspect, so a plain stretched background is
+   cleaner than a 9-slice here */
+.ui-round {
+  background: var(--sp-round) center / 100% 100% no-repeat;
+  border: 0;
+}
+.ui-round-cream { background-image: var(--sp-round); }
+
+/* arrows and icons used as real images so they stay crisp */
+.ico { width: calc(var(--u) * 6); height: auto; }
+.ico--sm { width: calc(var(--u) * 4.5); }
+
+/* display type */
+.arcade {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: .02em;
+  color: var(--ink);
+  text-shadow: var(--u) var(--u) 0 var(--cream);
+}
+
+/* ---------- skip link -------------------------------------- */
+.skip {
+  position: fixed;
+  top: calc(var(--u) * 2);
+  left: 50%;
+  transform: translate(-50%, calc(-100% - 28px));
+  z-index: 300;
+  padding: calc(var(--u) * 1) calc(var(--u) * 4);
+  font-family: var(--display);
+  font-size: 1.15rem;
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform .18s ease;
+}
+.skip:focus, .skip:focus-visible { transform: translate(-50%, 0); outline: none; }
+
+/* ============================================================
+   TOP BAR — the pack's wooden container bar
+   ============================================================ */
+/* Pale blue-teal, meeting the blue top of the hero beneath it. Pink is
+   present here only as small filled accents (the active nav pill), not
+   as a field — a pink surface directly above blue was the join that
+   read as unnatural. */
+/* Sticky rather than relative: pure CSS, no scroll listener, no layout
+   thrash — the compositor handles it, so there is no measurable cost. */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bar-bg);
+  border-bottom: calc(var(--u) * .75) solid var(--bar-rule);
+  box-shadow: 0 calc(var(--u) * 1.5) 0 0 rgba(106, 147, 162, .14);
+}
+
+.topbar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--u) * 3);
+  padding: calc(var(--u) * 4) 0;
+}
+
+.brand { display: inline-flex; align-items: center; gap: calc(var(--u) * 3); text-decoration: none; margin-right: auto; }
+
+/* round-soft.png is 145x165 and NOT a circle — its top-right is bitten in
+   (rows 4-12 stop at x=99 where symmetry wants ~110). With no background
+   colour under the sprite the top bar showed through that bite, reading as
+   a stray dot crawling into the disc. Same defect, same fix as .lvl__num:
+   a solid fill behind the sprite, clipped to a true circle. */
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 13);
+  height: calc(var(--u) * 13);
+  font-family: var(--display);
+  font-size: 1.15rem;
+  color: var(--ink);
+  overflow: hidden;
+  isolation: isolate;
+  background-color: var(--cream);
+  background-image: var(--sp-round);
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.brand__name { font-family: var(--display); font-size: clamp(1.15rem, 1rem + .5vw, 1.45rem); letter-spacing: .05em; color: var(--bar-ink); }
+
+/* ring matches the bar's bottom rule, so the mark reads as part of the bar
+   rather than an applied badge */
+.brand__mark { box-shadow: 0 0 0 calc(var(--u) * .75) var(--bar-rule); border-radius: 50%; }
+
+.nav { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 2) calc(var(--u) * 4); margin: 0; padding: 0; list-style: none; }
+
+/* --bar-ink is theme-scoped because the bar flips from pale to dark:
+   light  → #2E1B5A on #8CB2BF = 6.5:1 (plain --ink was only 4.37:1)
+   dark   → #E0D5FE on #19156F = 11.0:1, the same colour as the brand name
+   A fixed value here was invisible in one theme or the other. */
+.nav a {
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--bar-ink);
+  padding: calc(var(--u) * 1) calc(var(--u) * 2);
+  border-radius: 8px;
+}
+/* hover stays pale — the link text is dark, so a dark hover fill would
+   erase it. Only the active pill goes dark, and it flips its text to white. */
+.nav a:hover { background: var(--bar-hover); }
+/* any aria-current value, not just "page": project pages are inside Work
+   but are not the Work link's target, so they carry aria-current="location"
+   — the correct token for "you are in this part of the site" */
+/* Deep teal pill, white label — 8.72:1, clears AAA. */
+.nav a[aria-current] { background: var(--btn); color: #fff; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+/* The page is one long hue run, and each section takes its slice of it.
+   Blue holds only the top fifth of the hero; purple and pink carry the
+   long middle of the page; blue returns at the footer to close the loop.
+   Every section meets its neighbour on an adjacent hue, and blue and
+   pink never touch. */
+.hero, .proj-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(36px, 7vh, 76px) 0 clamp(78px, 12vh, 130px);
+  background: linear-gradient(180deg,
+    #cfe0e8 0%,     /* pale blue — meets the bar */
+    #b9c8dd 18%,    /* blue-periwinkle           */
+    #c6bedb 40%,    /* periwinkle                */
+    #d6c8de 62%,    /* mauve                     */
+    #e8d5de 82%,    /* blush                     */
+    #f7eff0 100%);  /* pale rose → ground strip  */
+}
+
+.hero::after, .proj-hero::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: calc(var(--u) * 12);
+  background: var(--sp-hotbar) repeat-x left bottom / auto 100%;
+}
+
+.hero__grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: clamp(28px, 5vw, 56px);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+@media (min-width: 900px) { .hero__grid { grid-template-columns: 1.1fr .9fr; } }
+
+.hello { font-family: var(--display); font-size: clamp(1.2rem, 1rem + 1vw, 1.7rem); letter-spacing: .12em; color: var(--ink); margin: 0 0 calc(var(--u) * 2); }
+
+.hero__name { font-size: clamp(2.6rem, 1.3rem + 7vw, 5.2rem); line-height: .95; margin: 0; }
+.hero__name.arcade { color: var(--cream); text-shadow: var(--u) var(--u) 0 var(--rose-deep), 0 calc(var(--u) * 2) 0 rgba(126, 119, 153, .28); }
+
+/* periwinkle ring — it sits directly against the blue portrait
+   background, and purple is the bridge from that blue into the mauve
+   sky behind it. Gold was left over from the earlier palette. */
+.hero__portrait img { box-shadow: 0 0 0 calc(var(--u) * 1.25) var(--outline), 0 0 0 calc(var(--u) * 2.5) var(--cream); }
+
+.classes { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 2); margin: calc(var(--u) * 6) 0 0; padding: 0; list-style: none; }
+.classes li {
+  padding: calc(var(--u) * .5) calc(var(--u) * 1);
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--ink);
+  /* cream chip — keeps the soft pack edge. A deep stroke here fenced the
+     labels in without making the page any less washed out. */
+  border: 14px solid transparent;
+  border-image: var(--sp-bar-2) 52 fill / 14px / 0 stretch;
+}
+
+.hero__bio { max-width: 54ch; margin: calc(var(--u) * 6) 0 0; color: var(--ink); font-size: 1.02rem; }
+
+.hero__cta { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 4); margin: calc(var(--u) * 7) 0 0; padding: 0; list-style: none; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 2);
+  padding: calc(var(--u) * .5) calc(var(--u) * 3);
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 1rem + .4vw, 1.4rem);
+  letter-spacing: .06em;
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform .12s ease, filter .12s ease;
+}
+/* ⚠️ NO brightness() here, deliberately. The pill sprite is 362x160 sliced at
+   70, so it renders undistorted only at ~59px tall for a 26px border — but the
+   button is 94px (the arrow icon is 39px, taller than the 30px text line), so
+   the 20px middle band is stretched 2.13x while the 70px bevel is compressed
+   into 26px. That mismatch leaves a faint seam where the stretched middle meets
+   the bevel. brightness(1.06) lifted the pink face without lifting the dark
+   bevel as much, which raised the contrast across that seam and made it read as
+   a hard line on hover. The lift alone is the hover cue. */
+.btn:hover  { transform: translateY(calc(var(--u) * -.5)); }
+.btn:active { transform: translateY(0); }
+.btn[aria-disabled="true"] { filter: grayscale(.5) brightness(.95); cursor: not-allowed; }
+
+.hero__portrait { justify-self: center; }
+.hero__portrait img { width: clamp(190px, 44vw, 310px); aspect-ratio: 1; object-fit: cover; border-radius: 14px; }
+
+.rail { display: flex; gap: calc(var(--u) * 3); margin: calc(var(--u) * 7) 0 0; padding: 0; list-style: none; }
+.rail a {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 13);
+  height: calc(var(--u) * 13);
+  font-family: var(--display);
+  font-size: 1rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.rail a:hover { filter: brightness(1.08); }
+
+.scroll-cue { position: relative; z-index: 2; margin: clamp(24px, 4vh, 40px) 0 0; font-family: var(--display); font-size: 1.05rem; letter-spacing: .1em; color: var(--ink); text-align: center; }
+.scroll-cue img { margin: 0 auto calc(var(--u) * 1); width: calc(var(--u) * 8); }
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-cue img { animation: bob 1.6s ease-in-out infinite; }
+}
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(calc(var(--u) * 1.5)); } }
+
+/* ============================================================
+   BANDS
+   ============================================================ */
+/* Bands are transparent so the page-level gradient shows through. They
+   used to carry their own near-white gradients, which is what reset the
+   colour to cream after the hero. */
+.band { padding: clamp(46px, 9vh, 84px) 0; background: transparent; }
+.band--blush, .band--cream, .band--lav, .band--tan { background: transparent; }
+
+.section-title { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem); letter-spacing: .08em; text-align: center; margin: 0 0 clamp(26px, 5vh, 46px); }
+
+/* ============================================================
+   HIGHLIGHTS
+   ============================================================ */
+.stories__head { display: flex; align-items: center; gap: calc(var(--u) * 3); margin-bottom: calc(var(--u) * 4); }
+.stories__head h2 { margin: 0; margin-right: auto; }
+
+.stories__bars { display: flex; gap: calc(var(--u) * .75); flex: 0 1 170px; }
+/* light pink track, cream fill — the old dark track was too heavy for
+   the pastel range */
+.stories__bar { flex: 1; height: calc(var(--u) * 1.5); background: var(--rose-pale); border-radius: 99px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(169,113,130,.28); }
+.stories__bar i { display: block; height: 100%; width: 0; background: var(--cream); }
+.stories__bar[data-active="1"] { background: var(--btn); }
+
+.chip {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 13);
+  height: calc(var(--u) * 13);
+  padding: 0;
+  border: 0;
+  background: var(--sp-round-2) center / 100% 100% no-repeat;
+}
+.chip:hover { filter: brightness(1.06); }
+
+/* The pack arrows are tall (48x103), so sizing them by width made them
+   overflow their circles. Constrain by height instead and let width
+   follow, which keeps all three controls optically the same size. */
+.chip img { height: calc(var(--u) * 5.5); width: auto; }
+.chip img.glyph { height: calc(var(--u) * 5); }
+
+/* overflow-x:auto also clips vertically, which was cutting the top off the
+   ring stroke, the raised active card and the heart badge. The top padding
+   gives all three room inside the scroll box. */
+.stories__track {
+  display: flex;
+  justify-content: safe center;
+  gap: calc(var(--u) * 3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* the ring stroke and the raised active card extend past the card box
+     on all four sides; overflow-x:auto clips every edge, so the track
+     needs room on each one — not just the top */
+  padding: calc(var(--u) * 5) calc(var(--u) * 3) calc(var(--u) * 2);
+}
+
+.story { position: relative; flex: 0 0 auto; width: clamp(146px, 35vw, 190px); scroll-snap-align: center; text-decoration: none; transition: transform .2s ease; }
+/* 3/4, not 9/16: every other thumbnail on the site is 3:4 (plates, hub posters),
+   so one export spec — 600x800 — now covers all of them. Changed 2026-08-13. */
+.story__ring img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 10px; }
+.story__ring { display: block; padding: calc(var(--u) * 2); border-radius: 18px; background: var(--cream); box-shadow: 0 0 0 calc(var(--u) * .75) var(--outline); }
+.story[data-active="1"] { transform: translateY(calc(var(--u) * -2)); }
+.story[data-active="1"] .story__ring { background: var(--btn); box-shadow: 0 0 0 calc(var(--u) * 1.25) var(--outline); }
+
+/* Must out-specify `.story__ring img` (0,1,1), which otherwise stretches
+   the heart to 100% width with the 9:16 ratio of the artwork behind it. */
+.story__ring img.story__fav {
+  position: absolute;
+  right: calc(var(--u) * -2);
+  top: calc(var(--u) * -2);
+  z-index: 2;
+  width: calc(var(--u) * 8);
+  aspect-ratio: auto;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.story[data-active="1"] .story__ring img.story__fav { opacity: 1; }
+
+.story__cap { display: block; margin-top: calc(var(--u) * 2); font-family: var(--display); font-size: .95rem; line-height: 1.2; color: var(--ink); }
+.story__lvl { display: block; font-family: var(--body); font-size: .65rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* ============================================================
+   RUN HISTORY
+   ============================================================ */
+.stats { display: flex; flex-wrap: wrap; justify-content: center; gap: calc(var(--u) * 3); margin: 0 0 clamp(30px, 6vh, 54px); padding: 0; list-style: none; }
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 2.5);
+  padding: calc(var(--u) * .5) calc(var(--u) * 2);
+}
+/* Jersey 15 is a pixel face with a heavy, closed aperture: at chip size its
+   6 and 8 are near-identical shapes, and "6 years" was being read as "8".
+   The stat values carry real information, so they use the body face at a
+   heavy weight instead — smoother, open, and unambiguous at a glance.
+   Display type is kept for the labels and headings around them, so the
+   section still reads as game UI. */
+.stat b {
+  font-family: var(--body);
+  font-weight: 800;
+  font-size: clamp(1.45rem, 1.2rem + .9vw, 1.9rem);
+  line-height: 1;
+  letter-spacing: -.005em;
+  color: var(--ink);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+/* label lifted off --ink-soft onto full ink and given a touch more size:
+   the number no longer needs the contrast gap to stay dominant, it has
+   weight and scale doing that instead */
+.stat span { font-size: .74rem; font-weight: 700; letter-spacing: .045em; text-transform: uppercase; color: var(--ink); max-width: 16ch; }
+
+.track { position: relative; display: grid; gap: calc(var(--u) * 7); grid-template-columns: minmax(0, 1fr); margin: 0 0 clamp(34px, 7vh, 60px); padding: 0; list-style: none; }
+
+.track::before {
+  content: "";
+  position: absolute; z-index: 0;
+  left: calc(var(--u) * 6); top: calc(var(--u) * 4); bottom: calc(var(--u) * 4);
+  width: calc(var(--u) * 1.5);
+  background: var(--rail);
+  border-radius: 99px;
+}
+
+@media (min-width: 820px) {
+  .track { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: calc(var(--u) * 3); }
+  .track::before {
+    left: 10%; right: 10%;
+    top: calc(var(--u) * 6); bottom: auto;
+    width: auto; height: calc(var(--u) * 1.5);
+  }
+}
+
+.checkpoint { position: relative; z-index: 1; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: calc(var(--u) * 3); }
+@media (min-width: 820px) { .checkpoint { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: calc(var(--u) * 2); } }
+
+/* The timeline keeps the pastel treatment. Deep navy pins on a navy rail
+   read as heavy hardware rather than a gentle progression — the accent
+   belongs on things you click, not on a passive history strip. */
+.checkpoint__pin {
+  display: grid; place-items: center;
+  width: calc(var(--u) * 12); height: calc(var(--u) * 12);
+  background: var(--sp-check) center / 100% 100% no-repeat;
+}
+.checkpoint--now .checkpoint__pin { background-image: var(--sp-round-2); }
+.checkpoint__pin img { width: calc(var(--u) * 5); }
+
+/* --display-num: pixel lettering, legible numerals. See the @font-face note. */
+.checkpoint__year { display: block; font-family: var(--display-num); font-size: 1.15rem; letter-spacing: .05em; color: var(--ink); }
+.checkpoint__role { display: block; font-size: .84rem; font-weight: 700; color: var(--ink); }
+.checkpoint__org  { display: block; font-size: .74rem; color: var(--ink-soft); }
+
+.loadout__head { margin: 0 0 calc(var(--u) * 4); font-family: var(--display); font-size: clamp(1.2rem, 1rem + .8vw, 1.6rem); letter-spacing: .12em; text-align: center; color: var(--ink); }
+
+.loadout { display: grid; gap: calc(var(--u) * 4); grid-template-columns: minmax(0, 1fr); margin: 0; }
+@media (min-width: 640px) { .loadout { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 960px) { .loadout { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.loadout__group { min-width: 0; }
+.loadout__label { margin: 0 0 calc(var(--u) * 2); font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+
+.slots { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 2); margin: 0; padding: 0; list-style: none; }
+
+.slot {
+  padding: calc(var(--u) * .25) calc(var(--u) * 1.5);
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--cream);
+  text-align: center;
+}
+
+/* ============================================================
+   LEVEL SELECT
+   ============================================================ */
+.select__row { position: relative; display: grid; gap: calc(var(--u) * 8); grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; }
+
+.select__row::before {
+  content: "";
+  position: absolute; z-index: 0;
+  left: calc(var(--u) * 10); top: calc(var(--u) * 4); bottom: calc(var(--u) * 4);
+  width: calc(var(--u) * 1.5);
+  background: var(--outline);
+  border-radius: 99px;
+}
+
+@media (min-width: 900px) {
+  .select__row { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: calc(var(--u) * 4); }
+  .select__row::before { left: 12.5%; right: 12.5%; top: calc(var(--u) * 13); bottom: auto; width: auto; height: calc(var(--u) * 1.5); }
+}
+
+.lvl {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: calc(var(--u) * 4);
+  padding: calc(var(--u) * .5) calc(var(--u) * 2);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform .12s ease;
+}
+/* route nodes get their own sprite so the level TITLE panels further down
+   the page keep the darker treatment */
+.lvl { border-image-source: var(--sp-panel-node); }
+.lvl:hover { transform: translateY(calc(var(--u) * -1)); }
+@media (min-width: 900px) { .lvl { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: calc(var(--u) * 2); } }
+
+.lvl__num {
+  display: grid; place-items: center;
+  width: calc(var(--u) * 14); height: calc(var(--u) * 14);
+  font-family: var(--display);
+  font-size: 1.55rem;
+  color: var(--ink);
+  /* The Cozy round sprite isn't a perfect circle — it has a small tab and
+     soft corners, so the card's border-image was showing through at the
+     top-right where the two overlap. A solid cream fill plugs the gap,
+     border-radius clips the sprite to a true circle, and the stacking
+     context lifts the disc cleanly above the card frame. */
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--cream);
+  background-image: var(--sp-round);
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 0 calc(var(--u) * .5) var(--outline);
+  border-radius: 50%;
+}
+
+/* The route is chronological, so the strongest work sits third and fifth
+   rather than first. Size and colour carry the emphasis instead of
+   position: the two major nodes get a rose panel and a larger footprint,
+   so the eye lands on them before it reads the order. */
+.lvl--major {
+  border-image-source: var(--sp-panel-major);
+}
+.lvl--major .lvl__num {
+  width: calc(var(--u) * 17); height: calc(var(--u) * 17);
+  font-size: 1.9rem;
+  box-shadow: 0 0 0 calc(var(--u) * .5) var(--outline);
+}
+/* the featured nodes keep the pale rose panel, so their type stays dark —
+   the white rule above is for the deep navy panels only */
+.lvl--major, .lvl--major .lvl__label { color: var(--ink); }
+.lvl--major .lvl__count { color: var(--ink-soft); }
+.lvl--major .lvl__label { font-size: clamp(1.3rem, 1rem + .7vw, 1.6rem); }
+
+@media (min-width: 900px) {
+  .lvl--major { padding: calc(var(--u) * 7) calc(var(--u) * 3); }
+}
+
+.lvl__tag {
+  display: inline-block;
+  margin-top: calc(var(--u) * 1.5);
+  padding: calc(var(--u) * .5) calc(var(--u) * 1.75);
+  font-family: var(--body);
+  font-size: .6rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--btn);
+  border-radius: 99px;
+}
+
+/* route nodes sit on the dark panel now */
+.lvl { color: #fff; }
+.lvl__label { font-family: var(--display); font-size: clamp(1.2rem, 1rem + .5vw, 1.45rem); line-height: 1.15; letter-spacing: .03em; color: #fff; }
+.lvl__count { display: block; font-family: var(--body); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #c9bfe4; margin-top: calc(var(--u) * .5); }
+
+/* ============================================================
+   LEVEL SECTIONS
+   ============================================================ */
+/* Modest offset only. The bar is no longer sticky past the hero, so an
+   anchor jump into any later section can't land underneath it. */
+.level, .band, [id] { scroll-margin-top: calc(var(--u) * 4); }
+.level { padding: clamp(46px, 9vh, 84px) 0; }
+/* transparent — the page gradient carries the colour through */
+.level--1, .level--2, .level--3, .level--4, .level--5 { background: transparent; }
+
+.level__head { text-align: center; margin-bottom: clamp(26px, 5vh, 46px); }
+
+.level__badge {
+  display: table;             /* block-level but shrink-to-fit, so it
+                                 sits on its own line above the title */
+  margin: 0 auto calc(var(--u) * 4);
+  padding: calc(var(--u) * .25) calc(var(--u) * 3);
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 1rem + .4vw, 1.35rem);
+  letter-spacing: .14em;
+  color: var(--cream);
+}
+.level__badge-wrap { display: block; }
+
+.level__panel { display: inline-block; padding: calc(var(--u) * 1) clamp(12px, 4vw, 34px); }
+/* the panel is #2E1B5A now, so the title has to invert — white on it
+   measures 14.8:1 */
+.level__title {
+  font-size: clamp(1.7rem, 1.2rem + 2.4vw, 2.8rem);
+  line-height: 1;
+  margin: 0;
+  color: #fff;
+  text-shadow: none;
+}
+.level__blurb { max-width: 58ch; margin: calc(var(--u) * 5) auto 0; color: var(--ink-soft); font-size: .96rem; }
+
+/* Linked level title (Levels 1–4). The whole title panel opens the project
+   page at its top — the "see everything on one page" entry point — while the
+   cards below deep-link to individual sections. Level 5 (Personal Projects)
+   is six separate pages, so its title is left as a plain heading.
+   The arrow lives INSIDE .level__title so it inherits the title's own
+   per-theme colour (pale on the dark panel, white on the light one); giving
+   it its own colour would be a second theme decision and the failure mode
+   is pale-on-pale. Body font so the glyph is guaranteed to exist. */
+.level__panel--link {
+  display: inline-block;
+  text-decoration: none;
+  transition: transform .12s ease, filter .12s ease;
+}
+.level__panel--link:hover { transform: translateY(calc(var(--u) * -1)); filter: brightness(1.04); }
+.level__go {
+  font-family: var(--body);
+  font-weight: 800;
+  margin-left: .35em;
+  display: inline-block;
+  transition: transform .12s ease;
+}
+.level__panel--link:hover .level__go { transform: translateX(.18em); }
+
+/* "safe center" centres the posters while a row is narrower than its
+   container, but falls back to flex-start the moment it overflows, so the
+   first card can never be scrolled off the left edge. Browsers that don't
+   know the keyword drop the declaration and get flex-start — the old
+   behaviour, not a broken one. */
+.row {
+  display: flex;
+  justify-content: safe center;
+  gap: calc(var(--u) * 4);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  /* overflow-x:auto clips vertically as well as horizontally, so the
+     hover lift and the card frame's outer stroke were being sliced off
+     the top and the left of the first card. Pad all four sides. */
+  padding: calc(var(--u) * 4) calc(var(--u) * 3) calc(var(--u) * 3);
+}
+
+.poster { flex: 0 0 auto; width: clamp(158px, 44vw, 206px); scroll-snap-align: start; text-decoration: none; color: var(--ink); transition: transform .14s ease; }
+
+/* a level holding a single project gets a larger card, so a one-item row
+   reads as a headline act rather than a sparse grid */
+.poster--feature { width: clamp(210px, 62vw, 320px); }
+.poster--feature .poster__title { font-size: 1.3rem; }
+.poster:hover { transform: translateY(calc(var(--u) * -1.25)); }
+.poster[hidden] { display: none; }
+
+/* the card sprite's own tan header carries the level number */
+.poster__art { position: relative; display: block; }
+.poster__art img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 6px; }
+
+/* --display-num: carries counts ("6 projects", "11 sections"). */
+.poster__no {
+  position: absolute;
+  left: 50%; top: calc(var(--u) * -11);
+  transform: translateX(-50%);
+  font-family: var(--display-num);
+  font-size: 1rem;
+  letter-spacing: .06em;
+  color: var(--cream);
+  white-space: nowrap;
+}
+
+.poster__title { display: block; margin-top: calc(var(--u) * 2); font-family: var(--display); font-size: 1.05rem; line-height: 1.15; }
+.poster__sub { display: block; font-size: .68rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); margin-top: calc(var(--u) * .5); }
+
+.row__empty { padding: calc(var(--u) * 4); font-size: .9rem; color: var(--ink-soft); }
+
+/* ---- LEVEL HERO ---------------------------------------------------------
+   One large 16:9 panel per level, which REPLACED the old row of category
+   cards on the index (2026-08-07). The categories themselves are unchanged —
+   they just live on the project pages now, reachable from the toc there.
+   The whole panel is the link, and it points at the same place as the level
+   title above it. The card sprite's own header band carries the section
+   count, which is the one piece of information the removed cards used to
+   convey. .row / .poster are still used by the Individual Projects hub page,
+   so neither rule was deleted. */
+.level__hero {
+  display: block;
+  margin-top: calc(var(--u) * 5);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform .14s ease;
+}
+.level__hero:hover { transform: translateY(calc(var(--u) * -1.25)); }
+.level__hero__art { position: relative; display: block; }
+/* 16:9 is enforced here, so a replacement image of any size still lands
+   correctly - but object-fit:cover means anything NOT 16:9 gets centre
+   cropped. Export replacements at 2400x1350. */
+.level__hero__art img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 6px;
+}
+/* AI-generated disclosure, bottom-left inside each level panel image.
+   Deliberately theme-neutral, same reasoning as the lightbox: it sits on
+   artwork rather than on a theme surface, so it carries its own dark plate
+   instead of reading a palette token — that keeps it legible in both themes
+   and over any panel art. Worst case measured: white on this plate over
+   pure-white artwork is 11.1:1, so it passes AAA even at its smallest.
+   Body font, NOT Jersey 15 — this is a disclosure and has to stay readable
+   at small size, which the pixel face is not (the 6/8 problem in section 4).
+   .level__hero__art is the positioned ancestor and carries the ui-card
+   border, so an absolute child anchors to the padding box, which is exactly
+   the image box — bottom/left land on the artwork, not on the sprite frame.
+   No pointer-events override needed: the whole panel is one <a>, so a click
+   on the label navigates like a click anywhere else on it. */
+.level__hero__ai {
+  position: absolute;
+  left: calc(var(--u) * 2.5);
+  bottom: calc(var(--u) * 2.5);
+  z-index: 2;
+  padding: var(--u) calc(var(--u) * 2);
+  border-radius: 4px;
+  background-color: rgba(18, 12, 46, .82);
+  color: #fff;
+  font-family: var(--body);
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.level__hero__cta {
+  display: block;
+  margin-top: calc(var(--u) * 2.5);
+  font-family: var(--display);
+  font-size: 1.05rem;
+  letter-spacing: .05em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .level__hero { transition: none; }
+  .level__hero:hover { transform: none; }
+}
+
+/* Divider strip. The sprite is transparent around the bar shape, and the
+   element previously had no background-colour of its own — so the gaps
+   showed the body's near-white cream through, which read like a JPEG
+   pasted onto white. Each divider now carries --dv: the colour the
+   section above ends on, which is also the colour the section below
+   starts with, so the strip sits on continuous ground. */
+.divider {
+  height: calc(var(--u) * 10);
+  /* transparent now: the gaps in the strip sprite show the page gradient
+     through, which is exactly right. The --dv per-divider colours existed
+     only to patch the old flat cream and are no longer referenced. */
+  background-color: transparent;
+  background-image: var(--sp-hotbar);
+  background-repeat: repeat-x;
+  background-position: left center;
+  background-size: auto 100%;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+/* blue returns at the foot, closing the run the top bar opened */
+.foot {
+  padding: clamp(40px, 8vh, 72px) 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: .9rem;
+  text-align: center;
+}
+.foot a { color: var(--ink); display: inline-block; padding: calc(var(--u) * 1.5) calc(var(--u) * 2); }
+.foot__credits { margin-top: calc(var(--u) * 3); font-size: .76rem; color: var(--ink-soft); }
+
+
+/* ============================================================
+   PROJECT PAGES  (work/<slug>/)
+   ============================================================ */
+/* One page per project; every feature area is an anchor, so a card on
+   the index lands on the thing it names rather than the page top.
+   The hero reuses the index hero's gradient and ground strip verbatim —
+   these pages are only ever entered from the index, and a different sky
+   at the top read as a different site. */
+.proj-hero { padding: clamp(26px, 5vh, 52px) 0 clamp(58px, 9vh, 100px); }
+
+/* breadcrumb back to the level the project belongs to */
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 1.5);
+  margin: 0 0 calc(var(--u) * 4);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+}
+.crumb img { height: calc(var(--u) * 4); width: auto; }
+.crumb:hover { text-decoration: underline; }
+
+.proj-hero__grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: clamp(26px, 5vw, 52px);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+@media (min-width: 900px) { .proj-hero__grid { grid-template-columns: 1.15fr .85fr; } }
+/* single-section projects carry their one plate in the section below, so
+   the hero runs full width rather than reserving an empty media column */
+.proj-hero--solo .proj-hero__grid { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .proj-hero--solo .proj-hero__grid { grid-template-columns: minmax(0, 1fr); } }
+
+.proj-title { font-size: clamp(2rem, 1.3rem + 3.4vw, 3.4rem); line-height: 1; margin: 0; color: #fff; text-shadow: none; }
+.proj-hero .level__panel { margin-bottom: calc(var(--u) * 5); }
+/* `.level__badge` is display:table + margin:0 auto, which is right on the
+   index where it sits inside a centred .level__head. A project hero column
+   is left-aligned, so the auto margin floated the badge into the middle of
+   the column and it read as pinned to the top-right of the title. */
+.proj-hero .level__badge { margin-inline: 0; }
+
+.proj-lede { max-width: 56ch; margin: 0; color: var(--ink); font-size: 1.06rem; line-height: 1.65; }
+
+/* The missing middle. A 47px display name sat directly on top of 16px body
+   text — a ~3x drop with nothing between it, so the name shouted and the
+   prose underneath read as filler. This tier carries the one-line version
+   of the pitch at display weight and gives the eye somewhere to land. */
+.tagline {
+  max-width: 30ch;
+  margin: calc(var(--u) * 5) 0 calc(var(--u) * 4);
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.85rem);
+  line-height: 1.2;
+  letter-spacing: .02em;
+  color: var(--ink);
+}
+/* pink rule above it, tying the block to the primary accent without
+   putting a pink field next to the blue hero */
+.tagline::before {
+  content: "";
+  display: block;
+  width: calc(var(--u) * 14);
+  height: calc(var(--u) * 1.25);
+  margin-bottom: calc(var(--u) * 3);
+  background: var(--btn);
+  border-radius: 99px;
+}
+
+/* Role / year / tools. A dl rather than a table — it is label-and-value
+   pairs, not tabular data, and it collapses to one column on phones. */
+/* Framed rather than bare label/value pairs. As plain text at 10px and 14px
+   they read as a caption block and carried none of the weight the numbers
+   in Run History do; the pack's cream bar gives them the same presence
+   without introducing another colour. */
+.meta {
+  display: grid;
+  gap: calc(var(--u) * 2);
+  grid-template-columns: minmax(0, 1fr);
+  margin: calc(var(--u) * 7) 0 0;
+}
+@media (min-width: 560px) { .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.meta > div {
+  min-width: 0;
+  padding: calc(var(--u) * 1) calc(var(--u) * 2.5);
+  border: 14px solid transparent;
+  border-image: var(--sp-bar-2) 52 fill / 14px / 0 stretch;
+}
+
+.meta__k { margin: 0 0 calc(var(--u) * .5); font-size: .64rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-soft); }
+.meta__v { margin: 0; font-size: .95rem; font-weight: 700; line-height: 1.3; color: var(--ink); }
+
+/* ---------- peach variant --------------------------------------- */
+/* The one warm colour on the site. It is the background cloud peach
+   (#F2B79C) taken to full saturation — HSL(19, 77%, 78%) → HSL(19, 100%,
+   70%) = #FF9666 — so it belongs to the palette rather than arriving from
+   nowhere, but it actually holds the eye where the washed-out original
+   would not.
+   `bar-peach.png` was ramped from `ui/bar-cream.png` against that sprite's
+   own measured bands (0.37 outline, 0.99 fill — NOT the 0.65 the panel
+   sprites use), then verified by sampling the output.
+   Both label and value go to #2E1B5A on this fill: 6.9:1. The usual
+   --ink-soft label would have been 3.0:1 and failed AA at this size. */
+.meta--peach > div { border-image-source: var(--sp-bar-peach); }
+.meta--peach .meta__k,
+.meta--peach .meta__v { color: var(--outline); }
+.meta--peach .meta__k { opacity: .78; }
+
+/* ---------- section jump list ---------------------------------- */
+.toc { padding: clamp(24px, 4vh, 40px) 0 0; }
+.toc__head { margin: 0 0 calc(var(--u) * 3); font-family: var(--display); font-size: 1.15rem; letter-spacing: .12em; text-align: center; color: var(--ink); }
+.toc__list { display: flex; flex-wrap: wrap; justify-content: center; gap: calc(var(--u) * 2); margin: 0; padding: 0; list-style: none; }
+
+.toc__link {
+  display: inline-block;
+  padding: calc(var(--u) * .25) calc(var(--u) * 1.5);
+  font-size: .74rem;
+  font-weight: 600;
+  color: var(--cream);
+  text-decoration: none;
+  transition: transform .12s ease, filter .12s ease;
+}
+.toc__link:hover { transform: translateY(calc(var(--u) * -.5)); filter: brightness(1.1); }
+
+/* ---------- personal-projects hub: all six on one screen ----------
+   Level 5 is six separate projects, so its "open the whole thing" page is
+   a card grid rather than a stack of sections. Reuses the index .poster
+   card; only the layout differs — a wrapping 2/3-up grid instead of the
+   index's horizontal scroll row, so every project is visible at once. */
+.proj-grid {
+  display: grid;
+  gap: clamp(20px, 3vw, 34px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: clamp(26px, 4vh, 44px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 760px) { .proj-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.proj-grid > li { min-width: 0; }
+.proj-grid .poster { width: 100%; }
+
+/* ---------- one feature area ----------------------------------- */
+.proj-sec { padding: clamp(38px, 7vh, 68px) 0; }
+
+.proj-sec__grid {
+  display: grid;
+  gap: clamp(24px, 4vw, 48px);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+@media (min-width: 860px) {
+  .proj-sec__grid { grid-template-columns: minmax(0, 320px) minmax(0, 1fr); }
+  /* alternating sides is set per-section with an explicit class rather
+     than :nth-child — dividers sit between the sections and would throw
+     the count off.
+     The track order has to be mirrored as well as the visual order:
+     re-ordering alone moved the plate into the 1fr column and stretched
+     it to full width. */
+  .proj-sec--flip .proj-sec__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 320px); }
+  .proj-sec--flip .proj-sec__media { order: 2; }
+}
+
+.proj-sec__media { min-width: 0; }
+
+/* the card sprite's baked header carries the section number, same trick
+   as .poster__no on the index */
+.plate { position: relative; display: block; }
+.plate img { width: 100%; aspect-ratio: var(--plate-ratio, 3 / 4); object-fit: cover; border-radius: 6px; }
+/* --display-num: plate numbers are digits ("3–11"). */
+.plate__no {
+  position: absolute;
+  left: 50%; top: calc(var(--u) * -11);
+  transform: translateX(-50%);
+  font-family: var(--display-num);
+  font-size: 1rem;
+  letter-spacing: .06em;
+  color: var(--cream);
+  white-space: nowrap;
+}
+
+.proj-sec__body { min-width: 0; }
+.proj-sec__count { margin: 0 0 calc(var(--u) * 2); font-size: .66rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-soft); }
+.proj-sec__title { margin: 0 0 calc(var(--u) * 3); font-family: var(--display); font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); line-height: 1.05; letter-spacing: .03em; color: var(--ink); }
+.proj-sec__text { max-width: 56ch; margin: 0; color: var(--ink); font-size: .98rem; }
+
+.tags { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 2); margin: calc(var(--u) * 4) 0 0; padding: 0; list-style: none; }
+.tags li {
+  padding: calc(var(--u) * .25) calc(var(--u) * 1.25);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--ink);
+  border: 14px solid transparent;
+  border-image: var(--sp-bar-2) 52 fill / 14px / 0 stretch;
+}
+
+/* ---------- role note ------------------------------------------ */
+/* Verbatim from the CV. Kept visually distinct from the section copy so
+   it reads as a statement of the role rather than a caption. */
+.note { padding: clamp(30px, 5vh, 52px) 0; }
+.note__inner { max-width: 62ch; margin-inline: auto; padding: clamp(18px, 3vw, 30px) clamp(16px, 4vw, 34px); }
+.note__head { margin: 0 0 calc(var(--u) * 3); font-family: var(--display); font-size: 1.3rem; letter-spacing: .1em; color: #fff; }
+.note__list { margin: 0; padding-left: 1.1em; color: #efe8fb; font-size: .92rem; }
+.note__list li + li { margin-top: calc(var(--u) * 2); }
+
+/* copy-email confirmation. Lives in the flow rather than as a floating
+   toast so it can't cover anything, and is empty until something happens
+   — an aria-live region that starts with text announces it on page load. */
+.rail__note {
+  min-height: 1.2em;
+  margin: calc(var(--u) * 2) 0 0;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--ink);
+}
+
+/* plain prose block, used by the colophon */
+.prose { max-width: 60ch; margin-inline: auto; color: var(--ink); }
+.prose h3 { margin: 0 0 calc(var(--u) * 2); font-family: var(--display); font-size: 1.25rem; letter-spacing: .08em; }
+.prose p { margin: 0 0 calc(var(--u) * 3); }
+.prose p:last-child { margin-bottom: 0; }
+.prose a { color: var(--ink); }
+
+/* ---------- prev / next ---------------------------------------- */
+.pager { padding: clamp(30px, 5vh, 56px) 0 clamp(10px, 2vh, 20px); }
+.pager__list {
+  display: grid;
+  gap: calc(var(--u) * 4);
+  grid-template-columns: minmax(0, 1fr);
+  margin: 0; padding: 0;
+  list-style: none;
+}
+@media (min-width: 700px) { .pager__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.pager__link {
+  display: block;
+  padding: calc(var(--u) * 1) calc(var(--u) * 3);
+  text-decoration: none;
+  transition: transform .12s ease;
+}
+.pager__link:hover { transform: translateY(calc(var(--u) * -1)); }
+.pager__dir { display: block; font-size: .64rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: #c9bfe4; }
+.pager__name { display: block; font-family: var(--display); font-size: 1.25rem; line-height: 1.15; color: #fff; }
+.pager__link--next { text-align: right; }
+
+
+/* ============================================================
+   BOXED SHEET + PARALLAX SKY   (the dark theme's page frame)
+   ============================================================
+   The page is a tall sheet sitting on a sky. Left and right edges stay
+   on screen the whole way down; the top edge rolls off as you scroll and
+   the bottom arrives only at the end. Normal page scroll — the sheet is
+   in flow, not a fixed viewport box. */
+
+:root {
+  --frame-x: clamp(16px, 6vw, 104px);
+  --frame-y: clamp(14px, 3.4vw, 56px);
+  --sheet-radius: 18px;
+  --parallax: .28;
+}
+@media (max-width: 700px) { :root { --sheet-radius: 12px; } }
+
+html { scrollbar-gutter: stable; }   /* keeps the left/right frame equal */
+
+/* frame as body padding, NOT a margin on the sheet — a margin collapses
+   against the body and leaves the bottom edge sitting past the fold */
+body {
+  padding: var(--frame-y) var(--frame-x);
+  background-image: none;
+  /* follows the theme: with reduced motion the .sky layer is collapsed to
+     zero height, and this is the colour left showing in the frame */
+  background-color: var(--sky-1);
+}
+
+/* Three independent layers rather than one baked image, so a page can
+   swap the motif and the hue without redrawing the star field:
+     --sky-motif   the large repeating shape (clouds by default)
+     --sky-specks  dots and sparkles, the same on every page
+     --sky-1/-2    the gradient underneath
+   The tile sizes are what the old single `cover` image resolved to at a
+   desktop width, so the default sky is unchanged — except that it now
+   repeats down a long page instead of being cropped. */
+:root {
+  --sky-1: #5f4fa6;
+  --sky-2: #5a4c9e;
+  --sky-motif-size: 1440px;
+
+  --sky-specks: url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" shape-rendering="crispEdges">\
+<g fill="%23f7f3d8">\
+<rect x="96" y="60" width="8" height="8"/><rect x="300" y="34" width="8" height="8"/>\
+<rect x="540" y="96" width="8" height="8"/><rect x="640" y="180" width="8" height="8"/>\
+<rect x="180" y="220" width="8" height="8"/><rect x="420" y="150" width="8" height="8"/>\
+<rect x="248" y="392" width="8" height="8"/><rect x="356" y="430" width="8" height="8"/>\
+<rect x="470" y="360" width="8" height="8"/><rect x="120" y="470" width="8" height="8"/>\
+<rect x="600" y="452" width="8" height="8"/><rect x="60" y="620" width="8" height="8"/>\
+<rect x="660" y="700" width="8" height="8"/><rect x="360" y="900" width="8" height="8"/>\
+<rect x="120" y="1140" width="8" height="8"/><rect x="580" y="1180" width="8" height="8"/>\
+<rect x="210" y="1052" width="8" height="8"/><rect x="500" y="990" width="8" height="8"/>\
+</g>\
+<g fill="%23fbf7e2">\
+<g transform="translate(352 300)"><rect x="14" y="0" width="8" height="44"/><rect x="0" y="18" width="36" height="8"/><rect x="8" y="10" width="20" height="24"/></g>\
+<g transform="translate(690 484)"><rect x="14" y="0" width="8" height="44"/><rect x="0" y="18" width="36" height="8"/><rect x="8" y="10" width="20" height="24"/></g>\
+<g transform="translate(4 912)"><rect x="14" y="0" width="8" height="44"/><rect x="0" y="18" width="36" height="8"/><rect x="8" y="10" width="20" height="24"/></g>\
+<g transform="translate(214 1112)"><rect x="10" y="0" width="6" height="32"/><rect x="0" y="13" width="26" height="6"/><rect x="6" y="7" width="14" height="18"/></g>\
+</g></svg>');
+
+  --sky-motif: url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" shape-rendering="crispEdges">\
+<g transform="translate(-20 80) scale(1.15)">\
+<g fill="%23b3a5e0"><rect x="70" y="0" width="110" height="18"/><rect x="40" y="18" width="170" height="18"/></g>\
+<g fill="%239d8fd4"><rect x="12" y="36" width="230" height="20"/><rect x="0" y="56" width="256" height="20"/></g>\
+<g fill="%238a7cc4"><rect x="20" y="76" width="220" height="16"/></g></g>\
+<g transform="translate(380 620) scale(1.3)">\
+<g fill="%23b3a5e0"><rect x="64" y="0" width="100" height="18"/><rect x="36" y="18" width="156" height="18"/></g>\
+<g fill="%239d8fd4"><rect x="10" y="36" width="212" height="20"/><rect x="0" y="56" width="236" height="20"/></g>\
+<g fill="%238a7cc4"><rect x="18" y="76" width="202" height="16"/></g></g>\
+<g transform="translate(-10 700) scale(1.5)">\
+<g fill="%23b3a5e0"><rect x="76" y="0" width="118" height="18"/><rect x="44" y="18" width="182" height="18"/></g>\
+<g fill="%239d8fd4"><rect x="14" y="36" width="246" height="20"/><rect x="0" y="56" width="274" height="20"/></g>\
+<g fill="%238a7cc4"><rect x="22" y="76" width="236" height="16"/></g></g>\
+<g transform="translate(300 1060) scale(1.35)">\
+<g fill="%23b3a5e0"><rect x="70" y="0" width="106" height="18"/><rect x="40" y="18" width="166" height="18"/></g>\
+<g fill="%239d8fd4"><rect x="12" y="36" width="224" height="20"/><rect x="0" y="56" width="250" height="20"/></g>\
+<g fill="%238a7cc4"><rect x="20" y="76" width="214" height="16"/></g></g>\
+</svg>');
+}
+
+.sky {
+  position: fixed; top: 0; left: 0; width: 100%;
+  z-index: -1; pointer-events: none; will-change: transform;
+  background:
+    var(--sky-motif)  repeat left top / var(--sky-motif-size) auto,
+    var(--sky-specks) repeat left top / 1440px auto,
+    linear-gradient(180deg, var(--sky-1), var(--sky-2));
+}
+@media (prefers-reduced-motion: reduce) { .sky { transform: none !important; } }
+
+.sheet {
+  position: relative;
+  min-height: calc(100vh - var(--frame-y) * 2);
+  border-radius: var(--sheet-radius);
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--sheet-1) 0%, var(--sheet-2) 30%, var(--sheet-3) 62%, var(--sheet-4) 100%);
+  box-shadow:
+    0 0 0 3px var(--bezel),
+    0 0 0 7px var(--bezel-out),
+    0 18px 0 0 rgba(9,7,40,.45),
+    0 26px 60px rgba(9,7,40,.55);
+}
+/* the bar is part of the paper, not pinned to the glass */
+.sheet .topbar { position: static; border-radius: 0; box-shadow: none; }
+
+/* the hero's own sky belongs to the light theme; on dark the sheet carries it */
+/* Only the hero's own sky gradient belongs to the light theme — the sheet
+   carries the colour on dark. The ground strip (::after) STAYS: it is the
+   pink hotbar that closes the hero, and it already themes via --sp-hotbar. */
+.hero { background: none; }
+
+/* ---- text sitting ON a pastel sprite has to invert ---- */
+.classes li, .lvl, .lvl__label, .lvl--major, .lvl--major .lvl__label,
+.btn.ui-pill-cream, .rail a, .stat b, .stat span,
+.quest__role, .pager__name, .meta__k, .meta__v, .tags li,
+.checkpoint__year, .checkpoint__role { color: var(--on-panel); }
+
+/* Slots are the exception: the slot sprite is an INSET, not a chip — its
+   interior is #2E1B5A with a #B999FA rim, so it is dark in both themes
+   (ui6's is #5A3E86, which is why the light theme puts cream on it).
+   --on-panel here meant dark text on a dark well, i.e. invisible. */
+.slot, .toc__link { color: var(--pastel); }
+.checkpoint__year, .checkpoint__role, .checkpoint__org { color: var(--ink); }
+.checkpoint__org { color: var(--ink-soft); }
+.lvl__num { background-color: var(--pastel); color: var(--on-panel); }
+.lvl__count { color: #5a4a86; }
+.lvl--major .lvl__count { color: #7a4f78; }
+.level__title, .proj-title { color: var(--on-panel); text-shadow: none; }
+.level__badge { color: #fff; }
+.pager__dir { color: #6a5a9c; }
+.hero__name.arcade { color: var(--pink); text-shadow: 4px 4px 0 #7b3fa8, 0 8px 0 rgba(9,7,40,.35); }
+.section-title.arcade, .toc__head.arcade, .loadout__head { color: var(--pink); text-shadow: 3px 3px 0 rgba(9,7,40,.45); }
+.hero__portrait img { box-shadow: 0 0 0 calc(var(--u) * 1.25) var(--outline), 0 0 0 calc(var(--u) * 2.5) var(--lilac); }
+.brand__mark { background-color: var(--pastel); color: var(--on-panel); }
+.note__inner { border-image-source: var(--sp-panel); }
+.note__head, .note__list { color: var(--on-panel); }
+.plate__no, .poster__no { color: var(--pastel); }
+.proj-lede, .proj-sec__text, .hero__bio, .level__blurb, .prose, .prose p { color: var(--ink); }
+.foot, .foot a { color: var(--ink-soft); }
+.crumb { color: var(--ink); }
+
+/* ============================================================
+   LIGHT THEME — puts the original page back, unchanged
+   ============================================================ */
+:root[data-theme="light"] body { padding: 0; background-color: transparent; background-image: var(--page-gradient); }
+:root[data-theme="light"] .sky { display: none; }
+:root[data-theme="light"] .sheet {
+  min-height: 0; border-radius: 0; overflow: visible;
+  background: none; box-shadow: none;
+}
+:root[data-theme="light"] .sheet .topbar { position: sticky; box-shadow: 0 calc(var(--u) * 1.5) 0 0 rgba(106,147,162,.14); }
+:root[data-theme="light"] .hero { background: linear-gradient(180deg,#cfe0e8 0%,#b9c8dd 18%,#c6bedb 40%,#d6c8de 62%,#e8d5de 82%,#f7eff0 100%); }
+
+:root[data-theme="light"] .classes li, :root[data-theme="light"] .btn.ui-pill-cream,
+:root[data-theme="light"] .rail a, :root[data-theme="light"] .stat b,
+:root[data-theme="light"] .toc__link, :root[data-theme="light"] .tags li,
+:root[data-theme="light"] .meta__v, :root[data-theme="light"] .stat span,
+:root[data-theme="light"] .checkpoint__year, :root[data-theme="light"] .checkpoint__role { color: var(--ink); }
+:root[data-theme="light"] .toc__link { color: var(--cream); }
+:root[data-theme="light"] .meta__k, :root[data-theme="light"] .checkpoint__org { color: var(--ink-soft); }
+:root[data-theme="light"] .slot, :root[data-theme="light"] .lvl,
+:root[data-theme="light"] .lvl__label, :root[data-theme="light"] .quest__role,
+:root[data-theme="light"] .pager__name, :root[data-theme="light"] .level__title,
+:root[data-theme="light"] .proj-title, :root[data-theme="light"] .note__head,
+:root[data-theme="light"] .note__list { color: #fff; }
+:root[data-theme="light"] .lvl--major, :root[data-theme="light"] .lvl--major .lvl__label { color: var(--ink); }
+:root[data-theme="light"] .lvl__count { color: #c9bfe4; }
+:root[data-theme="light"] .lvl--major .lvl__count { color: var(--ink-soft); }
+:root[data-theme="light"] .lvl__num { background-color: var(--cream); color: var(--ink); }
+:root[data-theme="light"] .level__badge { color: var(--cream); }
+:root[data-theme="light"] .pager__dir { color: #c9bfe4; }
+:root[data-theme="light"] .hero__name.arcade { color: var(--cream); text-shadow: var(--u) var(--u) 0 var(--rose-deep), 0 calc(var(--u)*2) 0 rgba(126,119,153,.28); }
+:root[data-theme="light"] .section-title.arcade, :root[data-theme="light"] .toc__head.arcade,
+:root[data-theme="light"] .loadout__head { color: var(--ink); text-shadow: var(--u) var(--u) 0 var(--cream); }
+:root[data-theme="light"] .hero__portrait img { box-shadow: 0 0 0 calc(var(--u)*1.25) var(--outline), 0 0 0 calc(var(--u)*2.5) var(--cream); }
+:root[data-theme="light"] .brand__mark { background-color: var(--cream); color: var(--ink); }
+:root[data-theme="light"] .plate__no, :root[data-theme="light"] .poster__no { color: var(--cream); }
+:root[data-theme="light"] .proj-lede, :root[data-theme="light"] .proj-sec__text,
+:root[data-theme="light"] .hero__bio, :root[data-theme="light"] .crumb { color: var(--ink); }
+:root[data-theme="light"] .level__blurb, :root[data-theme="light"] .foot,
+:root[data-theme="light"] .foot a { color: var(--ink-soft); }
+
+
+
+/* ---- Loadout chips: filled pink instead of dark insets ----
+   The slot sprite could not do this. It is an inset, and its interior and
+   its outer edge occupy the SAME luminance band (0.37, ~14.5k px of the
+   137x148 image), so no ramp can split it into "pink fill + dark outline"
+   — recolouring the interior recolours the edge with it.
+   The bar sprite does have that structure, so the chips borrow its
+   geometry (18px border / 52 slice instead of 16 / 42) and use the peach
+   ramp that already existed. Dark text on #FEB3FC measures 9.2:1. */
+.slot.ui-slot {
+  border-width: 18px;
+  border-image: var(--sp-slot-fill) 52 fill / 18px / 0 stretch;
+  color: var(--on-panel);
+  /* drop-shadow, NOT box-shadow: box-shadow traces the border BOX, which
+     for a border-image element is a plain rectangle — it would draw a
+     hard-edged block behind a rounded chip. drop-shadow follows the
+     sprite's own alpha silhouette. */
+  filter: drop-shadow(0 calc(var(--u) * .75) 0 #896ec3);
+}
+/* light theme keeps the original dark inset with cream text */
+:root[data-theme="light"] .slot.ui-slot {
+  filter: none;
+  border-width: 16px;
+  border-image: var(--sp-slot) 42 fill / 16px / 0 stretch;
+  color: var(--cream);
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================
+   Two themes share this — it is layout, not colour. The one colour
+   reference is --bar-ink, which is already theme-scoped. */
+
+/* hamburger is desktop-hidden and only exists when JS can drive it;
+   app.js reveals it, so with JS off the full nav stays visible */
+.nav-toggle { display: none; }
+
+.nav-toggle span,
+.nav-toggle span::before,
+.nav-toggle span::after {
+  display: block;
+  width: calc(var(--u) * 6);
+  height: calc(var(--u) * .75);
+  background: var(--bar-ink);
+  border-radius: 99px;
+  transition: transform .18s ease, opacity .18s ease;
+}
+.nav-toggle span::before, .nav-toggle span::after { content: ""; position: absolute; left: 0; }
+.nav-toggle span::before { transform: translateY(calc(var(--u) * -2)); }
+.nav-toggle span::after  { transform: translateY(calc(var(--u) * 2)); }
+
+/* open state: top and bottom bars cross, middle disappears */
+.nav-toggle[aria-expanded="true"] span { background: transparent; }
+.nav-toggle[aria-expanded="true"] span::before { transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span::after  { transform: rotate(-45deg); }
+
+@media (max-width: 700px) {
+
+  /* ---- top bar: hamburger ---- */
+  .nav-toggle.is-ready {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: calc(var(--u) * 12);
+    height: calc(var(--u) * 12);
+    margin-left: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+  .nav-toggle.is-ready span { position: relative; }
+
+  .topbar__inner { padding: calc(var(--u) * 3) 0; row-gap: 0; }
+  .brand { margin-right: 0; }
+
+  /* the list is a block in the bar, not a floating overlay — nothing to
+     trap focus in, and it pushes the page down rather than covering it */
+  .nav-toggle.is-ready ~ nav { width: 100%; }
+  .nav-toggle.is-ready ~ nav .nav { display: none; flex-direction: column; gap: 0; }
+  .nav-toggle.is-ready ~ nav .nav[data-open="1"] { display: flex; padding-top: calc(var(--u) * 2); }
+  .nav-toggle.is-ready ~ nav .nav li { width: 100%; }
+  .nav-toggle.is-ready ~ nav .nav a { display: block; padding: calc(var(--u) * 2.5) calc(var(--u) * 2); }
+
+  /* ---- hero CTAs: one row, equal halves ---- */
+  .hero__cta { flex-wrap: nowrap; gap: calc(var(--u) * 2.5); }
+  .hero__cta li { flex: 1 1 0; min-width: 0; }
+  .hero__cta .btn {
+    width: 100%;
+    justify-content: center;
+    padding-inline: calc(var(--u) * 1.5);
+    font-size: 1.05rem;
+  }
+  /* the arrow glyphs cost width the labels need to stay on one line */
+  .hero__cta .btn .ico { display: none; }
+
+  /* ---- everything that was ragged becomes an even grid ---- */
+  .classes { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--u) * 2); }
+  .classes li { text-align: center; }
+
+  .stats { display: grid; grid-template-columns: 1fr; gap: calc(var(--u) * 2.5); }
+  .stat { width: 100%; }
+
+  /* Loadout slots deliberately left as natural-width flex chips — forcing
+     them onto a grid made them oversized for one-word labels like CSS. */
+
+  .meta { grid-template-columns: 1fr; }
+  .toc__list { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--u) * 2); }
+  /* The list is already an even 2-column grid, but the pills were sized by
+     their own text, so a long label and a short one read as two different
+     controls — "Old & New Character Design" measured 120x49 beside "Concept
+     Art" at 90x30. Filling the cell makes every pair match in width AND
+     height (the li stretches to the row, the link fills the li). */
+  .toc__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+  .pager__list { grid-template-columns: 1fr; }
+  .pager__link--next { text-align: left; }
+}
+
+/* below 360px (older/smaller phones) two columns stop being worth it */
+@media (max-width: 359px) {
+  .classes, .toc__list { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   LIGHTBOX / click-to-zoom
+   ============================================================
+   Site-wide: every piece of artwork opens full size. app.js section 8
+   picks the images by rule and builds the dialog, so nothing here is
+   per-page and no page markup changed.
+
+   ⚠️ THIS BLOCK MUST STAY ABOVE THE "PROJECT MOTIFS" MARKER.
+   tools/splice.js regenerates everything from that marker to end-of-file,
+   so anything written below it is destroyed the next time the motifs are
+   rebuilt (`node gen-motifs.js > motifs.css && node splice.js`).
+
+   Colours are deliberately theme-NEUTRAL. Eleven pages carry their own
+   palette; a lightbox tinted for one of them would clash on the other ten,
+   and the point of the overlay is to get the page out of the way. */
+.is-zoomable { cursor: zoom-in; }
+.is-zoomable:focus-visible {
+  outline: 3px solid var(--btn);
+  outline-offset: 3px;
+}
+
+.lbx { position: fixed; inset: 0; z-index: 999; }
+.lbx[hidden] { display: none; }
+.lbx__backdrop { position: absolute; inset: 0; background: rgba(10, 8, 16, .88); }
+.lbx__inner {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px; padding: 56px 64px;
+  pointer-events: none;                 /* clicks fall through to the backdrop */
+}
+/* the picture and the controls take their clicks back */
+.lbx__img, .lbx__btn, .lbx__cap { pointer-events: auto; }
+
+.lbx__img {
+  max-width: min(1400px, 92vw);
+  max-height: 82vh;
+  width: auto; height: auto;
+  object-fit: contain;
+  background: #fff;
+  border: 3px solid rgba(255, 255, 255, .9);
+  border-radius: 6px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .6);
+}
+.lbx__cap {
+  margin: 0; max-width: 74ch; text-align: center;
+  color: #f4f0fa; font-size: .95rem; line-height: 1.45;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .8);   /* legible over any image edge */
+}
+
+.lbx__btn {
+  position: absolute;
+  display: grid; place-items: center;
+  width: 46px; height: 46px; padding: 0;
+  font-family: var(--display); font-size: 1.7rem; line-height: 1;
+  color: #fff; background: rgba(24, 20, 34, .82);
+  border: 2px solid rgba(255, 255, 255, .55);
+  border-radius: 50%; cursor: pointer;
+}
+.lbx__btn:hover { background: rgba(48, 40, 66, .95); }
+.lbx__btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.lbx__btn[hidden] { display: none; }
+.lbx__close { top: 16px; right: 16px; }
+.lbx__prev { left: 14px; top: 50%; transform: translateY(-50%); }
+.lbx__next { right: 14px; top: 50%; transform: translateY(-50%); }
+
+/* stop the page behind the overlay from scrolling */
+.lbx-open, .lbx-open body { overflow: hidden; }
+
+@media (max-width: 700px) {
+  .lbx__inner { padding: 52px 12px 16px; }
+  .lbx__img { max-width: 96vw; max-height: 74vh; }
+  .lbx__btn { width: 40px; height: 40px; font-size: 1.45rem; }
+  .lbx__prev { left: 6px; }
+  .lbx__next { right: 6px; }
+}
+
+/* ============================================================
+   PROJECT MOTIFS
+   ============================================================
+   Each project page carries data-proj="<slug>" on <html>, which swaps
+   the generic clouds for a pixelart asset drawn from that project's own
+   subject, and retunes the sky behind the sheet to a matching hue.
+
+   One tile per project does both jobs: the in-sheet decoration layer
+   draws it at --decor-motif-size and the sky draws it smaller, so the
+   two layers never line up even though they share artwork. The shape is
+   defined once in <defs> and placed five times per tile at different
+   scales, which is what keeps a repeating background from reading as a
+   grid — the same trick the default cloud tile uses.
+
+   Rects are emitted in DECLARATION order (z-order), NOT sorted by tone,
+   so a lighter core can paint over a darker body. Generated from
+   scratchpad/gen-motifs.js; the three tints per project are one hue at
+   L70/60/50 and the sky is that hue at L42/35, so a project's colours
+   stay a single ramp — edit all four to retint.
+   ------------------------------------------------------------ */
+
+:root[data-proj="apocalyptic-game-ui"] {
+  --sky-1: #7e8551;  --sky-2: #696f44;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%23c1c69f"><rect x="56" y="12" width="14" height="26"/><rect x="76" y="26" width="20" height="12"/><rect x="44" y="38" width="70" height="20"/><rect x="146" y="84" width="38" height="14"/></g><g fill="%23acb47e"><rect x="38" y="58" width="84" height="70"/><rect x="140" y="98" width="52" height="58"/></g><g fill="%2398a15e"><rect x="32" y="128" width="96" height="46"/><rect x="134" y="156" width="64" height="20"/><rect x="6" y="160" width="20" height="14"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+
+:root[data-proj="art-character-art"] {
+  --sky-1: #8b4b60;  --sky-2: #743e50;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%23b34d6e"><rect x="40" y="40" width="120" height="20"/><rect x="20" y="60" width="160" height="24"/><rect x="12" y="84" width="176" height="28"/><rect x="20" y="112" width="160" height="24"/><rect x="44" y="136" width="112" height="20"/></g><g fill="%23c2708b"><rect x="152" y="100" width="44" height="28"/></g><g fill="%23d194a8"><rect x="40" y="64" width="28" height="28"/><rect x="84" y="54" width="28" height="28"/><rect x="128" y="66" width="28" height="28"/><rect x="56" y="108" width="28" height="28"/><rect x="104" y="104" width="28" height="28"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+
+:root[data-proj="beatbounds"] {
+  --sky-1: #428c94;  --sky-2: #37747b;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%2391cdd4"><rect x="0" y="96" width="20" height="80"/><rect x="28" y="50" width="20" height="126"/></g><g fill="%236cbdc6"><rect x="56" y="12" width="20" height="164"/><rect x="84" y="70" width="20" height="106"/><rect x="112" y="38" width="20" height="138"/></g><g fill="%2347acb8"><rect x="140" y="90" width="20" height="86"/><rect x="168" y="24" width="20" height="152"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+
+:root[data-proj="dragon-fest"] {
+  --sky-1: #98503e;  --sky-2: #7f4334;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%23c2583d"><rect x="36" y="140" width="88" height="36"/><rect x="24" y="102" width="112" height="38"/><rect x="36" y="68" width="88" height="34"/><rect x="48" y="36" width="64" height="32"/><rect x="66" y="12" width="28" height="24"/></g><g fill="%23ce7964"><rect x="50" y="120" width="60" height="40"/><rect x="58" y="86" width="44" height="34"/><rect x="70" y="54" width="28" height="32"/></g><g fill="%23da9b8b"><rect x="68" y="114" width="26" height="32"/><rect x="74" y="88" width="16" height="26"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+
+:root[data-proj="game-store-ui"] {
+  --sky-1: #455492;  --sky-2: #394679;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%238f9dd6"><rect x="44" y="30" width="12" height="32"/><rect x="56" y="16" width="44" height="14"/><rect x="100" y="30" width="12" height="32"/></g><g fill="%236a7dc8"><rect x="24" y="62" width="104" height="26"/></g><g fill="%23455cba"><rect x="30" y="88" width="92" height="86"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+
+:root[data-proj="hydro-grow-station"] {
+  --sky-1: #459266;  --sky-2: #397955;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%234db379"><rect x="76" y="72" width="14" height="88"/><rect x="46" y="160" width="76" height="18"/></g><g fill="%2370c294"><rect x="24" y="74" width="52" height="14"/><rect x="12" y="60" width="56" height="14"/><rect x="20" y="46" width="44" height="14"/><rect x="38" y="34" width="26" height="12"/></g><g fill="%2394d1ae"><rect x="90" y="54" width="52" height="14"/><rect x="98" y="40" width="56" height="14"/><rect x="112" y="26" width="44" height="14"/><rect x="130" y="14" width="26" height="12"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+
+:root[data-proj="parent-guidance-app"] {
+  --sky-1: #49748d;  --sky-2: #3d6176;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%2395bad0"><rect x="24" y="34" width="38" height="14"/><rect x="100" y="34" width="38" height="14"/><rect x="10" y="48" width="62" height="14"/><rect x="90" y="48" width="62" height="14"/></g><g fill="%2372a3c0"><rect x="10" y="62" width="152" height="26"/><rect x="24" y="88" width="124" height="20"/></g><g fill="%234f8cb0"><rect x="38" y="108" width="96" height="20"/><rect x="58" y="128" width="56" height="20"/><rect x="72" y="148" width="28" height="14"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+
+:root[data-proj="project-kryat"] {
+  --sky-1: #907247;  --sky-2: #785f3b;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%23b38a4d"><rect x="0" y="36" width="74" height="120"/></g><g fill="%23c2a170"><rect x="56" y="22" width="74" height="132"/></g><g fill="%23d1b994"><rect x="112" y="8" width="74" height="146"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+
+:root[data-proj="studio-work"] {
+  --sky-1: #8b4b78;  --sky-2: #743e64;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%23c072a9"><rect x="8" y="10" width="12" height="166"/></g><g fill="%23d095be"><rect x="22" y="22" width="26" height="26"/></g><g fill="%23b04f93"><rect x="22" y="48" width="26" height="26"/></g><g fill="%23d095be"><rect x="22" y="74" width="26" height="26"/></g><g fill="%23b04f93"><rect x="22" y="100" width="26" height="26"/><rect x="48" y="22" width="26" height="26"/></g><g fill="%23d095be"><rect x="48" y="48" width="26" height="26"/></g><g fill="%23b04f93"><rect x="48" y="74" width="26" height="26"/></g><g fill="%23d095be"><rect x="48" y="100" width="26" height="26"/><rect x="74" y="22" width="26" height="26"/></g><g fill="%23b04f93"><rect x="74" y="48" width="26" height="26"/></g><g fill="%23d095be"><rect x="74" y="74" width="26" height="26"/></g><g fill="%23b04f93"><rect x="74" y="100" width="26" height="26"/><rect x="100" y="22" width="26" height="26"/></g><g fill="%23d095be"><rect x="100" y="48" width="26" height="26"/></g><g fill="%23b04f93"><rect x="100" y="74" width="26" height="26"/></g><g fill="%23d095be"><rect x="100" y="100" width="26" height="26"/><rect x="126" y="22" width="26" height="26"/></g><g fill="%23b04f93"><rect x="126" y="48" width="26" height="26"/></g><g fill="%23d095be"><rect x="126" y="74" width="26" height="26"/></g><g fill="%23b04f93"><rect x="126" y="100" width="26" height="26"/><rect x="152" y="22" width="26" height="26"/></g><g fill="%23d095be"><rect x="152" y="48" width="26" height="26"/></g><g fill="%23b04f93"><rect x="152" y="74" width="26" height="26"/></g><g fill="%23d095be"><rect x="152" y="100" width="26" height="26"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+
+:root[data-proj="ui-studies"] {
+  --sky-1: #615a7c;  --sky-2: #514b68;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%23aaa5c0"><rect x="0" y="10" width="116" height="30"/></g><g fill="%238e87ab"><rect x="18" y="52" width="150" height="30"/><rect x="0" y="94" width="86" height="30"/></g><g fill="%23726996"><rect x="96" y="94" width="74" height="30"/><rect x="30" y="136" width="132" height="30"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+
+:root[data-proj="personal-projects"] {
+  --sky-1: #7c498d;  --sky-2: #683d76;
+  --sky-motif-size: 1100px;
+  --decor-motif-size: 1200px;
+  --sky-motif: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1000" shape-rendering="crispEdges"><defs><g id="m"><g fill="%23994db3"><rect x="18" y="18" width="76" height="76"/><rect x="116" y="18" width="76" height="76"/><rect x="18" y="116" width="76" height="76"/><rect x="116" y="116" width="76" height="76"/></g><g fill="%23ad70c2"><rect x="30" y="30" width="52" height="52"/><rect x="128" y="30" width="52" height="52"/><rect x="30" y="128" width="52" height="52"/><rect x="128" y="128" width="52" height="52"/></g><g fill="%23c294d1"><rect x="40" y="40" width="32" height="32"/><rect x="138" y="40" width="32" height="32"/><rect x="40" y="138" width="32" height="32"/><rect x="138" y="138" width="32" height="32"/></g></g></defs><use href="%23m" transform="translate(40 60) scale(1)"/><use href="%23m" transform="translate(720 140) scale(0.66)"/><use href="%23m" transform="translate(430 470) scale(0.88)"/><use href="%23m" transform="translate(980 620) scale(1.18)"/><use href="%23m" transform="translate(130 700) scale(0.74)"/></svg>');
+  --decor-clouds: var(--sky-motif);
+}
+

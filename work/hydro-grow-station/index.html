@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en" data-proj="hydro-grow-station">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hydro-Grow Station — Katerina Michael</title>
+<meta name="description" content="Hydro-Grow Station — a garage-built hydroponic station for a post-apocalyptic survival-crafting setting, with three same-tier upgrades and the purchase interface built around them.">
+<meta property="og:title" content="Hydro-Grow Station — Katerina Michael">
+<meta property="og:description" content="A garage-built hydroponic station, three same-tier upgrades, and the purchase interface built around them.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="../../assets/img/p-hydro.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/styles.css?v=62">
+<style id="hy-theme">
+/* Hydro-Grow Station — an overgrown plot seen from above. The page IS the
+   ground: hazy sage at the top, down through olive, into deep green, closing
+   on a tilled soil bed at the foot. Panels are the vine-framed dark green
+   boxes from Katerina's second reference, with a rust banner over the title
+   the way her own Upgrade Station screen does it.
+   All CSS + inline SVG, no image assets — an external decoration file or CSS
+   mask cannot be verified locally and fails silently (the helmet bug, §10k).
+   Palette is Katerina's five plus derived shades. This page is DARK-panelled,
+   so pale text is the default and the rust needs watching (see below). */
+:root[data-proj="hydro-grow-station"]{
+  /* --- given --- */
+  --hy-olive:#5C7A2E; --hy-rust:#B8461E; --hy-deep:#2E4A1C;
+  --hy-brown:#5C3A1E; --hy-surface:#C4BCA8;
+  /* --- derived --- */
+  --hy-night:#16240F;    /* deep green darkened — top bar, panel borders, doorways */
+  --hy-panel:#1E3418;    /* panel fill; the reference panels are near-black green */
+  --hy-cream:#F5EDE0;    /* primary text on the dark panels */
+  --hy-amber:#E5A139;    /* the reference's corner studs — accent text on dark */
+  --hy-leaf:#7FA43E;     /* --hy-olive lifted — vine leaves */
+  --hy-soil:#432A14;     /* --hy-brown darkened — the tilled bed */
+  --hy-bark:#6E4724;     /* --hy-brown lifted — fence rails, crates */
+  --hy-mount:#FBF7EE;    /* the artwork mount; the source files are on white */
+  --hy-parch:#E8DCC0;    /* small parchment surfaces — meta boxes, tags */
+
+  /* ⚠️ THE RUST IS A GRAPHICS COLOUR. #B8461E is 2.83:1 on the pale surface
+     AND 2.49:1 on the dark panel — it is the first accent on this site that
+     fails on BOTH grounds, so there is no ground where it may carry small
+     text. It works only the other way round: WHITE on rust is 5.36:1 and
+     --hy-cream on rust is 4.61:1, which is why the title banner is rust with
+     cream type and nothing else is.
+     --hy-amber is the text-safe partner (6.03:1 on the panel) — same two-tone
+     split as §12b, §13d and §15b, now the fourth time on this site.
+     ⚠️ --hy-amber must NOT go on the parchment (1.17:1). Parchment carries
+     --hy-brown at 7.41:1. Rust on parchment is 3.94:1 — large display only. */
+
+  --ink:var(--hy-cream); --ink-soft:var(--hy-surface); --bar-ink:var(--hy-cream);
+  --bezel:var(--hy-olive); --bezel-out:var(--hy-night);
+  /* ⚠️ --sky-1/--sky-2 come from the generated PROJECT MOTIFS block, where this
+     page is assigned a mint sprout hue (#459266). body's frame colour is
+     var(--sky-1) (§9a), so without this override the page sits in an emerald
+     border that belongs to no colour in the palette (§15c trap 3). */
+  --sky-1:#16240F; --sky-2:#20331A;
+
+  /* ⚠️ Narrower panels than the rest of the site (default --shell is 1180px).
+     At 1180 the gutter between the panel edge and the sheet edge measured only
+     40px, so the .hy-plot decorations were 0-15px visible and 8 of 13 were
+     completely covered — the layer may as well not have existed. 1040px opens
+     a ~107px gutter each side, which is wider than most of the decoration
+     shapes, so they read down both margins as the layer parallaxes.
+     Studio Work does the same thing for its road (§10c), which needs the
+     gutters for exactly the same reason. Cost: the three stage images render
+     at ~318px instead of ~362px, which the 500x500 sources carry fine. */
+  --shell:1040px;
+
+  /* --- artwork. Colours inside a data URI are %23, never # (§10b.6) --- */
+  --hy-vine:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'><g fill='none' stroke-linecap='round'><path d='M8 128 C0 96 6 56 30 30 C54 4 96 -2 136 8' stroke='%235C7A2E' stroke-width='9'/><path d='M22 120 C16 92 24 62 44 42' stroke='%237FA43E' stroke-width='5'/></g><g fill='%237FA43E'><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(14 96) rotate(-118)'/><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(34 40) rotate(-64)'/><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(84 8) rotate(6)'/></g><g fill='%235C7A2E'><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(18 70) rotate(-150) scale(0.78)'/><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(58 20) rotate(-28) scale(0.8)'/></g><g fill='%23E5A139'><rect x='44' y='58' width='9' height='9'/><rect x='96' y='26' width='8' height='8'/><rect x='13' y='109' width='7' height='7'/></g></svg>");
+  --hy-shack:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 140'><path fill='%239A9179' d='M120 20 L134 13 L146 19 L146 33 L132 40 L120 34 Z'/><path fill='%23B8461E' d='M14 56 L84 18 L164 48 L94 88 Z'/><path fill='%238E3316' d='M94 88 L164 48 L164 58 L94 98 Z'/><path fill='%23C4BCA8' d='M14 56 L94 88 L94 134 L14 104 Z'/><path fill='%239A9179' d='M94 88 L164 48 L164 98 L94 134 Z'/><path fill='%2316240F' d='M34 84 L60 94 L60 124 L34 114 Z'/><path fill='%232E4A1C' d='M112 86 L142 69 L142 88 L112 105 Z'/><g fill='%235C7A2E'><ellipse cx='40' cy='45' rx='16' ry='9'/><ellipse cx='70' cy='33' rx='13' ry='8'/><ellipse cx='108' cy='63' rx='15' ry='9'/><ellipse cx='140' cy='53' rx='11' ry='7'/><path d='M18 100 C22 88 30 84 34 88 C30 96 26 102 22 106 Z'/><path d='M86 118 C90 106 98 102 102 106 C98 114 94 120 90 124 Z'/></g><g fill='%237FA43E'><ellipse cx='46' cy='41' rx='9' ry='5'/><ellipse cx='112' cy='59' rx='8' ry='5'/></g></svg>");
+  --hy-fence:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 74'><g fill='%235C3A1E'><rect x='10' y='14' width='11' height='58'/><rect x='60' y='8' width='11' height='64'/><rect x='112' y='16' width='11' height='56'/></g><g fill='%236E4724'><path d='M4 28 L146 22 L146 32 L4 38 Z'/><path d='M4 50 L146 44 L146 54 L4 60 Z'/></g><g fill='%235C7A2E'><ellipse cx='30' cy='66' rx='14' ry='8'/><ellipse cx='92' cy='68' rx='16' ry='8'/></g></svg>");
+  --hy-barrow:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 72'><path fill='%235C3A1E' d='M60 30 L92 46 L88 53 L56 37 Z'/><path fill='%23B8461E' d='M8 22 L64 22 L54 50 L18 50 Z'/><path fill='%238E3316' d='M8 22 L64 22 L62 28 L10 28 Z'/><circle cx='30' cy='60' r='10' fill='%2316240F'/><circle cx='30' cy='60' r='4' fill='%235C3A1E'/><g fill='%237FA43E'><ellipse cx='26' cy='18' rx='10' ry='6'/><ellipse cx='44' cy='16' rx='8' ry='5'/></g></svg>");
+  --hy-sprout:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 74'><path fill='%23432A14' d='M6 62 C6 54 20 50 32 50 C44 50 58 54 58 62 C58 69 44 72 32 72 C20 72 6 69 6 62 Z'/><path d='M32 56 L32 26' stroke='%235C7A2E' stroke-width='6' fill='none' stroke-linecap='round'/><g fill='%237FA43E'><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(30 32) rotate(-38) scale(0.72)'/><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(30 40) rotate(-142) scale(0.68)'/></g><g fill='%235C7A2E'><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(32 21) rotate(-76) scale(0.6)'/></g></svg>");
+  --hy-crate:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 66'><path fill='%236E4724' d='M6 20 L40 4 L74 20 L40 36 Z'/><path fill='%234A2E17' d='M6 20 L40 36 L40 62 L6 46 Z'/><path fill='%235C3A1E' d='M40 36 L74 20 L74 46 L40 62 Z'/><g fill='%23432A14'><path d='M10 29 L36 42 L36 47 L10 34 Z'/><path d='M44 42 L70 29 L70 34 L44 47 Z'/></g></svg>");
+  /* scattered leaf litter, repeated over the whole sheet — the same trick the
+     second reference uses behind its panels */
+  --hy-litter:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='340' height='340'><g fill='%232E4A1C' opacity='.55'><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(30 44) rotate(24) scale(0.62)'/><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(214 96) rotate(-52) scale(0.5)'/><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(120 206) rotate(112) scale(0.58)'/><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(286 268) rotate(-16) scale(0.46)'/></g><g fill='%237FA43E' opacity='.4'><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(160 26) rotate(-88) scale(0.44)'/><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(56 150) rotate(58) scale(0.5)'/><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(248 190) rotate(148) scale(0.42)'/><path d='M0 0 C12 -16 30 -16 40 -3 C26 11 10 11 0 0 Z' transform='translate(88 300) rotate(-34) scale(0.48)'/></g></svg>");
+  /* the tilled bed the page closes on — the crop rows from the first reference */
+  --hy-rows:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 470'><path fill='%23432A14' d='M0 96 C180 74 380 108 560 92 C740 76 940 110 1120 94 C1280 80 1440 104 1600 88 L1600 470 L0 470 Z'/><g fill='%235C3A1E'><ellipse cx='250' cy='188' rx='236' ry='34'/><ellipse cx='800' cy='236' rx='300' ry='38'/><ellipse cx='1370' cy='184' rx='240' ry='34'/></g><g fill='%234A2E17'><ellipse cx='250' cy='176' rx='200' ry='16'/><ellipse cx='800' cy='224' rx='258' ry='18'/><ellipse cx='1370' cy='172' rx='204' ry='16'/></g><g fill='%237FA43E'><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(120 176) rotate(-42) scale(0.7)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(126 182) rotate(-138) scale(0.66)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(268 168) rotate(-42) scale(0.78)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(274 174) rotate(-138) scale(0.72)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(404 178) rotate(-42) scale(0.68)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(410 184) rotate(-138) scale(0.64)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(640 220) rotate(-42) scale(0.8)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(646 226) rotate(-138) scale(0.74)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(800 214) rotate(-42) scale(0.86)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(806 220) rotate(-138) scale(0.8)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(960 222) rotate(-42) scale(0.76)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(966 228) rotate(-138) scale(0.7)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(1240 166) rotate(-42) scale(0.72)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(1246 172) rotate(-138) scale(0.68)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(1390 162) rotate(-42) scale(0.8)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(1396 168) rotate(-138) scale(0.74)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(1530 172) rotate(-42) scale(0.68)'/><path d='M0 0 C10 -14 26 -14 34 -3 C22 10 8 10 0 0 Z' transform='translate(1536 178) rotate(-138) scale(0.64)'/></g></svg>");
+}
+
+/* ---- the plot -------------------------------------------------------------
+   There is no sky on this page. Both references are looking DOWN at ground,
+   so the gradient is land: hazy sage where it meets the bar, through olive
+   and deep green, closing on the tilled bed. Scrolling reads as walking down
+   the plot into the beds.
+   ⚠️ --hy-rows is ONE wide scene pinned to the bottom, so `100% auto` is
+   correct there. --hy-litter is a TILE, so its size must stay `auto` or it
+   stretches across the sheet width (§12c). Do not swap those two lines. */
+:root[data-proj="hydro-grow-station"] .sky{ background:#16240F; }
+/* ⚠️ .proj-hero carries its OWN linear-gradient (the light-theme hero ramp)
+   as a background-IMAGE and paints straight over the scene. backgroundColor
+   reads transparent, so a colour probe will not find it — check
+   backgroundImage (§15c trap 1). */
+:root[data-proj="hydro-grow-station"] .proj-hero{ background:none; }
+:root[data-proj="hydro-grow-station"] .sheet{
+  background:linear-gradient(180deg,
+    #93A86B 0%,    /* hazy sage, meets the top bar */
+    #7E9750 9%,
+    #5C7A2E 26%,   /* olive */
+    #4C6624 46%,
+    #3B5720 66%,
+    #2E4A1C 84%,   /* deep green */
+    #24390F 100%); /* handing off to the soil */
+}
+/* leaf litter over the whole page */
+:root[data-proj="hydro-grow-station"] .sheet::before{
+  content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:var(--hy-litter) 0 0 repeat; opacity:.5;
+}
+/* the tilled bed the page closes on */
+:root[data-proj="hydro-grow-station"] .sheet::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:470px; z-index:0;
+  pointer-events:none;
+  background:var(--hy-rows) center bottom/100% auto no-repeat;
+}
+/* ⚠️ The shared PROJECT MOTIFS block in styles.css also paints — switch it off
+   or the mint sprout bleeds through, including behind .foot (§10b.1). */
+:root[data-proj="hydro-grow-station"] .hero::before,
+:root[data-proj="hydro-grow-station"] .band::before,
+:root[data-proj="hydro-grow-station"] .level::before,
+:root[data-proj="hydro-grow-station"] .foot::before,
+:root[data-proj="hydro-grow-station"] .proj-hero::before,
+:root[data-proj="hydro-grow-station"] .proj-sec::before{ display:none !important; }
+/* ⚠️ ::before is NOT enough — .proj-hero::after is the pink hotbar ground strip
+   (styles.css:533) and it paints a magenta band across the plot (§15c trap 2). */
+:root[data-proj="hydro-grow-station"] .proj-hero::after{ display:none !important; }
+/* ⚠️ Decoration layers paint ABOVE unpositioned content: .sheet .topbar is
+   position:static on the dark theme and the shells are never positioned, so
+   both end up under the scene layer (§10b.2). */
+:root[data-proj="hydro-grow-station"] .sheet .topbar{ position:relative; z-index:20; }
+:root[data-proj="hydro-grow-station"] .shell{ position:relative; z-index:3; }
+
+/* ---- the scattered plot layer (parallaxed by app.js section 6) ------------
+   ⚠️ .hy-plot had to be added to the hard-coded selector list in app.js
+   section 6 — there is no automatic hook, and without it this layer simply
+   does not parallax (§15e). That edit forced the JS ?v= sweep 12 -> 13. */
+:root[data-proj="hydro-grow-station"] .hy-plot{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+:root[data-proj="hydro-grow-station"] .hy-plot span{
+  position:absolute; background-position:center; background-size:contain;
+  background-repeat:no-repeat;
+}
+/* ⚠️ Each element's aspect ratio must MATCH its SVG viewBox or background-size:
+   contain letterboxes it, which reads as a mystery gap (§10b.3). Ratios here:
+   shack 170:140, fence 150:74, barrow 96:72, sprout 64:74, crate 80:66. */
+:root[data-proj="hydro-grow-station"] .hy-shack{ background-image:var(--hy-shack); width:170px; height:140px; }
+:root[data-proj="hydro-grow-station"] .hy-shack--sm{ width:112px; height:92px; opacity:.85; }
+:root[data-proj="hydro-grow-station"] .hy-fence{ background-image:var(--hy-fence); width:150px; height:74px; }
+:root[data-proj="hydro-grow-station"] .hy-barrow{ background-image:var(--hy-barrow); width:96px; height:72px; }
+:root[data-proj="hydro-grow-station"] .hy-crate{ background-image:var(--hy-crate); width:80px; height:66px; }
+:root[data-proj="hydro-grow-station"] .hy-sproutd{ background-image:var(--hy-sprout); width:64px; height:74px;
+  animation:hySway 8s ease-in-out infinite; transform-origin:50% 100%; }
+:root[data-proj="hydro-grow-station"] .hy-sproutd--sm{ width:42px; height:49px; }
+@keyframes hySway{ 0%,100%{ transform:rotate(-2.2deg) } 50%{ transform:rotate(2.2deg) } }
+@media (prefers-reduced-motion: reduce){
+  :root[data-proj="hydro-grow-station"] .hy-plot span{ animation:none }
+}
+/* scatter — kept to the outer margins so the panels stay clear. Positions are
+   PERCENTAGES, so shortening the layer redistributes them rather than needing
+   every offset rewritten (§12c). */
+/* ⚠️ The band starts at 18%, not 0%. The layer is SHORTENED by the parallax
+   travel (§10d), so at rest its 0-100% maps onto roughly the top two-thirds of
+   the page — anything above ~18% of the layer sits behind the full-width hero
+   block and is invisible until you scroll. Measured: at 4/8/15% the shack,
+   fence and sprout were 0% visible. */
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(1){ top:18%; left:3%; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(2){ top:24%; right:4%; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(3){ top:31%; left:5%; animation-delay:-3s; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(4){ top:37%; right:2%; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(5){ top:43%; left:2%; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(6){ top:50%; right:5%; animation-delay:-5s; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(7){ top:56%; left:4%; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(8){ top:62%; right:3%; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(9){ top:69%; left:2%; animation-delay:-1s; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(10){ top:75%; right:4%; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(11){ top:81%; left:5%; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(12){ top:88%; right:2%; animation-delay:-6s; }
+:root[data-proj="hydro-grow-station"] .hy-plot span:nth-child(13){ top:94%; left:3%; animation-delay:-4s; }
+@media (max-width:900px){ :root[data-proj="hydro-grow-station"] .hy-plot{ display:none } }
+
+/* ---- chrome ---- */
+:root[data-proj="hydro-grow-station"] .topbar{ background:var(--hy-night); border-bottom:3px solid var(--hy-amber); }
+:root[data-proj="hydro-grow-station"] .brand__mark{ background-image:none; background-color:var(--hy-olive); color:#fff;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.28), inset 0 -4px 0 rgba(0,0,0,.28), 0 0 0 3px var(--hy-night), 0 0 0 6px var(--hy-amber); }
+:root[data-proj="hydro-grow-station"] .brand__name{ color:var(--hy-cream); }
+:root[data-proj="hydro-grow-station"] .nav a{ color:var(--hy-surface); }
+:root[data-proj="hydro-grow-station"] .nav a[aria-current]{ background:var(--hy-olive); color:#fff; }
+:root[data-proj="hydro-grow-station"] .nav a:hover{ background:rgba(196,188,168,.16); }
+
+/* ---- panels: the vine-framed boxes from the reference ---------------------
+   The vines are pseudo-elements on the shell, one curling into the top-left
+   and one (rotated 180) into the bottom-right, exactly as the reference frames
+   its Calendrier and Kits panels. .shell is positioned above, so they anchor
+   to the panel rather than the page. */
+/* ⚠️ .proj-sec > .shell is deliberately NOT a panel on this page. This section
+   carries 13 images, so panelling the shell made ONE slab 2,872px tall in a
+   4,116px sheet — measured gaps of 63/108/104px, and 6 of 13 decorations were
+   completely covered with the rest showing under 15px. The scene was invisible.
+   The second reference stacks SEPARATE vine-framed panels with ground showing
+   between them, so the panel moved down a level: the copy block and each of the
+   four variant groups are their own panel. That is what opens the gutters the
+   .hy-plot layer, the litter and the gradient all need.
+   Precedent: this is the same failure mode as §11g — one panel far taller than
+   its neighbours breaks the page, and panels may grow tall only together. */
+:root[data-proj="hydro-grow-station"] .proj-hero > .shell,
+:root[data-proj="hydro-grow-station"] .pager > .shell,
+:root[data-proj="hydro-grow-station"] .proj-sec__body,
+:root[data-proj="hydro-grow-station"] .hy-group{
+  background:var(--hy-panel); color:var(--hy-cream);
+  border:3px solid var(--hy-night); border-radius:18px;
+  padding:30px 26px 26px;
+  box-shadow:7px 7px 0 rgba(22,36,15,.4), inset 0 0 0 2px rgba(127,164,62,.22);
+}
+:root[data-proj="hydro-grow-station"] .proj-hero > .shell::before,
+:root[data-proj="hydro-grow-station"] .pager > .shell::before,
+:root[data-proj="hydro-grow-station"] .proj-sec__body::before,
+:root[data-proj="hydro-grow-station"] .hy-group::before,
+:root[data-proj="hydro-grow-station"] .proj-hero > .shell::after,
+:root[data-proj="hydro-grow-station"] .pager > .shell::after,
+:root[data-proj="hydro-grow-station"] .proj-sec__body::after,
+:root[data-proj="hydro-grow-station"] .hy-group::after{
+  content:""; position:absolute; width:140px; height:140px; z-index:1;
+  background:var(--hy-vine) center/contain no-repeat; pointer-events:none;
+}
+:root[data-proj="hydro-grow-station"] .proj-hero > .shell::before,
+:root[data-proj="hydro-grow-station"] .pager > .shell::before,
+:root[data-proj="hydro-grow-station"] .proj-sec__body::before,
+:root[data-proj="hydro-grow-station"] .hy-group::before{ top:-10px; left:-10px; }
+:root[data-proj="hydro-grow-station"] .proj-hero > .shell::after,
+:root[data-proj="hydro-grow-station"] .pager > .shell::after,
+:root[data-proj="hydro-grow-station"] .proj-sec__body::after,
+:root[data-proj="hydro-grow-station"] .hy-group::after{ bottom:-10px; right:-10px; transform:rotate(180deg); }
+/* the panelled blocks need their own stacking context, or the vine corners of
+   one panel paint under the next panel down */
+:root[data-proj="hydro-grow-station"] .proj-sec__body,
+:root[data-proj="hydro-grow-station"] .hy-group{ position:relative; z-index:3; }
+@media (max-width:700px){
+  :root[data-proj="hydro-grow-station"] .proj-hero > .shell::before,
+  :root[data-proj="hydro-grow-station"] .pager > .shell::before,
+  :root[data-proj="hydro-grow-station"] .proj-sec__body::before,
+  :root[data-proj="hydro-grow-station"] .hy-group::before,
+  :root[data-proj="hydro-grow-station"] .proj-hero > .shell::after,
+  :root[data-proj="hydro-grow-station"] .pager > .shell::after,
+  :root[data-proj="hydro-grow-station"] .proj-sec__body::after,
+  :root[data-proj="hydro-grow-station"] .hy-group::after{ width:88px; height:88px; }
+}
+
+:root[data-proj="hydro-grow-station"] .crumb{ color:var(--hy-amber); }
+:root[data-proj="hydro-grow-station"] .crumb img{ display:none; }
+:root[data-proj="hydro-grow-station"] .crumb::before{ content:"\25C4"; margin-right:.5em; }
+:root[data-proj="hydro-grow-station"] .level__badge.ui-bar{ border-image:none; border:2.5px solid var(--hy-night);
+  background:var(--hy-olive); color:#fff; padding:4px 14px; border-radius:99px; }
+/* the title banner — rust with cream type, the way her own Upgrade Station
+   screen does it. This is the ONLY place the rust appears behind text, and it
+   works because the title is display type at ~47px (4.61:1, AA at any size). */
+:root[data-proj="hydro-grow-station"] .level__panel.ui-panel{ border-image:none; border:3px solid var(--hy-night);
+  background:var(--hy-rust); border-radius:12px; padding:10px 22px;
+  box-shadow:4px 4px 0 rgba(22,36,15,.4); }
+:root[data-proj="hydro-grow-station"] .proj-title.arcade{ color:var(--hy-cream); text-shadow:3px 3px 0 #7A2E12; }
+:root[data-proj="hydro-grow-station"] .proj-lede,
+:root[data-proj="hydro-grow-station"] .proj-sec__text{ color:var(--hy-surface); }
+/* parchment chips, the reference's tan plates. ⚠️ label is --hy-brown (7.41:1),
+   NOT the rust (3.94:1) and never the amber (1.17:1). */
+:root[data-proj="hydro-grow-station"] .meta > div{ border-image:none; border:2.5px solid var(--hy-night);
+  background:var(--hy-parch); border-radius:10px; padding:5px 10px; }
+:root[data-proj="hydro-grow-station"] .meta__k{ color:var(--hy-brown); }
+:root[data-proj="hydro-grow-station"] .meta__v{ color:#3A2410; }
+:root[data-proj="hydro-grow-station"] .proj-sec__count{ color:var(--hy-amber); font-weight:800; }
+:root[data-proj="hydro-grow-station"] .proj-sec__title{ color:var(--hy-cream); text-shadow:none; }
+:root[data-proj="hydro-grow-station"] .tags li{ border-image:none; border:2.5px solid var(--hy-leaf);
+  background:transparent; color:var(--hy-surface); border-radius:99px; padding:1px 10px; }
+:root[data-proj="hydro-grow-station"] .divider{ display:none; }
+
+/* ---- the work itself, straight after the context (§15g) -------------------
+   Individual-project pages show the actual surfaces rather than a placeholder
+   thumbnail: the copy sits full width on top, the work sits underneath. There
+   is no .proj-sec__media, so the 860px flip rules (§10b.5) do not apply here.
+   2-up on desktop rather than auto-fit: auto-fit gave 3 columns in the 1180px
+   shell and orphaned the last item on its own row. */
+/* the copy block is now a full-width panel, so the MEASURE moves onto the text
+   itself — a 74ch panel above full-width group panels read as a broken column */
+:root[data-proj="hydro-grow-station"] .proj-sec__text{ max-width:74ch; }
+/* ⚠️ NOT the 2-up grid the other individual-project pages use. The rigs come in
+   stage triples (sketch -> colour -> final) and a 2-up grid split every triple
+   across two rows, which destroys the one thing the images are there to show.
+   The ROW is the unit: .hy-stages is an explicit 3-up so a group always reads
+   left to right. Only the UI screen stays outside this, in .hy-work. */
+/* the gaps between these blocks are the only place the plot, the leaf litter
+   and the gradient are visible, so they are generous on purpose */
+:root[data-proj="hydro-grow-station"] .hy-work{
+  list-style:none; margin:40px 0 0; padding:0;
+  display:grid; gap:40px; grid-template-columns:minmax(0,1fr);
+}
+:root[data-proj="hydro-grow-station"] .hy-groups{
+  list-style:none; margin:40px 0 0; padding:0;
+  display:grid; gap:40px;
+}
+:root[data-proj="hydro-grow-station"] .hy-group__name{
+  margin:0 0 10px; font-family:var(--display); font-size:1.3rem;
+  letter-spacing:.06em; color:var(--hy-amber);
+  display:flex; align-items:center; gap:14px;
+}
+/* what each upgrade actually is — taken from the old portfolio page, since the
+   source folder names were only working labels */
+:root[data-proj="hydro-grow-station"] .hy-group__note{
+  margin:0 0 18px; max-width:74ch; color:var(--hy-surface);
+  font-size:.95rem; line-height:1.5;
+}
+/* a vine-coloured rule running off the group name, so the four rows read as
+   separate sets without needing a box around each */
+:root[data-proj="hydro-grow-station"] .hy-group__name::after{
+  content:""; flex:1; height:3px; border-radius:2px;
+  background:linear-gradient(90deg, rgba(127,164,62,.6), rgba(127,164,62,0));
+}
+:root[data-proj="hydro-grow-station"] .hy-stages{
+  list-style:none; margin:0; padding:0;
+  display:grid; gap:16px; grid-template-columns:minmax(0,1fr);
+}
+/* 3-up from 560px. Below that the three squares would render under ~100px each,
+   which is smaller than the detail in the line art, so they stack instead — the
+   captions carry the order there. */
+@media (min-width:560px){
+  :root[data-proj="hydro-grow-station"] .hy-stages{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+/* the reference's kit slots: dark outline, bright contents, label underneath.
+   The mount stays near-white because the source files are drawn on white — a
+   dark mount would ring every piece with a hard white rectangle. */
+:root[data-proj="hydro-grow-station"] .hy-piece{
+  background:var(--hy-mount); padding:10px 10px 6px;
+  border:3px solid var(--hy-night); border-radius:12px;
+  box-shadow:4px 4px 0 rgba(22,36,15,.4);
+}
+/* native ratio, no crop; width/height reserve the box before the lazy load */
+:root[data-proj="hydro-grow-station"] .hy-piece img{
+  display:block; width:100%; height:auto; border-radius:7px;
+}
+:root[data-proj="hydro-grow-station"] .hy-piece__cap{
+  margin:8px 2px 2px; font-family:var(--display); font-size:.95rem;
+  letter-spacing:.06em; color:var(--hy-brown);
+}
+
+/* ---- pager + foot ---- */
+:root[data-proj="hydro-grow-station"] .pager__link.ui-panel{ border-image:none; border:3px solid var(--hy-night);
+  background:var(--hy-panel); border-radius:12px; box-shadow:4px 4px 0 rgba(22,36,15,.4); }
+:root[data-proj="hydro-grow-station"] .pager__name{ color:var(--hy-cream); }
+:root[data-proj="hydro-grow-station"] .pager__dir{ color:var(--hy-amber); }
+/* ⚠️ .foot__credits carries its OWN colour in styles.css, so it does not inherit
+   from .foot — name it explicitly or the colophon line stays the dark theme's
+   lavender (§10k). The footer sits on the tilled bed: cream is 11.45:1 there. */
+:root[data-proj="hydro-grow-station"] .foot,
+:root[data-proj="hydro-grow-station"] .foot a,
+:root[data-proj="hydro-grow-station"] .foot__credits{ color:var(--hy-cream); }
+:root[data-proj="hydro-grow-station"] .skip{ color:var(--hy-brown); }
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<div class="hy-plot" aria-hidden="true">
+  <span class="hy-shack"></span><span class="hy-fence"></span>
+  <span class="hy-sproutd"></span><span class="hy-crate"></span>
+  <span class="hy-barrow"></span><span class="hy-sproutd"></span>
+  <span class="hy-fence"></span><span class="hy-shack hy-shack--sm"></span>
+  <span class="hy-sproutd"></span><span class="hy-crate"></span>
+  <span class="hy-barrow"></span><span class="hy-sproutd hy-sproutd--sm"></span>
+  <span class="hy-sproutd"></span>
+</div>
+
+<a class="skip ui-bar ui-bar-cream" href="#overview">Skip to the work</a>
+
+<div class="stage-top">
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../index.html#experience">Experience</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="proj-hero proj-hero--solo" id="top">
+  <div class="shell">
+    <a class="crumb" href="../../index.html#level-5">
+      <img src="../../assets/ui6/arrow-left.png" alt="" width="48" height="103">
+      Back to Level 5
+    </a>
+
+    <div class="proj-hero__grid">
+      <div>
+        <p class="level__badge ui-bar">Level&nbsp;&ndash;&nbsp;5</p>
+        <div class="level__panel ui-panel"><h1 class="proj-title arcade">Hydro-Grow Station</h1></div>
+        <p class="proj-lede">
+          A hydroponic growing station for a post-apocalyptic survival-crafting setting — a
+          garage-built machine assembled from salvaged tech, where once-priceless hardware
+          ends up as spare parts keeping a single crop alive.
+        </p>
+
+        <dl class="meta">
+          <div>
+            <dt class="meta__k">Discipline</dt>
+            <dd class="meta__v">Game asset &amp; UI</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Year</dt>
+            <dd class="meta__v">2026</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Tools</dt>
+            <dd class="meta__v">Figma, Photoshop</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Brief</dt>
+            <dd class="meta__v">Self-directed</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.stage-top -->
+
+<section class="proj-sec" id="overview" aria-labelledby="ov-title">
+  <div class="shell">
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Asset &amp; interface</p>
+        <h2 class="proj-sec__title" id="ov-title">Upgrade Station</h2>
+        <p class="proj-sec__text">
+          The base station plus three independent same-tier upgrades, each modifying a
+          different system with its own visual identity. The skeleton stays the same
+          throughout — dish, control unit, grow bed — so all four read as one machine family
+          at a glance. Construction logic drives every component: the water chain (rain
+          catcher &rarr; tank &rarr; valve &rarr; sprinklers) and the power loop are traceable
+          by eye. The purchase interface is built around that set — a variant carousel, with
+          resource costs pulled from parts visible in the concepts.
+        </p>
+        <ul class="tags"><li>Isometric</li><li>Stylised asset</li><li>Same-tier upgrades</li><li>Figma</li></ul>
+      </div>
+    <!-- The interface sits on its own, full width — it is a 16:9 screen and the
+         only piece here that is not part of a stage progression. -->
+    <ul class="hy-work">
+      <li class="hy-piece">
+        <img src="../../assets/img/hydro-grow-station/hydro-grow-station-02.jpg" width="1400" height="788"
+             loading="lazy" decoding="async"
+             alt="Upgrade Station screen: a cream panel over a painted post-apocalyptic yard, showing the Solar Rig upgrade with its description, two resource costs and an upgrade button">
+        <p class="hy-piece__cap">Upgrade station UI screen</p>
+      </li>
+    </ul>
+
+    <!-- Four rig variants, each one a row: sketch -> colour -> final. The row is
+         the unit here — the three stages have to sit side by side to be read as
+         a progression, which is why this is not the 2-up grid the other
+         individual-project pages use. Source folders: temp/default, temp/army,
+         temp/grafitti, temp/pear. -->
+    <!-- Four rigs: the base station plus three independent same-tier upgrades,
+         each modifying a different system. Names and framing come from the old
+         portfolio page, NOT from the source folder labels (default/army/grafitti/
+         pear) which were only working labels for telling the files apart.
+         Each group is a row: sketch -> flats -> render. The row is the unit —
+         the three stages have to sit side by side to read as a progression. -->
+    <ul class="hy-groups">
+      <li class="hy-group">
+        <h3 class="hy-group__name">Base station</h3>
+        <p class="hy-group__note">The garage-built original — dish, control unit and grow bed, assembled from salvaged tech around a single crop.</p>
+        <ul class="hy-stages">
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-11.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Sketch of the base station: grow bed with a carrot, dish, sprinkler arm, fan and control unit">
+            <p class="hy-piece__cap">Sketch</p>
+          </li>
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-05.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Flat colour pass over the base station">
+            <p class="hy-piece__cap">Flats</p>
+          </li>
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-03.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Rendered base station in weathered wood and grey metal">
+            <p class="hy-piece__cap">Render</p>
+          </li>
+        </ul>
+      </li>
+
+      <li class="hy-group">
+        <h3 class="hy-group__name">Climate dome</h3>
+        <p class="hy-group__note">Climate control, in clean salvaged-consumer-tech style — the crop sealed under glass.</p>
+        <ul class="hy-stages">
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-13.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Sketch of the climate dome upgrade, enclosing the grow bed">
+            <p class="hy-piece__cap">Sketch</p>
+          </li>
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-07.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Flat colour pass over the climate dome upgrade">
+            <p class="hy-piece__cap">Flats</p>
+          </li>
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-09.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Rendered climate dome: a clean white rig under a glass dome with a dish lamp">
+            <p class="hy-piece__cap">Render</p>
+          </li>
+        </ul>
+      </li>
+
+      <li class="hy-group">
+        <h3 class="hy-group__name">Heavy irrigation rig</h3>
+        <p class="hy-group__note">The water chain upgraded, in military surplus — rain catcher to tank to valve to sprinklers, traceable by eye.</p>
+        <ul class="hy-stages">
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-10.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Sketch of the heavy irrigation rig upgrade with its pressure tank">
+            <p class="hy-piece__cap">Sketch</p>
+          </li>
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-04.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Flat colour pass over the heavy irrigation rig">
+            <p class="hy-piece__cap">Flats</p>
+          </li>
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-01.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Rendered heavy irrigation rig: the station in olive drab with riveted plating and a pressure tank">
+            <p class="hy-piece__cap">Render</p>
+          </li>
+        </ul>
+      </li>
+
+      <li class="hy-group">
+        <h3 class="hy-group__name">Solar conversion</h3>
+        <p class="hy-group__note">The power loop converted to solar, in raider graffiti — panels bolted over the bed and tagged.</p>
+        <ul class="hy-stages">
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-12.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Sketch of the solar conversion upgrade with its panel array">
+            <p class="hy-piece__cap">Sketch</p>
+          </li>
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-06.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Flat colour pass over the solar conversion">
+            <p class="hy-piece__cap">Flats</p>
+          </li>
+          <li class="hy-piece">
+            <img src="../../assets/img/hydro-grow-station/hydro-grow-station-08.jpg" width="500" height="500"
+                 loading="lazy" decoding="async"
+                 alt="Rendered solar conversion: the station under a solar panel, tagged in neon pink and green with spray cans at its base">
+            <p class="hy-piece__cap">Render</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<nav class="pager" aria-label="Other projects">
+  <div class="shell">
+    <ul class="pager__list">
+      <li>
+        <a class="pager__link ui-panel" href="../beatbounds/">
+          <span class="pager__dir">Previous &mdash; Level 4</span>
+          <span class="pager__name">BeatBounds</span>
+        </a>
+      </li>
+      <li>
+        <a class="pager__link ui-panel pager__link--next" href="../dragon-fest/">
+          <span class="pager__dir">Next &mdash; Level 5</span>
+          <span class="pager__name">Dragon Fest</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="divider" role="presentation"></div>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p>
+      <a href="../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerinamcl/" rel="me noopener">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a> &middot;
+      <a href="../../index.html#work">All work</a>
+    </p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.
+    </p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+
+<script src="../../assets/app.js?v=17" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+﻿apocalyptic-game-ui-01.jpg|788|1400|drafts\Brief-UI Wireframetest1.png|1719|177
+apocalyptic-game-ui-02.jpg|788|1400|drafts\Brief-UI Wireframetest2.png|2166|164
+apocalyptic-game-ui-03.jpg|788|1400|drafts\Brief-UI Wireframetest3.png|2228|167
+apocalyptic-game-ui-04.jpg|788|1400|drafts\Brief-UI Wireframetest4.png|1525|202
+apocalyptic-game-ui-05.jpg|788|1400|FinalDesigns\Brief_UI_Wireframe_Final.png|1520|202
+apocalyptic-game-ui-06.jpg|1400|1244|FinalDesigns\Brief_UI_Wireframe_References.png|2840|392
+apocalyptic-game-ui-07.jpg|859|544|FinalDesigns\IconsDesign.png|288|75
+apocalyptic-game-ui-08.jpg|1400|788|FinalDesigns\moodboard1.png|1961|202
+apocalyptic-game-ui-09.jpg|1400|788|FinalDesigns\moodboard2.png|2383|258
+apocalyptic-game-ui-10.jpg|1400|788|FinalDesigns\moodboard3.png|2058|206
+apocalyptic-game-ui-11.jpg|1400|788|FinalDesigns\moodboard4.png|1120|154

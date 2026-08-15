@@ -1,0 +1,624 @@
+﻿<!doctype html>
+<html lang="en" data-proj="beatbounds">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BeatBounds — Katerina Michael</title>
+<meta name="description" content="BeatBounds — a rhythm platformer made as a final-year university major project: characters, tilesets, level backgrounds, logo, narrative and the full interface.">
+<meta property="og:title" content="BeatBounds — Katerina Michael">
+<meta property="og:description" content="A rhythm platformer where the music decides what you can do — characters, tilesets, backgrounds, logo, narrative and the full interface.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="../../assets/img/beatbounds/interface-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/styles.css?v=62">
+<style id="bb-theme">
+/* BeatBounds — this page gets its own darker palette and a walk-cycle
+   diorama you scroll past. Scoped inline, so no other page is affected.
+   Palette: navy #1A2B4A, sky #3E7CB1, gold #F5C518, coral #D94E4E, green #4A9B3D. */
+:root[data-proj="beatbounds"]{
+  --bb-gold:#F5C518; --bb-coral:#D94E4E;
+  --bezel:#2b4a72; --bezel-out:#0a1424;   /* recolour the sheet's outer frame to navy */
+  --ink:#dce8f5; --ink-soft:#9fb6d2; --bar-ink:#cfe0f5;   /* all text off the old purple tint */
+  --bb-heart:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='14' shape-rendering='crispEdges'><g fill='%23D94E4E'><rect x='2' y='1' width='4' height='2'/><rect x='10' y='1' width='4' height='2'/><rect x='1' y='3' width='14' height='3'/><rect x='2' y='6' width='12' height='2'/><rect x='4' y='8' width='8' height='2'/><rect x='6' y='10' width='4' height='2'/><rect x='7' y='12' width='2' height='1'/></g></svg>");
+  --bb-qbox:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'><rect width='16' height='16' fill='%230e1a30'/><rect x='1' y='1' width='14' height='14' fill='%23F5C518'/><rect x='1' y='1' width='14' height='2' fill='%23ffe27a'/><g fill='%230e1a30'><rect x='2' y='2' width='1' height='1'/><rect x='13' y='2' width='1' height='1'/><rect x='2' y='13' width='1' height='1'/><rect x='13' y='13' width='1' height='1'/><rect x='6' y='4' width='4' height='1'/><rect x='9' y='5' width='1' height='2'/><rect x='7' y='7' width='2' height='1'/><rect x='7' y='9' width='2' height='1'/><rect x='7' y='11' width='2' height='1'/></g></svg>");
+  --bb-fh:130px; --bb-fw:92px; --bb-strip:644px; --bb-floorH:74px;
+  --bb-stars:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='240'><g fill='%23F5C518'><rect x='44' y='30' width='3' height='3'/><rect x='214' y='84' width='4' height='4'/><rect x='128' y='168' width='3' height='3'/><rect x='288' y='150' width='3' height='3'/></g><g fill='%23ffffff'><rect x='92' y='60' width='2' height='2'/><rect x='258' y='28' width='2' height='2'/><rect x='174' y='120' width='2' height='2'/><rect x='30' y='176' width='2' height='2'/><rect x='150' y='40' width='2' height='2'/></g><g fill='%233E7CB1'><rect x='70' y='140' width='2' height='2'/><rect x='300' y='90' width='2' height='2'/></g></svg>");
+}
+/* deep-navy frame + starfield sheet */
+:root[data-proj="beatbounds"] .sky{ background:#0e1a30; }
+:root[data-proj="beatbounds"] .sheet{ background:linear-gradient(180deg,#0e1a30 0%,#1A2B4A 46%,#223f66 72%,#12203a 100%); }
+:root[data-proj="beatbounds"] .proj-hero{ background:none; }
+:root[data-proj="beatbounds"] .sheet::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none; background:var(--bb-stars) repeat; opacity:.6; }
+:root[data-proj="beatbounds"] .sheet > *{ position:relative; z-index:1; }
+/* drop the shared teal cloud/motif decoration + pink strips on this page */
+:root[data-proj="beatbounds"] .proj-hero::before,
+:root[data-proj="beatbounds"] .proj-sec::before,
+:root[data-proj="beatbounds"] .proj-hero::after{ display:none; }
+:root[data-proj="beatbounds"] .divider{ display:none; }
+/* palette accents on the content */
+:root[data-proj="beatbounds"] .proj-sec__title,
+:root[data-proj="beatbounds"] .toc__head{ color:var(--bb-gold); text-shadow:2px 2px 0 rgba(0,0,0,.4); }
+:root[data-proj="beatbounds"] .proj-sec__count{ color:var(--bb-coral); }
+
+/* ---- full palette chrome: skip-fix, top bar, badges, panels, buttons, outlines ---- */
+:root[data-proj="beatbounds"] .skip{ position:fixed; z-index:300; }   /* .sheet>* had made it static/visible */
+:root[data-proj="beatbounds"] .topbar{ background:#12233f; border-bottom-color:#3E7CB1; }
+:root[data-proj="beatbounds"] .nav a[aria-current]{ background:var(--bb-coral); color:#fff; }
+:root[data-proj="beatbounds"] .brand__mark{ background-image:none; background-color:var(--bb-gold); color:#0e1a30; box-shadow:inset 0 3px 0 rgba(255,255,255,.45), inset 0 -4px 0 rgba(0,0,0,.22), 0 0 0 3px #0e1a30, 0 0 0 6px #3E7CB1; }
+:root[data-proj="beatbounds"] .brand__name{ color:#e9f1fb; }
+:root[data-proj="beatbounds"] .level__badge.ui-bar{ border-image:none; border:0; background:var(--bb-coral); color:#fff; box-shadow:0 3px 0 rgba(0,0,0,.35); }
+:root[data-proj="beatbounds"] .level__panel.ui-panel{ border-image:none; border:4px solid var(--bb-gold); background:#16233f; box-shadow:0 4px 0 rgba(0,0,0,.35); }
+:root[data-proj="beatbounds"] .proj-title.arcade{ color:var(--bb-gold); text-shadow:2px 2px 0 rgba(0,0,0,.5); }
+:root[data-proj="beatbounds"] .plate.ui-card{ border-image:none; border:3px solid var(--bb-gold); background:#16233f; }
+:root[data-proj="beatbounds"] .plate__no{ color:var(--bb-gold); }
+:root[data-proj="beatbounds"] .meta > div{ border-image:none; border:2px solid #3E7CB1; background:rgba(255,255,255,.03); }
+:root[data-proj="beatbounds"] .meta__k{ color:var(--bb-gold); }
+:root[data-proj="beatbounds"] .meta__v{ color:#dce8f5; }
+:root[data-proj="beatbounds"] .crumb{ color:var(--bb-gold); }
+:root[data-proj="beatbounds"] .crumb img{ display:none; }
+:root[data-proj="beatbounds"] .crumb::before{ content:"\25C4"; margin-right:.5em; }
+:root[data-proj="beatbounds"] .proj-lede, :root[data-proj="beatbounds"] .proj-sec__text{ color:#dce8f5; }
+:root[data-proj="beatbounds"] .toc__link.ui-slot{ border-image:none; border:2px solid #3E7CB1; background:#16233f; color:#dce8f5; font-weight:700; }
+:root[data-proj="beatbounds"] .toc__link.ui-slot:hover{ background:var(--bb-gold); color:#12233f; }
+:root[data-proj="beatbounds"] .pager__link.ui-panel{ border-image:none; border:4px solid var(--bb-gold); background:#16233f; box-shadow:0 4px 0 rgba(0,0,0,.35); }
+:root[data-proj="beatbounds"] .pager__name{ color:#fff; }
+:root[data-proj="beatbounds"] .pager__dir{ color:var(--bb-coral); }
+:root[data-proj="beatbounds"] .foot, :root[data-proj="beatbounds"] .foot a{ color:#aec3dc; }
+/* .foot__credits carries its own colour in styles.css, so it does NOT inherit
+   the footer override above - it must be named explicitly or the colophon line
+   stays the default lavender. */
+:root[data-proj="beatbounds"] .foot__credits{ color:#aec3dc; }
+:root[data-proj="beatbounds"] .tags li{ border-image:none; border:2px solid #3E7CB1; background:rgba(255,255,255,.03); color:#dce8f5; }
+/* ---- title-screen intro: hearts + Mario-style ? boxes, no big preview ---- */
+:root[data-proj="beatbounds"] .proj-hero .shell{ position:relative; }
+:root[data-proj="beatbounds"] .proj-hero__grid{ grid-template-columns:minmax(0,1fr); }
+:root[data-proj="beatbounds"] .bb-lives{ display:flex; gap:7px; margin:calc(var(--u)*3) 0 calc(var(--u)*1); }
+:root[data-proj="beatbounds"] .bb-lives i{ width:26px; height:23px; background:var(--bb-heart) center/contain no-repeat; }
+:root[data-proj="beatbounds"] .bb-boxes{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+:root[data-proj="beatbounds"] .bb-qbox{ position:absolute; background:var(--bb-qbox) center/contain no-repeat; filter:drop-shadow(0 4px 0 rgba(0,0,0,.3)); animation:bbbob 2.4s ease-in-out infinite; }
+:root[data-proj="beatbounds"] .bb-boxes .bb-qbox:nth-child(1){ top:3%; right:9%; width:48px; height:48px; }
+:root[data-proj="beatbounds"] .bb-boxes .bb-qbox:nth-child(2){ top:16%; right:20%; width:34px; height:34px; animation-delay:.5s; }
+:root[data-proj="beatbounds"] .bb-boxes .bb-qbox:nth-child(3){ top:30%; right:11%; width:40px; height:40px; animation-delay:1s; }
+:root[data-proj="beatbounds"] .bb-boxes .bb-qbox:nth-child(4){ top:44%; right:21%; width:32px; height:32px; animation-delay:.3s; }
+:root[data-proj="beatbounds"] .bb-boxes .bb-qbox:nth-child(5){ top:58%; right:13%; width:38px; height:38px; animation-delay:.8s; }
+@keyframes bbbob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
+@media (prefers-reduced-motion: reduce){ :root[data-proj="beatbounds"] .bb-qbox{ animation:none } }
+@media (max-width:520px){ :root[data-proj="beatbounds"] .bb-boxes{ display:none } }
+/* sparse mystery boxes floating down the rest of the page, near the edges */
+:root[data-proj="beatbounds"] .bb-page-boxes{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox{ position:absolute; background:var(--bb-qbox) center/contain no-repeat; filter:drop-shadow(0 4px 0 rgba(0,0,0,.3)); animation:bbbob 2.6s ease-in-out infinite; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(1){ top:21%; left:8%; width:34px; height:34px; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(2){ top:26%; left:46%; width:30px; height:30px; animation-delay:.6s; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(3){ top:31%; right:7%; width:32px; height:32px; animation-delay:1.2s; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(4){ top:38%; left:24%; width:34px; height:34px; animation-delay:.3s; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(5){ top:44%; left:62%; width:30px; height:30px; animation-delay:.9s; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(6){ top:51%; right:9%; width:30px; height:30px; animation-delay:1.5s; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(7){ top:57%; left:12%; width:34px; height:34px; animation-delay:.2s; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(8){ top:63%; left:44%; width:28px; height:28px; animation-delay:1.1s; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(9){ top:70%; right:6%; width:32px; height:32px; animation-delay:.4s; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(10){ top:77%; left:27%; width:34px; height:34px; animation-delay:.8s; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(11){ top:84%; left:56%; width:28px; height:28px; animation-delay:1.3s; }
+:root[data-proj="beatbounds"] .bb-page-boxes .bb-qbox:nth-child(12){ top:91%; right:8%; width:30px; height:30px; animation-delay:.1s; }
+@media (max-width:520px){ :root[data-proj="beatbounds"] .bb-page-boxes{ display:none } }
+
+/* ---- the walk-cycle diorama (full-bleed band you scroll past) ---- */
+.bb-lane{ position:relative; height:calc(var(--bb-fh) + var(--bb-floorH)); overflow:hidden; margin:clamp(8px,2vh,24px) 0; }
+.bb-floor{ position:absolute; left:0; right:0; bottom:0; height:var(--bb-floorH); background:repeat-x left top / auto 100%; box-shadow:0 12px 20px rgba(0,0,0,.4); }
+.bb-floor--green{ background-image:url(../../assets/bb/floor-green.png); border-top:5px solid #7ED16A; }
+.bb-floor--coral{ background-image:url(../../assets/bb/floor-coral.png); border-top:5px solid var(--bb-gold); }
+.bb-walker{ position:absolute; bottom:var(--bb-floorH); left:0; width:var(--bb-fw); height:var(--bb-fh);
+  background:url(../../assets/bb/char-run.png) 0 0 / var(--bb-strip) var(--bb-fh) no-repeat;
+  animation:bbstep .8s steps(7) infinite, bbltr 16s linear infinite; }
+@keyframes bbstep{ to{ background-position-x:calc(-1 * var(--bb-strip)); } }
+@keyframes bbltr{ from{ transform:translateX(-140px);} to{ transform:translateX(100vw);} }
+.bb-lane--rtl .bb-walker{ animation:bbstep .8s steps(7) infinite, bbrtl 16s linear infinite; }
+@keyframes bbrtl{ from{ transform:translateX(100vw) scaleX(-1);} to{ transform:translateX(-140px) scaleX(-1);} }
+@media (prefers-reduced-motion: reduce){ .bb-walker{ animation:bbstep .8s steps(7) infinite; } }
+/* shared project-motif decoration off */
+:root[data-proj="beatbounds"] .hero::before,
+:root[data-proj="beatbounds"] .band::before,
+:root[data-proj="beatbounds"] .level::before,
+:root[data-proj="beatbounds"] .foot::before,
+:root[data-proj="beatbounds"] .proj-hero::before,
+:root[data-proj="beatbounds"] .proj-sec::before{ display:none !important; }
+
+/* ---- gallery routes (11f-h) --------------------------------------------
+   .plate forces aspect-ratio 3/4 + object-fit:cover, which would crop every
+   one of these. .bb-preview keeps the native ratio instead. The cream mount
+   matters: two of the previews are TRANSPARENT sprite-sheet PNGs whose art is
+   dark line work, and on the navy sheet they would vanish. */
+.bb-preview{ display:block; background:#F2EDE2; padding:10px;
+  border:4px solid #3E7CB1; box-shadow:0 0 0 3px #0d1729; transition:transform .18s ease; }
+.bb-preview img{ display:block; width:100%; height:auto; }
+/* the tileset preview is assembled from real tiles, so they must butt together
+   with no gap - same rule as the gallery's .bb-shape */
+.bb-preview--tiles{ display:flex; font-size:0; }
+.bb-ptile{ display:block; flex:1 1 0; }
+.bb-ptile img{ display:block; width:100%; height:auto; }
+.bb-preview:hover{ transform:translateY(-3px); }
+.bb-seeall{ display:inline-block; margin-top:calc(var(--u)*3); color:#F5C518;
+  font-family:var(--display); font-size:1rem; letter-spacing:.05em; }
+.bb-seeall:hover{ color:#fff; }
+
+/* ---- context panel, above the section list ----------------------------
+   Sits between the hero and the toc so the game is explained before any of
+   the work is shown - without it the sections read as loose asset dumps. */
+.bb-about{ position:relative; z-index:3; padding:calc(var(--u)*4) 0 0; }
+.bb-about__panel{ background:#16233f; border:4px solid #F5C518;
+  box-shadow:0 4px 0 rgba(0,0,0,.35); padding:calc(var(--u)*6); max-width:80ch; }
+.bb-about__h{ color:#F5C518; margin:0 0 calc(var(--u)*3);
+  font-size:1.5rem; letter-spacing:.04em; text-shadow:2px 2px 0 rgba(0,0,0,.4); }
+.bb-about p{ color:#dce8f5; margin:0 0 calc(var(--u)*4); line-height:1.62; }
+.bb-about p:last-child{ margin-bottom:0; }
+.bb-about__link a{ font-family:var(--display); color:#F5C518; font-size:1.08rem;
+  letter-spacing:.04em; text-decoration:none; border-bottom:2px solid rgba(245,197,24,.45); }
+.bb-about__link a:hover{ color:#fff; border-bottom-color:#fff; }
+
+/* Narrative and Drafts lead with wide 16:9 concept art, which at the shared
+   320px column stands only ~192px against 298-373px of copy. 440px brings the
+   preview to ~248px without starving the text column. */
+@media (min-width:860px){
+  :root[data-proj="beatbounds"] #narrative .proj-sec__grid{
+    grid-template-columns:minmax(0,440px) minmax(0,1fr);
+  }
+  :root[data-proj="beatbounds"] #drafts .proj-sec__grid{
+    grid-template-columns:minmax(0,440px) minmax(0,1fr);
+  }
+  :root[data-proj="beatbounds"] #narrative.proj-sec--flip .proj-sec__grid,
+  :root[data-proj="beatbounds"] #drafts.proj-sec--flip .proj-sec__grid{
+    grid-template-columns:minmax(0,1fr) minmax(0,440px);
+  }
+}
+
+/* The logos preview is a square lockup sheet; 340px gives it a little more
+   presence than the shared 320px column without crowding the copy. */
+@media (min-width:860px){
+  :root[data-proj="beatbounds"] #logos .proj-sec__grid{
+    grid-template-columns:minmax(0,340px) minmax(0,1fr);
+  }
+  :root[data-proj="beatbounds"] #logos.proj-sec--flip .proj-sec__grid{
+    grid-template-columns:minmax(0,1fr) minmax(0,340px);
+  }
+}
+
+/* Objects/assets preview: 440px, matching the narrative and drafts tier.
+   ⚠️ Its source is only 504px wide, so 440 is close to the ceiling — anything
+   past 504 upscales. Do not widen this one further without a bigger source. */
+@media (min-width:860px){
+  :root[data-proj="beatbounds"] #in-game-assets .proj-sec__grid{
+    grid-template-columns:minmax(0,440px) minmax(0,1fr);
+  }
+  :root[data-proj="beatbounds"] #in-game-assets.proj-sec--flip .proj-sec__grid{
+    grid-template-columns:minmax(0,1fr) minmax(0,440px);
+  }
+}
+
+/* Level backgrounds: 440px, the same tier as narrative / drafts / objects.
+   Source is 1152px wide, so there is plenty of headroom here. */
+@media (min-width:860px){
+  :root[data-proj="beatbounds"] #level-backgrounds .proj-sec__grid{
+    grid-template-columns:minmax(0,440px) minmax(0,1fr);
+  }
+  :root[data-proj="beatbounds"] #level-backgrounds.proj-sec--flip .proj-sec__grid{
+    grid-template-columns:minmax(0,1fr) minmax(0,440px);
+  }
+}
+
+/* Ground tiles and Interface joined the 440px preview tier.
+   The tiles preview is now a single composed thumbnail, so .bb-preview--tiles
+   and .bb-ptile are unused — kept in case the live assembly is wanted back. */
+@media (min-width:860px){
+  :root[data-proj="beatbounds"] #ground-tiles .proj-sec__grid,
+  :root[data-proj="beatbounds"] #interface .proj-sec__grid{
+    grid-template-columns:minmax(0,440px) minmax(0,1fr);
+  }
+  :root[data-proj="beatbounds"] #ground-tiles.proj-sec--flip .proj-sec__grid,
+  :root[data-proj="beatbounds"] #interface.proj-sec--flip .proj-sec__grid{
+    grid-template-columns:minmax(0,1fr) minmax(0,440px);
+  }
+}
+
+/* ---- toc: wide and short, not narrow and tall -----------------------------
+   EIGHT sections, so the shared 2-column phone grid stacked them four rows
+   deep. This page opts out of that grid and keeps the DESKTOP treatment -
+   content-sized pills packed with flex-wrap - which is both wider and shorter:
+   3 per row and 84px tall, against 114px as a 2-column grid.
+   ⚠️ A 3- or 4-column GRID was measured first and is WORSE, not better: fixed
+   columns are ~95px (or ~70px at 4), narrower than "Level Backgrounds" needs
+   (98px of text), so every long pill wraps to two lines and the block grows to
+   141px - taller than what it replaced. Packing by content avoids the wrap
+   entirely.
+   ⚠️ The shared phone rule stretches .toc__link to width/height:100% so two
+   pills in a fixed grid match each other; that must be undone here or every
+   pill goes full width in a flex row.
+   ⚠️ Scoped to this page ON PURPOSE - Art & Concept and Kryat have 2 pills
+   each and rely on that fixed grid to make them equal. */
+@media (max-width:700px){
+  :root[data-proj="beatbounds"] .toc__list{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:6px;
+  }
+  :root[data-proj="beatbounds"] .toc__link{ width:auto; height:auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<a class="skip ui-bar ui-bar-cream" href="#sections">Skip to sections</a>
+
+<div class="stage-top">
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../index.html#experience">Experience</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="proj-hero" id="top">
+  <div class="shell">
+    <a class="crumb" href="../../index.html#level-4">
+      <img src="../../assets/ui6/arrow-left.png" alt="" width="48" height="103">
+      Back to Level 4
+    </a>
+
+    <div class="proj-hero__grid">
+      <div>
+        <p class="level__badge ui-bar">Level&nbsp;&ndash;&nbsp;4</p>
+        <div class="level__panel ui-panel"><h1 class="proj-title arcade">BeatBounds</h1></div>
+        <div class="bb-lives" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="proj-lede">
+          A rhythm platformer where the music decides what you are allowed to do &mdash; and
+          our major project in the final year of university, made with one other teammate.
+          This page collects the art and interface work I contributed: the character you play,
+          the ground you land on, the sky behind it, the story around it, and every screen in
+          between.
+        </p>
+
+        <dl class="meta">
+          <div>
+            <dt class="meta__k">Role</dt>
+            <dd class="meta__v">2D art, UI &amp; narrative art</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Context</dt>
+            <dd class="meta__v">University major project &middot; team of two</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Year</dt>
+            <dd class="meta__v">2023 &ndash; 2024</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Tools</dt>
+            <dd class="meta__v">Photoshop, Unity</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="bb-boxes" aria-hidden="true"><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span></div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.stage-top -->
+
+<div class="bb-page-boxes" aria-hidden="true"><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span><span class="bb-qbox"></span></div>
+
+<div class="bb-lane" aria-hidden="true"><div class="bb-floor bb-floor--green"></div><div class="bb-walker"></div></div>
+
+<section class="bb-about" aria-labelledby="bb-about-h">
+  <div class="shell">
+    <div class="bb-about__panel">
+      <h2 class="bb-about__h arcade" id="bb-about-h">About the game</h2>
+      <p>
+        BeatBounds was our major project in the final year of university, made with one other
+        teammate. It is a rhythm game: what the player is allowed to do is driven entirely by
+        the music. Each track hands the player its own set of movement and action options, and
+        those rules have to be followed in time with the beat &mdash; with visual cues marking
+        the moment the music changes.
+      </p>
+      <!-- The beatbounds.com demo link was removed on 2026-08-13: the domain no
+           longer resolves (connection refused), so it was a dead outbound link.
+           .bb-about__link is now unused but harmless - put the paragraph back if
+           the site ever returns. -->
+    </div>
+  </div>
+</section>
+
+<nav class="toc" id="sections" aria-labelledby="toc-title">
+  <div class="shell">
+    <h2 class="toc__head arcade" id="toc-title">What&rsquo;s in it</h2>
+    <ul class="toc__list">
+      <li><a class="toc__link ui-slot" href="#interface">Interface</a></li>
+      <li><a class="toc__link ui-slot" href="#character-design">Character Design</a></li>
+      <li><a class="toc__link ui-slot" href="#ground-tiles">Ground Tiles</a></li>
+      <li><a class="toc__link ui-slot" href="#level-backgrounds">Level Backgrounds</a></li>
+      <li><a class="toc__link ui-slot" href="#in-game-assets">In-Game Assets</a></li>
+      <li><a class="toc__link ui-slot" href="#logos">Logos</a></li>
+      <li><a class="toc__link ui-slot" href="#narrative">Narrative</a></li>
+      <li><a class="toc__link ui-slot" href="#drafts">Drafts &amp; Process</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="proj-sec" id="interface" aria-labelledby="s1-title">
+  <div class="shell">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="bb-preview" href="gallery/#interface">
+          <img src="../../assets/img/beatbounds/interface-03.jpg" width="1184" height="666"
+               loading="lazy" decoding="async"
+               alt="The shop screen: a daily chest on a countdown, note-currency packs at two price points and chest bundles, under the hearts and note counter">
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Menus &amp; HUD</p>
+        <h2 class="proj-sec__title" id="s1-title">Interface</h2>
+        <p class="proj-sec__text">
+          Every screen the player passes through — the opening screen and its alternates, the
+          pause state, the shop, and the HUD carried through a level. A rhythm game gives the
+          interface very little room to interrupt, so most of the work went into what could be
+          removed rather than what could be added.
+        </p>
+        <ul class="tags"><li>Title screen</li><li>Pause</li><li>Shop</li><li>HUD</li></ul>
+        <a class="bb-seeall" href="gallery/#interface">View all 6 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<section class="proj-sec proj-sec--flip" id="character-design" aria-labelledby="s2-title">
+  <div class="shell">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="bb-preview" href="gallery/#character-design">
+          <img src="../../assets/img/beatbounds/character-design-01.jpg" width="714" height="1000"
+               loading="lazy" decoding="async"
+               alt="The player character in a long red coat and goggled top hat, drawn full-length and in profile">
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Concepts &amp; sprites</p>
+        <h2 class="proj-sec__title" id="s2-title">Character Design</h2>
+        <p class="proj-sec__text">
+          The player character from reference sheets and early concepts through to the sprite
+          sheet that shipped into the build. A platformer character has to stay readable at
+          speed and at a small size, which narrowed the silhouette considerably between the
+          first concepts and the last.
+        </p>
+        <ul class="tags"><li>Concepts</li><li>Sprite sheet</li><li>Silhouette</li></ul>
+        <a class="bb-seeall" href="gallery/#character-design">View all 4 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<section class="proj-sec" id="ground-tiles" aria-labelledby="s3-title">
+  <div class="shell">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="bb-preview" href="gallery/#ground-tiles">
+          <img src="../../assets/img/beatbounds/previews/ground-tiles.jpg" width="768" height="768"
+               loading="lazy" decoding="async"
+               alt="The forest tileset assembled into its three shapes: a flat-topped block, a sloped block and a plain fill run">
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Tilesets</p>
+        <h2 class="proj-sec__title" id="s3-title">Ground Tiles</h2>
+        <p class="proj-sec__text">
+          Forest, cave and mountain tilesets, six tiles each &mdash; a top edge, its two
+          corners, a slope either side and a plain fill &mdash; plus the poison water surface.
+          Tiles are the one asset where a mistake repeats itself across a whole level, so they
+          are shown assembled rather than piece by piece, which is the only way the joins can
+          actually be judged.
+        </p>
+        <ul class="tags"><li>Forest</li><li>Cave</li><li>Mountain</li><li>Tiling</li></ul>
+        <a class="bb-seeall" href="gallery/#ground-tiles">View all 20 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<section class="proj-sec proj-sec--flip" id="level-backgrounds" aria-labelledby="s4-title">
+  <div class="shell">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="bb-preview" href="gallery/#level-backgrounds">
+          <img src="../../assets/img/beatbounds/level-backgrounds-02.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Painted level background: deep blue mountains under a crescent moon, with a pale teal lake in the valley below">
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Environments</p>
+        <h2 class="proj-sec__title" id="s4-title">Level Backgrounds</h2>
+        <p class="proj-sec__text">
+          The painted environments sitting behind play. They carry the mood of each level while
+          staying quiet enough that the tiles the player actually lands on remain the highest
+          contrast thing on screen.
+        </p>
+        <ul class="tags"><li>Environment art</li><li>Depth</li><li>Contrast</li></ul>
+        <a class="bb-seeall" href="gallery/#level-backgrounds">View all 3 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<section class="proj-sec" id="in-game-assets" aria-labelledby="s5-title">
+  <div class="shell">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="bb-preview" href="gallery/#in-game-assets">
+          <img src="../../assets/img/beatbounds/previews/in-game-assets.jpg" width="504" height="360"
+               loading="lazy" decoding="async"
+               alt="Obstacle and prop exploration: spiked rollers, a swinging mace, flame plumes, a saw blade, a cannon, spikes and a snare">
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Props &amp; obstacles</p>
+        <h2 class="proj-sec__title" id="s5-title">In-Game Assets</h2>
+        <p class="proj-sec__text">
+          Obstacles and props, explored as a set rather than individually so that anything
+          hazardous shares a visual language the player can learn once and then trust.
+        </p>
+        <ul class="tags"><li>Obstacles</li><li>Props</li><li>Readability</li></ul>
+        <a class="bb-seeall" href="gallery/#in-game-assets">View all 2 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<section class="proj-sec proj-sec--flip" id="logos" aria-labelledby="s6-title">
+  <div class="shell">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="bb-preview" href="gallery/#logos">
+          <img src="../../assets/img/beatbounds/previews/logos.jpg" width="666" height="666"
+               loading="lazy" decoding="async"
+               alt="The BeatBounds logo in two lockups — one with the headphone-and-gear mark, one with the waveform rule beneath">
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Branding</p>
+        <h2 class="proj-sec__title" id="s6-title">Logos</h2>
+        <p class="proj-sec__text">
+          Wordmark exploration for the game, from a wide first sweep through to the options
+          that made the shortlist and the one that ended up on the title screen.
+        </p>
+        <ul class="tags"><li>Wordmark</li><li>Exploration</li><li>Shortlist</li></ul>
+        <a class="bb-seeall" href="gallery/#logos">View all 4 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<section class="proj-sec" id="narrative" aria-labelledby="s7-title">
+  <div class="shell">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="bb-preview" href="gallery/#narrative">
+          <img src="../../assets/img/beatbounds/narrative-06.jpg" width="763" height="432"
+               loading="lazy" decoding="async"
+               alt="Story panel: the guardian before the great clock that keeps time for every world, its face holding a burning city">
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Story</p>
+        <h2 class="proj-sec__title" id="s7-title">Narrative</h2>
+        <p class="proj-sec__text">
+          The player character guards time &mdash; every alternative timeline and world,
+          watched from a room of monitors. While he is on duty something breaks in the main
+          timeline, the alarm goes up, and he goes out through the gates to find it: up the
+          moonlit stairs to the great clock that keeps time for every world. He finds it
+          broken. That is where the game begins, and why he is running through the levels
+          at all &mdash; he is looking for the key to put it right.
+        </p>
+        <p class="proj-sec__text">
+          Six panels carry that, so the game never has to stop and explain itself.
+        </p>
+        <ul class="tags"><li>Story</li><li>World</li><li>Key art</li></ul>
+        <a class="bb-seeall" href="gallery/#narrative">View all 6 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<section class="proj-sec proj-sec--flip" id="drafts" aria-labelledby="s8-title">
+  <div class="shell">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="bb-preview" href="gallery/#drafts">
+          <img src="../../assets/img/beatbounds/drafts-11.jpg" width="1152" height="648"
+               loading="lazy" decoding="async"
+               alt="Painted level concept in magenta and green: beat rings numbered 3, 4 and 3 over sliding platforms, with a key at the exit">
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">12 pieces</p>
+        <h2 class="proj-sec__title" id="s8-title">Drafts &amp; Process</h2>
+        <p class="proj-sec__text">
+          Twelve pieces of working material, from the first handwritten notes through quick
+          layout sketches to painted level concepts. The notes are worth more than they look:
+          one of them is where the whole rule gets written down &mdash; a numbered beat ring
+          decides what the player is allowed to do, walk on a two, walk and jump on a three,
+          movement restricted on a dashed one.
+        </p>
+        <ul class="tags"><li>Starting notes</li><li>Level sketches</li><li>Painted concepts</li></ul>
+        <a class="bb-seeall" href="gallery/#drafts">View all 12 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<div class="bb-lane bb-lane--rtl" aria-hidden="true"><div class="bb-floor bb-floor--coral"></div><div class="bb-walker"></div></div>
+
+<nav class="pager" aria-label="Other projects">
+  <div class="shell">
+    <ul class="pager__list">
+      <li>
+        <a class="pager__link ui-panel" href="../studio-work/">
+          <span class="pager__dir">Previous &mdash; Level 3</span>
+          <span class="pager__name">Studio Work</span>
+        </a>
+      </li>
+      <li>
+        <a class="pager__link ui-panel pager__link--next" href="../hydro-grow-station/">
+          <span class="pager__dir">Next &mdash; Level 5</span>
+          <span class="pager__name">Hydro-Grow Station</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="divider" role="presentation"></div>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p>
+      <a href="../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerinamcl/" rel="me noopener">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a> &middot;
+      <a href="../../index.html#work">All work</a>
+    </p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.
+    </p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+
+<script src="../../assets/app.js?v=17" defer></script>
+
+</body>
+</html>

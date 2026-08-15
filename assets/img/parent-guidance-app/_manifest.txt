@@ -1,0 +1,10 @@
+﻿parent-guidance-app-01.jpg|381|665|Option1\bottomup2.png|62|51
+parent-guidance-app-02.jpg|386|1082|Option1\middlebottommain.png|608|96
+parent-guidance-app-03.jpg|381|991|Option1\topup2.png|120|78
+parent-guidance-app-04.jpg|367|1400|Option1\Upsell1.png|156|89
+parent-guidance-app-05.jpg|199|1400|Option1\Upsell2.png|796|78
+parent-guidance-app-06.jpg|378|1124|Option2\Plan (benefits + pricing).png|125|82
+parent-guidance-app-07.jpg|378|889|Option2\Reviews.png|84|72
+parent-guidance-app-08.jpg|176|1400|Option2\Task2Final.png|629|65
+parent-guidance-app-09.jpg|378|1019|Option2\Whole Design.png|414|79
+parent-guidance-app-10.jpg|1400|933|QuickDraft\quickserenityui.png|2414|81

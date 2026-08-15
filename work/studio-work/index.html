@@ -1,0 +1,1470 @@
+<!doctype html>
+<html lang="en" data-proj="studio-work">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio Work — Katerina Michael</title>
+<meta name="description" content="Production UI for a live free-to-play racing title, mobile-first and shipped cross-platform, made at NaturalMotion — profile, messaging, PvP, pop-ups, icons, portraits and campaign art.">
+<meta property="og:title" content="Studio Work — Katerina Michael">
+<meta property="og:description" content="Production UI for a live free-to-play racing title, mobile-first and shipped cross-platform. Eleven feature areas as UI Artist at NaturalMotion.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="../../assets/img/studio-work/player-profile-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/styles.css?v=62">
+<style id="rc-theme">
+/* Studio Work (racing) — retro pixel-window tabs, staggered, in the
+   pink E8298C / amber F5A03E / cyan 2ED9E8 / purple 8B3EC4 / indigo 1A1240 palette,
+   over a low-contrast plum chequerboard. Race-track strips with a driving car
+   and a finish flag bracket the Feature Areas bubble; pixel helmets and flags
+   drift at the margins. Scoped inline; no other page affected. */
+:root[data-proj="studio-work"]{
+  --rc-orange:#E8298C; --rc-pink-text:#C51E75;   /* text-safe pink: 4.79:1 on the pale, vs 3.57 for the bright one */ --rc-navy:#241A5E;   /* dark blue: body text on cream, thumbnail frames */
+  /* thumbnail frame ramp — Katerina's pick, cool against the warm panels.
+     --rc-plate-1 is the darker of the two (luminance .021 vs .046), so it goes
+     on top. Not part of the synthwave five. */
+  --rc-plate-1:#0E2166; --rc-plate-2:#104259;
+  /* Title-bar artwork. Two liveries because the bars alternate orange / red —
+     the image carries its OWN field colour, so an orange asset on a red bar
+     would paint an orange block. Each is paired with a matching CSS colour
+     underneath: the asset's left edge is plain field colour, so where the
+     image stops the CSS colour continues it with no visible seam. */
+  --rc-bar:url("../../assets/img/rc-topbar-rebrand.png");
+  --rc-bar-red:url("../../assets/img/rc-topbar-red.png");   /* kept, currently unused */
+  /* Panel outline ramp. Solid orange over the top 40%, solid red over the
+     bottom 40%, blended across the middle — so it reads as genuinely half and
+     half rather than a wash where neither colour is ever itself. */
+  --rc-ramp:linear-gradient(180deg,#E8298C 0 40%,#8B3EC4 60% 100%);
+  /* Window controls for the title bars — minimise / maximise / close, drawn as
+     PIXEL BLOCKS rather than strokes so they match the rest of the page's
+     pixel language (an earlier stroke-based version of this var sat here
+     unused). shape-rendering='crispEdges' keeps the corners hard at any size.
+     ⚠️ Colours inside a data URI are %23, never # (a find-and-replace over hex
+     values silently misses every colour in the artwork). */
+  --rc-ctrl:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 14' shape-rendering='crispEdges' fill='%23F2EDFB'><rect x='1' y='10' width='10' height='2'/><rect x='17' y='3' width='10' height='2'/><rect x='17' y='9' width='10' height='2'/><rect x='17' y='3' width='2' height='8'/><rect x='25' y='3' width='2' height='8'/><rect x='33' y='3' width='2' height='2'/><rect x='41' y='3' width='2' height='2'/><rect x='35' y='5' width='2' height='2'/><rect x='39' y='5' width='2' height='2'/><rect x='37' y='7' width='2' height='2'/><rect x='35' y='9' width='2' height='2'/><rect x='39' y='9' width='2' height='2'/><rect x='33' y='11' width='2' height='2'/><rect x='41' y='11' width='2' height='2'/></svg>");
+}
+/* racing background — one long vertical gradient, same structure as every
+   other page (styles.css builds .sheet from --sheet-1..4 at 0/30/62/100%),
+   just in this page's colours. The chequered ground that used to live here
+   was a 56px conic tile; it competed with the road and the flag decorations.
+
+   Kept deliberately narrow-range like the default purple sheet — the racing
+   identity comes from the panels, road and flags, so the ground stays quiet.
+   Anchored on #1F1550, the blue this page already used, drifting warm toward
+   the brown end of the palette (--rc-brown #2A1A5C) as the page descends. */
+:root[data-proj="studio-work"] .sky{ background:#120C2E; }
+/* Subtle ground texture, same treatment as Individual Projects' --ip-grid:
+   a 32px grid of 1px lines over the gradient so the ground is not dead flat.
+   Line colour is #1F1550 lifted to L43% at the same hue — the same trick that
+   page uses (its #6B3FA0 is a lift of its own #2A1140), so it stays in family
+   rather than importing a new colour. At .22 the blend shifts the ground by
+   about (7,12,16) — matched by eye to IP's delta so both read equally quiet. */
+:root[data-proj="studio-work"]{
+  --rc-grid:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><g stroke='%234A3A9E' stroke-width='1' opacity='.22'><path d='M0 .5 H32'/><path d='M.5 0 V32'/></g></svg>");
+}
+:root[data-proj="studio-work"]{
+  --sw-stars:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='720' height='1280'><rect x='96' y='60' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='288' y='160' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='300' y='34' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='200' y='108' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='540' y='96' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='220' y='232' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='640' y='180' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='520' y='400' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='180' y='220' width='8' height='8' fill='%23F2EDFB' opacity='0.6'/><rect x='540' y='480' width='6' height='6' fill='%232ED9E8' opacity='0.42'/><rect x='420' y='150' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='560' y='340' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='248' y='392' width='8' height='8' fill='%23F2EDFB' opacity='0.32'/><rect x='44' y='304' width='6' height='6' fill='%232ED9E8' opacity='0.22'/><rect x='356' y='430' width='8' height='8' fill='%23F2EDFB' opacity='0.32'/><rect x='368' y='380' width='6' height='6' fill='%232ED9E8' opacity='0.22'/><rect x='470' y='360' width='8' height='8' fill='%23F2EDFB' opacity='0.32'/><rect x='10' y='240' width='6' height='6' fill='%232ED9E8' opacity='0.22'/><rect x='120' y='470' width='8' height='8' fill='%23F2EDFB' opacity='0.32'/><rect x='360' y='460' width='6' height='6' fill='%232ED9E8' opacity='0.22'/><rect x='600' y='452' width='8' height='8' fill='%23F2EDFB' opacity='0.32'/><rect x='400' y='424' width='6' height='6' fill='%232ED9E8' opacity='0.22'/><rect x='60' y='120' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='180' y='280' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='660' y='240' width='8' height='8' fill='%23F2EDFB' opacity='0.6'/><rect x='580' y='0' width='6' height='6' fill='%232ED9E8' opacity='0.42'/><rect x='360' y='300' width='8' height='8' fill='%23F2EDFB' opacity='0.6'/><rect x='380' y='120' width='6' height='6' fill='%232ED9E8' opacity='0.42'/><rect x='210' y='90' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='630' y='220' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='510' y='210' width='8' height='8' fill='%23F2EDFB' opacity='0.6'/><rect x='130' y='460' width='6' height='6' fill='%232ED9E8' opacity='0.42'/><rect x='40' y='320' width='8' height='8' fill='%23F2EDFB' opacity='0.6'/><rect x='120' y='160' width='6' height='6' fill='%232ED9E8' opacity='0.42'/><rect x='690' y='400' width='8' height='8' fill='%23F2EDFB' opacity='0.32'/><rect x='670' y='320' width='6' height='6' fill='%232ED9E8' opacity='0.22'/><rect x='150' y='40' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='450' y='120' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='430' y='60' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='590' y='160' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='580' y='20' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='340' y='80' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='270' y='160' width='8' height='8' fill='%23F2EDFB' opacity='0.95'/><rect x='110' y='360' width='6' height='6' fill='%232ED9E8' opacity='0.66'/><rect x='330' y='260' width='8' height='8' fill='%23F2EDFB' opacity='0.6'/><rect x='290' y='40' width='6' height='6' fill='%232ED9E8' opacity='0.42'/><rect x='620' y='330' width='8' height='8' fill='%23F2EDFB' opacity='0.6'/><rect x='460' y='180' width='6' height='6' fill='%232ED9E8' opacity='0.42'/></svg>");
+  --sw-cityimg:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='560' height='150'><rect x='0' y='96' width='20' height='54' fill='%230A0520'/><rect x='5' y='105' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='5' y='120' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='5' y='135' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='26' y='72' width='28' height='78' fill='%230A0520'/><rect x='31' y='81' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='31' y='96' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='31' y='111' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='31' y='126' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='60' y='110' width='36' height='40' fill='%230A0520'/><rect x='87' y='119' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='87' y='134' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='102' y='54' width='44' height='96' fill='%230A0520'/><rect x='118' y='63' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='118' y='78' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='118' y='93' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='118' y='108' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='118' y='123' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='152' y='88' width='20' height='62' fill='%230A0520'/><rect x='157' y='97' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='157' y='112' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='157' y='127' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='178' y='30' width='28' height='120' fill='%230A0520'/><rect x='194' y='39' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='194' y='54' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='194' y='69' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='194' y='84' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='194' y='99' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='194' y='114' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='194' y='129' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='212' y='102' width='36' height='48' fill='%230A0520'/><rect x='239' y='111' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='239' y='126' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='254' y='66' width='44' height='84' fill='%230A0520'/><rect x='270' y='75' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='270' y='90' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='270' y='105' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='270' y='120' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='270' y='135' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='304' y='84' width='20' height='66' fill='%230A0520'/><rect x='330' y='46' width='28' height='104' fill='%230A0520'/><rect x='335' y='55' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='335' y='70' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='335' y='85' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='335' y='100' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='335' y='115' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='335' y='130' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='364' y='106' width='36' height='44' fill='%230A0520'/><rect x='380' y='115' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='380' y='130' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='406' y='78' width='44' height='72' fill='%230A0520'/><rect x='422' y='87' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='422' y='102' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='422' y='117' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='422' y='132' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='456' y='92' width='20' height='58' fill='%230A0520'/><rect x='461' y='101' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='461' y='116' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='461' y='131' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='482' y='58' width='28' height='92' fill='%230A0520'/><rect x='487' y='67' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='487' y='82' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='487' y='97' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='487' y='112' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='487' y='127' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='516' y='100' width='36' height='50' fill='%230A0520'/><rect x='532' y='109' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='532' y='124' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='558' y='70' width='44' height='80' fill='%230A0520'/><rect x='574' y='79' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='574' y='94' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='574' y='109' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='574' y='124' width='3' height='6' fill='%232ED9E8' opacity='.55'/><rect x='250' y='6' width='30' height='144' fill='%230A0520'/><rect x='263' y='-18' width='3' height='26' fill='%230A0520'/><rect x='300' y='26' width='24' height='124' fill='%230A0520'/></svg>");
+  --sw-horizon:840px;    /* where the sky ends and the floor begins */
+}
+/* ============ the synthwave scene ============
+   Sky + stars, sun on the horizon, city silhouette, a perspective floor that
+   converges on the vanishing point, then the site's boxy grid for however long
+   the page runs. All CSS + generated SVG — no image assets.
+   The pieces are separate layers on .sheet::before / ::after and two spans so
+   each can be positioned independently; the gradient stays on .sheet. */
+:root[data-proj="studio-work"] .sheet{
+  background:linear-gradient(180deg,
+    #0C0620 0px,
+    #1A0F3E calc(var(--sw-horizon) * .42),
+    #3A1560 calc(var(--sw-horizon) * .72),
+    #6B1E63 calc(var(--sw-horizon) * .92),
+    #8E2560 var(--sw-horizon),
+    #2A1052 calc(var(--sw-horizon) + 1px),
+    #1F1550 calc(var(--sw-horizon) + 800px),
+    #241659 100%);
+}
+/* stars — only above the horizon, thinned as they approach it */
+:root[data-proj="studio-work"] .sheet::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:var(--sw-horizon);
+  background:var(--sw-stars) repeat left top / 720px 1280px;
+  pointer-events:none; z-index:0;
+}
+/* perspective floor — verticals converge on the vanishing point at the horizon */
+
+/* sun + city ride on their own spans so they sit between sky and floor */
+:root[data-proj="studio-work"] .sw-sun{
+  position:absolute; left:50%; transform:translateX(-50%);
+  top:calc(var(--sw-horizon) - 250px); width:280px; height:280px; border-radius:50%;
+  z-index:0; pointer-events:none;
+  background:linear-gradient(180deg,#FFE97A 0%, #FFC34D 22%, #F5A03E 42%, #E8298C 78%, #B01C6B 100%);
+  box-shadow:0 0 100px 24px rgba(232,41,140,.36), 0 0 220px 70px rgba(232,41,140,.16);
+}
+:root[data-proj="studio-work"] .sw-sun::after{
+  content:""; position:absolute; inset:0; border-radius:50%;
+  background:repeating-linear-gradient(180deg, transparent 0 13px, #2A1052 13px 19px);
+  -webkit-mask-image:linear-gradient(180deg, transparent 38%, #000 50%);
+          mask-image:linear-gradient(180deg, transparent 38%, #000 50%);
+}
+:root[data-proj="studio-work"] .sw-city{
+  position:absolute; left:0; right:0; height:150px;
+  top:calc(var(--sw-horizon) - 150px); z-index:0; pointer-events:none;
+  background:var(--sw-cityimg) repeat-x bottom center / auto 150px;
+}
+/* the boxy floor grid, and the join blended so there is no seam */
+/* The floor is the same boxy grid the page used before the rebrand, tiled
+   straight down at its natural 32px — no perspective. The converging lines
+   plus widening rungs were far too much visual noise under the city. */
+:root[data-proj="studio-work"]{
+  --sw-ramp:linear-gradient(180deg,transparent 0px,transparent 8.0px,rgba(74,58,158,.5) 8.0px,rgba(74,58,158,.5) 9.0px,transparent 9.0px,transparent 18.0px,rgba(74,58,158,.5) 18.0px,rgba(74,58,158,.5) 19.0px,transparent 19.0px,transparent 30.5px,rgba(74,58,158,.5) 30.5px,rgba(74,58,158,.5) 31.5px,transparent 31.5px,transparent 46.1px,rgba(74,58,158,.5) 46.1px,rgba(74,58,158,.5) 47.1px,transparent 47.1px,transparent 65.7px,rgba(74,58,158,.5) 65.7px,rgba(74,58,158,.5) 66.7px,transparent 66.7px,transparent 90.1px,rgba(74,58,158,.5) 90.1px,rgba(74,58,158,.5) 91.1px,transparent 91.1px,transparent 120.6px,rgba(74,58,158,.5) 120.6px,rgba(74,58,158,.5) 121.6px,transparent 121.6px);
+  --sw-band:340px;
+}
+/* ============ the floor ============
+   Two layers that CROSS-FADE, so the perspective start becomes the boxy grid
+   with no seam and nothing abruptly stopping:
+
+     .sw-floor::before   perspective band — verticals fanning out from the
+                         vanishing point plus 7 rungs widening 8px -> 32px.
+                         Fades OUT over its lower half.
+     .sw-floor           the constant 32px boxy grid, both axes, running to the
+                         bottom of the page. Masked to fade IN as the band ends.
+
+   The fan is 6deg apart, not the 2.6deg first tried — that was the noise. It is
+   also the same purple as the grid; cyan made it read as a separate object.
+   ⚠️ background-size must stay auto — a percentage width stretches the tile and
+   welds one stroke to the left edge (the old pale-line bug). */
+:root[data-proj="studio-work"] .sw-floor{
+  position:absolute; left:0; right:0; top:var(--sw-horizon); bottom:0;
+  z-index:0; pointer-events:none;
+  background:
+    repeating-linear-gradient(90deg, rgba(74,58,158,.5) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(180deg, rgba(74,58,158,.5) 0 1px, transparent 1px 32px);
+  -webkit-mask-image:linear-gradient(180deg, transparent 0 187px, #000 340px);
+          mask-image:linear-gradient(180deg, transparent 0 187px, #000 340px);
+}
+:root[data-proj="studio-work"] .sw-floor::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:var(--sw-band);
+  background:
+    var(--sw-ramp),
+    repeating-conic-gradient(from 180deg at 50% 0,
+      rgba(74,58,158,.5) 0 .18deg, transparent .18deg 6deg);
+  -webkit-mask-image:linear-gradient(180deg, #000 0 45%, transparent 100%);
+          mask-image:linear-gradient(180deg, #000 0 45%, transparent 100%);
+}
+:root[data-proj="studio-work"] .proj-hero::before,
+:root[data-proj="studio-work"] .proj-sec::before,
+:root[data-proj="studio-work"] .proj-hero::after{ display:none; }
+:root[data-proj="studio-work"] .divider{ display:none; }
+:root[data-proj="studio-work"] .proj-hero{ background:none; }
+
+/* --- the pixel window (staggered via inline --rc-w / --rc-ml / --rc-mr) --- */
+:root[data-proj="studio-work"] .proj-hero > .shell,
+:root[data-proj="studio-work"] .toc > .shell,
+:root[data-proj="studio-work"] .proj-sec > .shell,
+:root[data-proj="studio-work"] .note > .shell{
+  position:relative; background:#F2EDFB; color:var(--rc-navy);
+  width:min(clamp(44%, var(--rc-w,56%), 60%), calc(100% - 20px));   /* compress the size variance */
+  margin-left:var(--rc-ml,auto); margin-right:var(--rc-mr,auto);
+  padding:54px 22px 22px;
+  /* One outline for every panel: half orange, half red, top to bottom. The
+     red panel variant is gone, so nothing alternates any more.
+     ⚠️ `border-image` MUST come after the `border` shorthand — the shorthand
+     resets border-image to none, so swapping the order silently kills it.
+     It also ignores border-radius; that is safe only because these panels are
+     already square (see the "Sharp corners" rule lower down). */
+  border:5px solid transparent;
+  border-image:var(--rc-ramp) 1;
+  box-shadow:0 0 0 3px #1A1240, 9px 9px 0 rgba(0,0,0,.28);
+}
+:root[data-proj="studio-work"] .proj-hero > .shell::before,
+:root[data-proj="studio-work"] .toc > .shell::before,
+:root[data-proj="studio-work"] .proj-sec > .shell::before,
+:root[data-proj="studio-work"] .note > .shell::before{
+  content:attr(data-win);
+  position:absolute; left:0; right:0; top:0; height:40px;
+  /* Mode A — the artwork IS the whole bar. Its slashes occupy the right 60.7%
+     of the image, so at 100% they start ~39% across and the title takes the
+     left 39%. The CSS colour behind is a fallback only (image failure), not
+     part of the composition. */
+  background:var(--rc-bar) right center/100% 100% no-repeat, #C51E75;
+  color:#F2EDFB; border-bottom:3px solid #1A1240;
+  font-family:var(--display); letter-spacing:.09em; text-transform:uppercase;
+  /* The bar is nowrap + overflow:hidden, so a title that outgrows its half of
+     the bar is cut with no warning — "Character Portraits" and three others
+     were already losing their last word on narrow panels. The title width is
+     fixed px while the panel is a %, so it only fits above ~1137px viewport;
+     below that the clamp scales it down instead of clipping. Full 1.35rem is
+     unchanged on desktop. */
+  font-size:clamp(1.02rem, 1.9vw, 1.35rem);
+  padding:0 62% 0 14px; line-height:40px; white-space:nowrap; overflow:hidden;
+}
+/* content colours inside windows */
+:root[data-proj="studio-work"] .proj-sec__count{ color:var(--rc-pink-text); font-weight:800; }
+:root[data-proj="studio-work"] .proj-sec__text,
+:root[data-proj="studio-work"] .proj-lede,
+:root[data-proj="studio-work"] .meta__v{ color:var(--rc-navy); }
+:root[data-proj="studio-work"] .note__list{ color:#3A2A6B; }
+/* redundant in-body headings hidden but kept for a11y (titlebar shows them) */
+:root[data-proj="studio-work"] .proj-sec__title,
+:root[data-proj="studio-work"] .toc__head,
+:root[data-proj="studio-work"] .note__head,
+:root[data-proj="studio-work"] .proj-hero .level__panel{
+  position:absolute!important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; margin:-1px; padding:0; border:0;
+}
+/* thumbnails → simple navy frame */
+:root[data-proj="studio-work"] .plate.ui-card{ border:3px solid var(--rc-navy); border-image:none; padding:0; background:#F2EDFB; }
+:root[data-proj="studio-work"] .plate__no{ display:none; }
+:root[data-proj="studio-work"] .proj-sec__grid{ gap:20px; grid-template-columns:minmax(0,140px) minmax(0,1fr); }
+/* tags + meta → navy/orange outline chips */
+:root[data-proj="studio-work"] .tags li{ border:2px solid var(--rc-orange); border-image:none; color:var(--rc-navy); background:none; padding:1px 8px; }
+:root[data-proj="studio-work"] .meta > div{ border:2px solid var(--rc-navy); border-image:none; background:none; padding:4px 9px; }
+:root[data-proj="studio-work"] .meta__k{ color:var(--rc-pink-text); }
+/* hero badge/crumb */
+:root[data-proj="studio-work"] .level__badge{ display:none; }
+:root[data-proj="studio-work"] .crumb{ color:var(--rc-pink-text); font-family:var(--display); font-size:1.05rem; }
+:root[data-proj="studio-work"] .crumb img{ display:none; }
+/* toc pills */
+:root[data-proj="studio-work"] .toc__link.ui-slot{ border:2px solid var(--rc-navy); border-image:none; background:#F2EDFB; color:var(--rc-navy); font-weight:700; padding:3px 10px; }
+:root[data-proj="studio-work"] .toc__link.ui-slot:hover{ background:var(--rc-orange); color:#F2EDFB; }
+/* Feature areas: the same framed window as every other box, minus the
+   _ □ ✕ controls, plus a speech-bubble tail. Blue outline, white body. */
+:root[data-proj="studio-work"] .toc > .shell{
+  background:#F2EDFB; color:var(--rc-navy);
+  /* re-declaring `border` here would reset the gradient set above, so the
+     border-image is repeated rather than relying on inheritance */
+  border:5px solid transparent; border-image:var(--rc-ramp) 1; border-radius:0;
+  margin-left:auto; margin-right:auto;
+  box-shadow:0 0 0 3px #1A1240, 9px 9px 0 rgba(0,0,0,.28);
+}
+:root[data-proj="studio-work"] .toc > .shell::before{ display:block; background:var(--rc-bar) right center/100% 100% no-repeat, #C51E75; padding:0 62% 0 14px; }
+/* tail, bottom-left — a rotated square so the blue outline carries round it */
+:root[data-proj="studio-work"] .toc > .shell::after{
+  content:""; position:absolute; left:54px; bottom:-19px;
+  width:30px; height:30px; background:#F2EDFB;
+  border-right:5px solid #8B3EC4; border-bottom:5px solid #8B3EC4;
+  box-shadow:4px 4px 0 0 #1A1240;
+  transform:rotate(45deg);
+}
+/* The alternating red variant is retired — every panel now carries the same
+   orange→red outline, so the flip sections differ only in which side their
+   image sits on. Their red count colour goes back to orange to match. */
+:root[data-proj="studio-work"] .proj-sec--flip .proj-sec__count{ color:var(--rc-pink-text); }
+
+:root[data-proj="studio-work"] .toc__link.ui-slot{ background:#8B3EC4; border:2px solid #1A1240; color:#F2EDFB; }
+:root[data-proj="studio-work"] .toc__link.ui-slot:hover{ background:var(--rc-orange); border-color:#1A1240; color:#F2EDFB; }
+:root[data-proj="studio-work"] .note__inner.ui-panel{ border:0; border-image:none; background:none; padding:0; }
+/* pager + footer on the navy bg */
+:root[data-proj="studio-work"] .pager__link.ui-panel{ border:4px solid var(--rc-orange); border-image:none; background:#1F1550; box-shadow:0 0 0 2px #120C2E; }
+:root[data-proj="studio-work"] .pager__name{ color:#F2EDFB; }
+:root[data-proj="studio-work"] .pager__dir{ color:var(--rc-pink-text); }
+:root[data-proj="studio-work"] .foot, :root[data-proj="studio-work"] .foot a{ color:#C9BCE8; }
+/* .foot__credits carries its own colour in styles.css, so it does NOT inherit
+   the footer override above - it must be named explicitly or the colophon line
+   stays the default lavender. */
+:root[data-proj="studio-work"] .foot__credits{ color:#C9BCE8; }
+/* top bar + outer frame in the racing palette */
+:root[data-proj="studio-work"]{ --bezel:#E8298C; --bezel-out:#120C2E; --bar-ink:#F2EDFB;
+  --rc-star:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path d='M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z' fill='%23E8298C' stroke='%23120C2E' stroke-width='1.4'/></svg>"); }
+:root[data-proj="studio-work"] .brand__name{ color:#F2EDFB; }
+
+/* ============ race-track strips + drifting helmets ============ */
+:root[data-proj="studio-work"]{
+  --rc-gold:#F5A03E; --rc-green:#8B3EC4; --rc-brown:#2A1A5C; --rc-cream:#F2EDFB; --rc-ink:#1A1240;
+  /* asphalt with alternating kerbs and a dashed centre line */
+  --rc-road:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='38' shape-rendering='crispEdges'><rect width='96' height='38' fill='%232A1A5C'/><g><rect x='0' y='0' width='16' height='6' fill='%23E8298C'/><rect x='16' y='0' width='16' height='6' fill='%23F2EDFB'/><rect x='32' y='0' width='16' height='6' fill='%23E8298C'/><rect x='48' y='0' width='16' height='6' fill='%23F2EDFB'/><rect x='64' y='0' width='16' height='6' fill='%23E8298C'/><rect x='80' y='0' width='16' height='6' fill='%23F2EDFB'/></g><g><rect x='0' y='32' width='16' height='6' fill='%23F2EDFB'/><rect x='16' y='32' width='16' height='6' fill='%23E8298C'/><rect x='32' y='32' width='16' height='6' fill='%23F2EDFB'/><rect x='48' y='32' width='16' height='6' fill='%23E8298C'/><rect x='64' y='32' width='16' height='6' fill='%23F2EDFB'/><rect x='80' y='32' width='16' height='6' fill='%23E8298C'/></g><rect x='10' y='17' width='30' height='4' fill='%23F5A03E'/><rect x='58' y='17' width='30' height='4' fill='%23F5A03E'/></svg>");
+  /* chequered finish flag on a pole, sits at the end of each strip */
+}
+.rc-track{
+  position:relative; z-index:2;
+  height:38px; margin:56px 0;
+  background:var(--rc-road) repeat-x left center/auto 100%;
+  box-shadow:0 0 0 3px var(--rc-ink);
+}
+.rc-track::after{                       /* the finish line */
+  content:""; position:absolute; right:26px; top:-30px;
+  width:48px; height:66px;
+}
+/* top strip flies its flag on the left, the lower one on the right */
+.rc-track--start::after{ right:auto; left:26px; }
+
+/* a pixel race car drives each strip left→right and loops back in */
+:root[data-proj="studio-work"]{
+  --rc-car:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='34' height='16' shape-rendering='crispEdges'><g fill='%231A1240'><rect x='2' y='4' width='30' height='8'/><rect x='9' y='1' width='14' height='4'/><rect x='0' y='6' width='34' height='4'/></g><g fill='%23E8298C'><rect x='3' y='5' width='28' height='6'/><rect x='10' y='2' width='12' height='3'/></g><g fill='%23F5A03E'><rect x='11' y='3' width='10' height='2'/><rect x='4' y='6' width='6' height='2'/></g><g fill='%23F2EDFB'><rect x='24' y='6' width='5' height='2'/></g><g fill='%231A1240'><rect x='5' y='11' width='7' height='4'/><rect x='21' y='11' width='7' height='4'/></g><g fill='%233A2A6B'><rect x='7' y='12' width='3' height='2'/><rect x='23' y='12' width='3' height='2'/></g></svg>");
+  /* Two more liveries for the road cars. Same sprite, body + accent swapped
+     for palette colours already on this page, so the three read as one team:
+     car 1 orange/gold (above), car 2 gold/orange, car 3 deep red/gold.
+     The accent must never match the body or the flash disappears. */
+  --rc-car-2:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='34' height='16' shape-rendering='crispEdges'><g fill='%231A1240'><rect x='2' y='4' width='30' height='8'/><rect x='9' y='1' width='14' height='4'/><rect x='0' y='6' width='34' height='4'/></g><g fill='%23F5A03E'><rect x='3' y='5' width='28' height='6'/><rect x='10' y='2' width='12' height='3'/></g><g fill='%23E8298C'><rect x='11' y='3' width='10' height='2'/><rect x='4' y='6' width='6' height='2'/></g><g fill='%23F2EDFB'><rect x='24' y='6' width='5' height='2'/></g><g fill='%231A1240'><rect x='5' y='11' width='7' height='4'/><rect x='21' y='11' width='7' height='4'/></g><g fill='%233A2A6B'><rect x='7' y='12' width='3' height='2'/><rect x='23' y='12' width='3' height='2'/></g></svg>");
+  --rc-car-3:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='34' height='16' shape-rendering='crispEdges'><g fill='%231A1240'><rect x='2' y='4' width='30' height='8'/><rect x='9' y='1' width='14' height='4'/><rect x='0' y='6' width='34' height='4'/></g><g fill='%238B3EC4'><rect x='3' y='5' width='28' height='6'/><rect x='10' y='2' width='12' height='3'/></g><g fill='%23F5A03E'><rect x='11' y='3' width='10' height='2'/><rect x='4' y='6' width='6' height='2'/></g><g fill='%23F2EDFB'><rect x='24' y='6' width='5' height='2'/></g><g fill='%231A1240'><rect x='5' y='11' width='7' height='4'/><rect x='21' y='11' width='7' height='4'/></g><g fill='%233A2A6B'><rect x='7' y='12' width='3' height='2'/><rect x='23' y='12' width='3' height='2'/></g></svg>");
+}
+.rc-track__car{
+  position:absolute; bottom:6px; left:0;
+  width:52px; height:24px; z-index:2;
+  background:var(--rc-car) center/contain no-repeat;
+  /* One car overall. Both strips hold a car element, but each only drives
+     during its half of a shared 18s loop and parks off-screen for the other
+     half — so exactly one is ever visible: top L→R, then bottom L→R, repeat. */
+  animation:rcdriveBottom 18s linear infinite;
+}
+.rc-track--start .rc-track__car{ animation-name:rcdriveTop; }
+/* -170px, not -70: the strip is inset by the page frame, so a smaller offset
+   still left the car's nose poking into view while it was meant to be parked */
+@keyframes rcdriveTop{      /* drives the first half, then waits off-screen right */
+  0%   { transform:translateX(-170px); }
+  50%  { transform:translateX(calc(100vw + 40px)); }
+  100% { transform:translateX(calc(100vw + 40px)); }
+}
+@keyframes rcdriveBottom{   /* waits off-screen left, then drives the second half */
+  0%   { transform:translateX(-170px); }
+  50%  { transform:translateX(-170px); }
+  100% { transform:translateX(calc(100vw + 40px)); }
+}
+@media (prefers-reduced-motion: reduce){ .rc-track__car{ animation:none; transform:translateX(40px); } }
+
+/* pixel crash helmets, drifting like the mushrooms on Kryat */
+/* Decoration starts below the Feature Areas panel so nothing floats in the
+   sunset. --sw-deco-top is measured in placeHorizon(); the nth-child rules
+   use percentages, so shortening this box redistributes all 48 items into
+   the remaining page instead of needing 48 new offsets. */
+:root[data-proj="studio-work"] .rc-helms{ position:absolute; left:0; right:0;
+  top:var(--sw-deco-top, 1150px); bottom:0; z-index:0; pointer-events:none; }
+/* Both motifs are MASKS, not images, so one asset each can take any colour —
+   the alternative was shipping four recoloured copies of every shape. The
+   colour is a plain background-color showing through the mask. Assets are
+   white so they are correct whether the browser resolves the mask as alpha or
+   as luminance. Nothing else may set background-image on these spans: it would
+   paint over the colour. */
+:root[data-proj="studio-work"] .rc-helms span{ position:absolute;
+  -webkit-mask-position:center; mask-position:center;
+  -webkit-mask-size:contain;    mask-size:contain;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  animation:rcbob 5s ease-in-out infinite; }
+/* ⚠️ Sizes carry the element selector so they beat the generic rule above, and
+   each matches its own aspect (flag 60:63.5, helmet 410:389) — mask-size:contain
+   letterboxes anything that does not (§10b.3). Scaled down to the 22-36px band
+   Individual Projects uses; they were 44-76px and read as artwork, not texture. */
+:root[data-proj="studio-work"] .rc-helms span.rc-bgflag{ width:28px; height:29.6px;
+  -webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 width=%2768%27 height=%2772%27 shape-rendering=%27crispEdges%27><defs><pattern id=%27c%27 width=%2716%27 height=%2716%27 patternUnits=%27userSpaceOnUse%27><rect width=%278%27 height=%278%27 fill=%27%23fff%27/><rect x=%278%27 y=%278%27 width=%278%27 height=%278%27 fill=%27%23fff%27/></pattern></defs><rect x=%270%27 y=%270%27 width=%275%27 height=%2772%27 fill=%27%23fff%27/><rect x=%275%27 y=%272%27 width=%2764%27 height=%2740%27 fill=%27url(%23c)%27/></svg>"); mask-image:url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 width=%2768%27 height=%2772%27 shape-rendering=%27crispEdges%27><defs><pattern id=%27c%27 width=%2716%27 height=%2716%27 patternUnits=%27userSpaceOnUse%27><rect width=%278%27 height=%278%27 fill=%27%23fff%27/><rect x=%278%27 y=%278%27 width=%278%27 height=%278%27 fill=%27%23fff%27/></pattern></defs><rect x=%270%27 y=%270%27 width=%275%27 height=%2772%27 fill=%27%23fff%27/><rect x=%275%27 y=%272%27 width=%2764%27 height=%2740%27 fill=%27url(%23c)%27/></svg>"); }
+:root[data-proj="studio-work"] .rc-helms span.rc-bgflag--sm{ width:22px; height:23.3px; }
+:root[data-proj="studio-work"] .rc-helms span.rc-bgflag--lg{ width:36px; height:38.1px; }
+:root[data-proj="studio-work"] .rc-helms span.rc-bghelm{ width:28px; height:26.6px;
+  -webkit-mask-image:url("data:image/png;base64,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");
+  mask-image:url("data:image/png;base64,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"); }
+:root[data-proj="studio-work"] .rc-helms span.rc-bghelm--sm{ width:22px; height:20.9px; }
+:root[data-proj="studio-work"] .rc-helms span.rc-bghelm--lg{ width:36px; height:34.2px; }
+/* bold palette colours — the old muted #2ED9E8 was picked to sit against the
+   chequerboard, which no longer exists */
+:root[data-proj="studio-work"] .rc-helms span.rc-c1{ background-color:#C51E75; }
+:root[data-proj="studio-work"] .rc-helms span.rc-c2{ background-color:#F5A03E; }
+:root[data-proj="studio-work"] .rc-helms span.rc-c3{ background-color:#2ED9E8; }
+:root[data-proj="studio-work"] .rc-helms span.rc-c4{ background-color:#8B3EC4; }
+@keyframes rcbob{ 0%,100%{ transform:translateY(0) rotate(-5deg) } 50%{ transform:translateY(-10px) rotate(5deg) } }
+@media (prefers-reduced-motion: reduce){ :root[data-proj="studio-work"] .rc-helms span{ animation:none } }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(1){ top:1.5%; left:3%; animation-delay:0.00s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(2){ top:3.6%; right:17%; animation-delay:0.37s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(3){ top:5.6%; left:30%; animation-delay:0.74s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(4){ top:7.7%; right:8%; animation-delay:1.11s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(5){ top:9.8%; left:24%; animation-delay:1.48s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(6){ top:11.8%; right:38%; animation-delay:1.85s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(7){ top:13.9%; left:5%; animation-delay:0.02s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(8){ top:15.9%; right:20%; animation-delay:0.39s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(9){ top:18.0%; left:34%; animation-delay:0.76s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(10){ top:20.1%; right:3%; animation-delay:1.13s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(11){ top:22.1%; left:17%; animation-delay:1.50s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(12){ top:24.2%; right:30%; animation-delay:1.87s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(13){ top:26.3%; left:8%; animation-delay:0.04s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(14){ top:28.3%; right:24%; animation-delay:0.41s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(15){ top:30.4%; left:38%; animation-delay:0.78s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(16){ top:32.5%; right:5%; animation-delay:1.15s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(17){ top:34.5%; left:20%; animation-delay:1.52s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(18){ top:36.6%; right:34%; animation-delay:1.89s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(19){ top:38.6%; left:3%; animation-delay:0.06s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(20){ top:40.7%; right:17%; animation-delay:0.43s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(21){ top:42.8%; left:30%; animation-delay:0.80s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(22){ top:44.8%; right:8%; animation-delay:1.17s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(23){ top:46.9%; left:24%; animation-delay:1.54s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(24){ top:49.0%; right:38%; animation-delay:1.91s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(25){ top:51.0%; left:5%; animation-delay:0.08s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(26){ top:53.1%; right:20%; animation-delay:0.45s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(27){ top:55.2%; left:34%; animation-delay:0.82s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(28){ top:57.2%; right:3%; animation-delay:1.19s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(29){ top:59.3%; left:17%; animation-delay:1.56s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(30){ top:61.4%; right:30%; animation-delay:1.93s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(31){ top:63.4%; left:8%; animation-delay:0.10s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(32){ top:65.5%; right:24%; animation-delay:0.47s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(33){ top:67.5%; left:38%; animation-delay:0.84s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(34){ top:69.6%; right:5%; animation-delay:1.21s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(35){ top:71.7%; left:20%; animation-delay:1.58s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(36){ top:73.7%; right:34%; animation-delay:1.95s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(37){ top:75.8%; left:3%; animation-delay:0.12s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(38){ top:77.9%; right:17%; animation-delay:0.49s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(39){ top:79.9%; left:30%; animation-delay:0.86s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(40){ top:82.0%; right:8%; animation-delay:1.23s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(41){ top:84.1%; left:24%; animation-delay:1.60s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(42){ top:86.1%; right:38%; animation-delay:1.97s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(43){ top:88.2%; left:5%; animation-delay:0.14s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(44){ top:90.2%; right:20%; animation-delay:0.51s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(45){ top:92.3%; left:34%; animation-delay:0.88s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(46){ top:94.4%; right:3%; animation-delay:1.25s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(47){ top:96.4%; left:17%; animation-delay:1.62s; }
+:root[data-proj="studio-work"] .rc-helms span:nth-child(48){ top:98.5%; right:30%; animation-delay:1.99s; }
+@media (max-width:720px){ :root[data-proj="studio-work"] .rc-helms{ display:none } }
+:root[data-proj="studio-work"] .brand__mark{ background-image:none; background-color:var(--rc-orange); color:#F2EDFB; box-shadow:inset 0 3px 0 rgba(255,255,255,.35), inset 0 -4px 0 rgba(0,0,0,.28), 0 0 0 3px #F2EDFB, 0 0 0 6px #3A2A6B; }
+/* smaller thumbnails — fix the flip sections' oversized image */
+:root[data-proj="studio-work"] .proj-sec__grid{ grid-template-columns:minmax(0,150px) minmax(0,1fr); }
+@media (min-width:860px){
+  :root[data-proj="studio-work"] .proj-sec__grid{ grid-template-columns:minmax(0,150px) minmax(0,1fr); }
+  :root[data-proj="studio-work"] .proj-sec--flip .proj-sec__grid{ grid-template-columns:minmax(0,1fr) minmax(0,150px); }
+}
+/* below 860px the base flip rule stops swapping order, so a two-column grid
+   would drop the image into the wide column — go single column instead */
+@media (max-width:859px){
+  :root[data-proj="studio-work"] .proj-sec__grid,
+  :root[data-proj="studio-work"] .proj-sec--flip .proj-sec__grid{ grid-template-columns:minmax(0,1fr); }
+  :root[data-proj="studio-work"] .proj-sec__media{ max-width:200px; }
+}
+/* hero: drop the big preview, single-column intro + a stars flair */
+:root[data-proj="studio-work"] .proj-hero .proj-sec__media{ display:none; }
+:root[data-proj="studio-work"] .proj-hero__grid{ grid-template-columns:minmax(0,1fr); }
+:root[data-proj="studio-work"] .rc-stars{ display:flex; align-items:center; gap:6px; margin:calc(var(--u)*5) 0 0; }
+:root[data-proj="studio-work"] .rc-stars i{ width:22px; height:21px; background:var(--rc-star) center/contain no-repeat; }
+:root[data-proj="studio-work"] .rc-stars span{ margin-left:8px; font-family:var(--display); font-size:1rem; letter-spacing:.12em; color:var(--rc-pink-text); }
+:root[data-proj="studio-work"] .topbar{ background:#120C2E; border-bottom-color:var(--rc-orange); }
+:root[data-proj="studio-work"] .nav a[aria-current]{ background:var(--rc-orange); color:#F2EDFB; }
+/* Halftone dot fade on every window title bar, like the RACE/GARAGE/SCORES
+   banners: dots start dense at the right edge and thin out toward the middle.
+   Layered over the existing bar colour, under the _ □ ✕ controls. */
+/* (halftone dot fade removed — it read as noise on the title bars) */
+
+/* One box treatment across the page: transparent fill, yellow outline, navy
+   label — the Role/Studio/Year/Tools look, applied to the tag chips and the
+   Feature Areas pills too. Solid yellow made a row of ten pills read as a
+   block of colour and pulled focus off the artwork.
+   The flip sections are included explicitly so their red border override
+   (earlier in the file) does not leave them odd one out. */
+:root[data-proj="studio-work"] .tags li,
+:root[data-proj="studio-work"] .proj-sec--flip .tags li{
+  background:none; border:2px solid #F5A03E; color:var(--rc-navy);
+}
+:root[data-proj="studio-work"] .meta > div{ background:none; border:2px solid #F5A03E; }
+/* Every amber-outlined box lights up on hover, the same fill the Feature Areas
+   pills use. The tags and meta boxes are not links and go nowhere — this is
+   purely the highlight, so they get no pointer cursor and no focus styling.
+   Contrast on the fill: ink on #F5A03E is 8.9:1. */
+:root[data-proj="studio-work"] .tags li:hover,
+:root[data-proj="studio-work"] .proj-sec--flip .tags li:hover,
+:root[data-proj="studio-work"] .meta > div:hover{
+  background:#F5A03E; border-color:#1A1240;
+}
+:root[data-proj="studio-work"] .tags li:hover{ color:#1A1240; }
+:root[data-proj="studio-work"] .meta > div:hover .meta__k,
+:root[data-proj="studio-work"] .meta > div:hover .meta__v{ color:#1A1240; }
+:root[data-proj="studio-work"] .meta__k{ color:var(--rc-pink-text); opacity:1; }
+:root[data-proj="studio-work"] .meta__v{ color:var(--rc-navy); }
+/* the Featured stars fill yellow to match (outline stays the dark plum) */
+:root[data-proj="studio-work"] .rc-stars i{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path d='M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z' fill='%23F5A03E' stroke='%233A2A6B' stroke-width='1.4'/></svg>"); }
+/* Even gaps around the Feature Areas bubble. The base .toc has top padding
+   and none at the bottom, and the bubble's tail hangs ~19px below its box —
+   both were pulling the lower track in closer than the upper one. */
+:root[data-proj="studio-work"] .toc{ padding:0 0 19px; }
+
+
+/* --- road breathing room: the panels are narrower and further apart so the
+   road can curve through the gaps instead of running underneath them --- */
+:root[data-proj="studio-work"] .proj-sec{ padding:140px 0; }
+:root[data-proj="studio-work"] .toc{ padding:230px 0 90px; }
+
+/* ============ the winding road ============
+   One road snakes down the page and guides the eye between the panels, with a
+   car driving along it. The path is generated in px by the inline script at
+   the foot of this page (an SVG stretched with preserveAspectRatio would
+   distort the stroke widths), and the car follows the same path via
+   offset-path so it banks into every curve. */
+:root[data-proj="studio-work"] .rc-road{ position:absolute; top:0; left:0; right:0; z-index:0; pointer-events:none; }
+:root[data-proj="studio-work"] .rc-road__svg{ position:absolute; top:0; left:0; overflow:visible; }
+:root[data-proj="studio-work"] .rc-road__kerb{ fill:none; stroke:#2ED9E8; stroke-width:52; stroke-linecap:round; stroke-linejoin:round; }
+:root[data-proj="studio-work"] .rc-road__asphalt{ fill:none; stroke:#2A1A5C; stroke-width:42; stroke-linecap:round; stroke-linejoin:round; }
+:root[data-proj="studio-work"] .rc-road__line{ fill:none; stroke:#F5A03E; stroke-width:4; stroke-dasharray:20 18; stroke-linecap:butt; }
+:root[data-proj="studio-work"] .rc-road__car{
+  position:absolute; top:0; left:0; width:54px; height:25px;
+  background:var(--rc-car) center/contain no-repeat;
+  offset-rotate:auto; offset-anchor:50% 50%;
+  animation:rcRun 38s linear infinite;
+}
+/* Three cars share one 38s loop. Equal spacing comes from NEGATIVE delays of
+   exactly one third of the duration each, which starts the animation already
+   part-run: because rcRun is linear over offset-distance, the gap between the
+   cars is a constant third of the path LENGTH, not of its bounding box — so
+   they stay equidistant through every bend. Delays must stay 38/3 apart if
+   the duration is ever retuned. */
+:root[data-proj="studio-work"] .rc-road__car--2{ background-image:var(--rc-car-2); animation-delay:-12.667s; }
+:root[data-proj="studio-work"] .rc-road__car--3{ background-image:var(--rc-car-3); animation-delay:-25.334s; }
+@keyframes rcRun{ from{ offset-distance:0%; } to{ offset-distance:100%; } }
+/* chequered flags planted at the road's start and finish */
+:root[data-proj="studio-work"]{
+  --rc-finish:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='66'><defs><pattern id='k' width='12' height='12' patternUnits='userSpaceOnUse'><rect width='12' height='12' fill='%23F2EDFB'/><rect width='6' height='6' fill='%231A1240'/><rect x='6' y='6' width='6' height='6' fill='%231A1240'/></pattern></defs><rect x='2' y='2' width='5' height='64' fill='%231A1240'/><rect x='7' y='4' width='38' height='27' fill='url(%23k)' stroke='%231A1240' stroke-width='2.5'/></svg>");
+}
+:root[data-proj="studio-work"] .rc-road__flag{
+  position:absolute; width:48px; height:66px; margin:-60px 0 0 -7px;
+  background:var(--rc-finish) center/contain no-repeat;
+}
+@media (prefers-reduced-motion: reduce){
+  /* parked, but still a third of the road apart so the trio still reads */
+  :root[data-proj="studio-work"] .rc-road__car{ animation:none; offset-distance:12%; }
+  :root[data-proj="studio-work"] .rc-road__car--2{ offset-distance:45.333%; }
+  :root[data-proj="studio-work"] .rc-road__car--3{ offset-distance:78.667%; }
+}
+/* the road is absolutely positioned, so lift every panel above it (same
+   paint-order trap as the mushrooms on Kryat) */
+:root[data-proj="studio-work"] .sheet .topbar{ position:relative; z-index:20; }
+:root[data-proj="studio-work"] .shell{ position:relative; z-index:3; }
+
+/* Sharp corners. Any rounding on the shell let its cream background show as a
+   white sliver either side of the square title bar, so both stay at 0. */
+:root[data-proj="studio-work"] .proj-hero > .shell,
+:root[data-proj="studio-work"] .toc > .shell,
+:root[data-proj="studio-work"] .proj-sec > .shell,
+:root[data-proj="studio-work"] .note > .shell{ border-radius:0; }
+:root[data-proj="studio-work"] .proj-hero > .shell::before,
+:root[data-proj="studio-work"] .toc > .shell::before,
+:root[data-proj="studio-work"] .proj-sec > .shell::before,
+:root[data-proj="studio-work"] .note > .shell::before{ border-radius:0; }
+
+/* Feature Areas: red title bar, yellow pills inside */
+/* ⚠️ This is the LAST rule to touch this bar's background, so the decal has to
+   be repeated here. A bare `background:#8B3EC4` shorthand resets the image and
+   silently drops the stripes — which is why the Feature Areas bar was the one
+   title bar with no decal at all. Same source-order trap as the red windows. */
+:root[data-proj="studio-work"] .toc > .shell::before{ background:var(--rc-bar) right center/100% 100% no-repeat, #C51E75; color:#F2EDFB; }
+:root[data-proj="studio-work"] .toc > .shell::after{ border-right-color:#8B3EC4; border-bottom-color:#8B3EC4; }
+/* Feature Areas pills: same transparent + yellow outline as every other box.
+   Hover fills the outline with its own yellow rather than a new colour, so the
+   interaction stays inside the box language. Text goes navy at rest (9.0:1 on
+   the cream panel) and ink when filled (10.4:1 on #F5A03E) — both pass AA. */
+:root[data-proj="studio-work"] .toc__link.ui-slot{ background:none; border:2px solid #F5A03E; color:var(--rc-navy); }
+:root[data-proj="studio-work"] .toc__link.ui-slot:hover{ background:#F5A03E; border-color:#1A1240; color:#1A1240; }
+/* shared project-motif decoration off */
+:root[data-proj="studio-work"] .hero::before,
+:root[data-proj="studio-work"] .band::before,
+:root[data-proj="studio-work"] .level::before,
+:root[data-proj="studio-work"] .foot::before,
+:root[data-proj="studio-work"] .proj-hero::before,
+:root[data-proj="studio-work"] .proj-sec::before{ display:none !important; }
+/* pager pushed down */
+:root[data-proj="studio-work"] .pager{ padding-top:250px; }
+
+
+/* Full bleed only holds while the panel is wide enough for the title to clear
+   the slashes. Below that the artwork steps back to a right-anchored band and
+   the CSS field colour continues it — the asset's own left edge is plain field
+   colour, so the join is invisible. Measured breakpoint, not a guess. */
+@media (max-width:1150px){
+  :root[data-proj="studio-work"] .proj-hero > .shell::before,
+  :root[data-proj="studio-work"] .toc > .shell::before,
+  :root[data-proj="studio-work"] .proj-sec > .shell::before,
+  :root[data-proj="studio-work"] .note > .shell::before{
+    background-size:72% 100%; padding-right:44%;
+  }
+}
+/* link from each section through to the full gallery */
+:root[data-proj="studio-work"] .rc-seeall{
+  display:inline-block; margin-top:12px; font-family:var(--display);
+  font-size:1rem; letter-spacing:.06em; color:var(--rc-pink-text);
+  border-bottom:2px solid var(--rc-orange); text-decoration:none;
+}
+:root[data-proj="studio-work"] .rc-seeall:hover{ color:#8B3EC4; border-bottom-color:#8B3EC4; }
+/* link from each section through to the full gallery */
+:root[data-proj="studio-work"] .rc-seeall{
+  display:inline-block; margin-top:12px; font-family:var(--display);
+  font-size:1rem; letter-spacing:.06em; color:var(--rc-pink-text);
+  border-bottom:2px solid var(--rc-orange); text-decoration:none;
+}
+:root[data-proj="studio-work"] .rc-seeall:hover{ color:#8B3EC4; border-bottom-color:#8B3EC4; }
+
+/* ---- attribution panel, above the section list ------------------------
+   Katerina asked for it explicitly: this was NOT a solo project and several
+   sections are collaborative production work she only partly contributed to.
+   Wording is hers, from the old portfolio's internship-work page. */
+/* ---- attribution note, INSIDE the hero panel --------------------------
+   It used to be its own boxed section between the hero and the toc - which is
+   the exact gap placeHorizon() parks the sun in, so it covered the sun and the
+   skyline. Inside the hero it needs no frame of its own. */
+:root[data-proj="studio-work"] .rc-note{
+  margin:calc(var(--u)*5) 0 0; padding-left:14px;
+  border-left:3px solid var(--sw-pink,#E8298C);
+}
+:root[data-proj="studio-work"] .rc-note p{
+  color:var(--sw-ink,#1A1240); margin:0 0 calc(var(--u)*3);
+  font-size:.96rem; line-height:1.6;
+}
+:root[data-proj="studio-work"] .rc-note p:last-child{ margin-bottom:0; }
+:root[data-proj="studio-work"] .rc-note strong{ color:var(--sw-pink-ink,#C51E75); }
+
+:root[data-proj="studio-work"] .rc-credit{
+  margin-top:calc(var(--u)*3); padding-left:12px;
+  border-left:3px solid var(--sw-pink,#E8298C);
+  font-size:.94rem; font-style:italic;
+}
+
+/* the section plates are now links into the gallery; the anchor must not
+   introduce a box of its own or the .plate frame shifts */
+:root[data-proj="studio-work"] .rc-plate-link{ display:block; text-decoration:none; }
+:root[data-proj="studio-work"] .rc-plate-link:hover .plate{ transform:translateY(-3px); }
+:root[data-proj="studio-work"] .rc-plate-link .plate{ transition:transform .14s ease; }
+@media (prefers-reduced-motion: reduce){
+  :root[data-proj="studio-work"] .rc-plate-link .plate{ transition:none; }
+  :root[data-proj="studio-work"] .rc-plate-link:hover .plate{ transform:none; }
+}
+
+/* ---- plate treatment, all sections --------------------------------------
+   Owns plate geometry in one place; supersedes the earlier navy border and the
+   150px column rules above by source order.
+
+   - 258px column, so the plate stands ~342px — near the height of a section's
+     copy block. Widening the image column narrows the text column, which makes
+     the copy taller, so "match the paragraph" is a moving target; 258 lands
+     within ~6% on a typical section.
+   - Frame runs DARK NAVY -> LIGHTER TEAL (--rc-plate-1 -> --rc-plate-2), darker
+     at the top. Measured, not eyeballed: #0E2166 has relative luminance 0.021,
+     #104259 has 0.046, so the navy is genuinely the darker of the two.
+     ⚠️ These two are NOT from the synthwave palette — they are Katerina's own
+     pick (2026-08-14) and deliberately cool against the warm pink panels. An
+     earlier version reused the panel's own pink->purple ramp reversed; that is
+     gone, so do not "restore" it from --rc-ramp.
+   - ⚠️ It is a background gradient, NOT border-image. border-image ignores
+     border-radius (§10i), and these need slightly rounded corners.
+     linear-gradient(...) padding-box paints the panel fill inside the border,
+     the ramp paints the border box itself.
+   - overflow:hidden clips the image to the INNER rounded corner, so the inside
+     and outside edges agree. Previously the frame was square while the image
+     carried a 6px radius, which let the cream backing show through at each
+     corner — that was the "soft inside, sharp outside" mismatch. */
+:root[data-proj="studio-work"] .plate.ui-card{
+  border:5px solid transparent;
+  border-radius:7px;
+  padding:0;
+  overflow:hidden;
+  background:
+    linear-gradient(#F2EDFB,#F2EDFB) padding-box,
+    linear-gradient(180deg,var(--rc-plate-1) 0 40%,var(--rc-plate-2) 60% 100%) border-box;
+}
+:root[data-proj="studio-work"] .plate img{ border-radius:0; display:block; }
+@media (min-width:860px){
+  :root[data-proj="studio-work"] .proj-sec__grid{
+    grid-template-columns:minmax(0,258px) minmax(0,1fr);
+  }
+  :root[data-proj="studio-work"] .proj-sec--flip .proj-sec__grid{
+    grid-template-columns:minmax(0,1fr) minmax(0,258px);
+  }
+}
+
+/* ============================================================
+   PHONE PASS
+   ⚠️ THIS BLOCK MUST STAY LAST IN THIS STYLE ELEMENT.
+   It overrides the title-bar background, and the Feature Areas bar
+   re-declares that background further up with a `background:` shorthand
+   (the source-order trap noted there). Anything moved above that rule
+   silently loses the toc bar.
+   ============================================================ */
+@media (max-width:700px){
+
+  /* 1. Panels were ~60% of a 330px column, i.e. under 200px of a 375px
+        phone, with the rest spent on empty ground. They now take 78%.
+        The remaining 22% is deliberate, NOT slack: the road is routed
+        through that corridor and alternates sides with the panels, so
+        taking it to full width would leave the road nowhere to run.
+        Re-verify road overlaps after changing this number. */
+  :root[data-proj="studio-work"] .proj-hero > .shell,
+  :root[data-proj="studio-work"] .toc > .shell,
+  :root[data-proj="studio-work"] .proj-sec > .shell,
+  :root[data-proj="studio-work"] .note > .shell{
+    width:min(72%, calc(100% - 12px));
+    padding:46px 14px 18px;
+  }
+
+  /* ⚠️ The HERO alone goes wider, and only the hero. It is the one panel the
+     road never has to get past: the router's panel list is
+     ".toc > .shell, .proj-sec > .shell, .note > .shell" - the hero is not in
+     it - and the road does not begin until below the toc. So this costs the
+     road nothing, while 90% on the section panels collapsed clearance to 0
+     and put 833 of 1200 road samples straight through them.
+     90% here matches the Kryat gallery's full-width tiles (297px vs 298px). */
+  :root[data-proj="studio-work"] .proj-hero > .shell{
+    width:min(90%, calc(100% - 12px));
+  }
+
+  /* 2. The blurred top edge. The bar artwork is 1327px wide and was being
+        squashed into ~143px here - a 9x downscale, which smears the slashes
+        into an orange/cream haze along the top of every panel and is what
+        reads as a "blurry outline". It also collided with the longer titles
+        ("Messaging & Rewards" ran straight into it).
+        Below this width the decal is dropped for the flat field colour it
+        already falls back to, and the 44% reserve it needed goes with it,
+        which hands the title the whole bar. */
+  :root[data-proj="studio-work"] .proj-hero > .shell::before,
+  :root[data-proj="studio-work"] .toc > .shell::before,
+  :root[data-proj="studio-work"] .proj-sec > .shell::before,
+  :root[data-proj="studio-work"] .note > .shell::before{
+    background:var(--rc-ctrl) right 10px center / auto 12px no-repeat, #C51E75;
+    padding-right:56px;
+    font-size:.92rem;
+  }
+  /* ⚠️ Repeated for the toc bar. That bar re-declares its background further up
+     with a `background:` shorthand, and a shorthand resets the image - which is
+     exactly how it ended up the one title bar with no decal before. */
+  :root[data-proj="studio-work"] .toc > .shell::before{
+    background:var(--rc-ctrl) right 10px center / auto 12px no-repeat, #C51E75;
+  }
+
+  /* 3. Feature Areas was landing on the chequered start flag. The culprit is
+        the bubble tail, which is a ::after hanging 19px BELOW the shell - so
+        it sits outside the shell's own box and any overlap check that only
+        looks at the shell misses it entirely. Measured: tail x123-153 over
+        flag x101-149.
+        The toc panel is right-aligned (--rc-ml:auto) and the road therefore
+        always runs down its LEFT, so the tail moves to the right edge, away
+        from both the road and the flag, instead of being deleted. */
+  :root[data-proj="studio-work"] .toc > .shell::after{ left:auto; right:54px; }
+}
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<div class="sw-sun" aria-hidden="true"></div>
+<div class="sw-city" aria-hidden="true"></div>
+<div class="sw-floor" aria-hidden="true"></div>
+
+
+<div class="rc-road" aria-hidden="true">
+  <svg class="rc-road__svg" xmlns="http://www.w3.org/2000/svg">
+    <path class="rc-road__kerb"></path>
+    <path class="rc-road__asphalt"></path>
+    <path class="rc-road__line"></path>
+  </svg>
+  <span class="rc-road__flag rc-road__flag--start"></span>
+  <span class="rc-road__flag rc-road__flag--end"></span>
+  <span class="rc-road__car rc-road__car--1"></span>
+  <span class="rc-road__car rc-road__car--2"></span>
+  <span class="rc-road__car rc-road__car--3"></span>
+</div>
+
+<div class="rc-helms" aria-hidden="true">
+  <span class="rc-bgflag rc-bgflag--sm rc-c1"></span><span class="rc-bgflag rc-c1"></span><span class="rc-bgflag rc-bgflag--lg rc-c2"></span><span class="rc-bghelm rc-bghelm--sm rc-c2"></span><span class="rc-bghelm rc-c3"></span><span class="rc-bghelm rc-bghelm--lg rc-c3"></span>
+  <span class="rc-bgflag rc-bgflag--sm rc-c4"></span><span class="rc-bgflag rc-c4"></span><span class="rc-bgflag rc-bgflag--lg rc-c1"></span><span class="rc-bghelm rc-bghelm--sm rc-c1"></span><span class="rc-bghelm rc-c2"></span><span class="rc-bghelm rc-bghelm--lg rc-c2"></span>
+  <span class="rc-bgflag rc-bgflag--sm rc-c3"></span><span class="rc-bgflag rc-c3"></span><span class="rc-bgflag rc-bgflag--lg rc-c4"></span><span class="rc-bghelm rc-bghelm--sm rc-c4"></span><span class="rc-bghelm rc-c1"></span><span class="rc-bghelm rc-bghelm--lg rc-c1"></span>
+  <span class="rc-bgflag rc-bgflag--sm rc-c2"></span><span class="rc-bgflag rc-c2"></span><span class="rc-bgflag rc-bgflag--lg rc-c3"></span><span class="rc-bghelm rc-bghelm--sm rc-c3"></span><span class="rc-bghelm rc-c4"></span><span class="rc-bghelm rc-bghelm--lg rc-c4"></span>
+  <span class="rc-bgflag rc-bgflag--sm rc-c1"></span><span class="rc-bgflag rc-c1"></span><span class="rc-bgflag rc-bgflag--lg rc-c2"></span><span class="rc-bghelm rc-bghelm--sm rc-c2"></span><span class="rc-bghelm rc-c3"></span><span class="rc-bghelm rc-bghelm--lg rc-c3"></span>
+  <span class="rc-bgflag rc-bgflag--sm rc-c4"></span><span class="rc-bgflag rc-c4"></span><span class="rc-bgflag rc-bgflag--lg rc-c1"></span><span class="rc-bghelm rc-bghelm--sm rc-c1"></span><span class="rc-bghelm rc-c2"></span><span class="rc-bghelm rc-bghelm--lg rc-c2"></span>
+  <span class="rc-bgflag rc-bgflag--sm rc-c3"></span><span class="rc-bgflag rc-c3"></span><span class="rc-bgflag rc-bgflag--lg rc-c4"></span><span class="rc-bghelm rc-bghelm--sm rc-c4"></span><span class="rc-bghelm rc-c1"></span><span class="rc-bghelm rc-bghelm--lg rc-c1"></span>
+  <span class="rc-bgflag rc-bgflag--sm rc-c2"></span><span class="rc-bgflag rc-c2"></span><span class="rc-bgflag rc-bgflag--lg rc-c3"></span><span class="rc-bghelm rc-bghelm--sm rc-c3"></span><span class="rc-bghelm rc-c4"></span><span class="rc-bghelm rc-bghelm--lg rc-c4"></span>
+</div>
+
+<a class="skip ui-bar ui-bar-cream" href="#sections">Skip to sections</a>
+
+<div class="stage-top">
+
+<!-- ===================== TOP BAR ===================== -->
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../index.html#experience">Experience</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== PROJECT HERO ===================== -->
+<section class="proj-hero" id="top">
+  <div class="shell" data-win="Studio Work" style="--rc-w:60%;--rc-ml:auto;--rc-mr:auto">
+    <a class="crumb" href="../../index.html#level-3">
+      <img src="../../assets/ui6/arrow-left.png" alt="" width="48" height="103">
+      Back to Level 3
+    </a>
+
+    <div class="proj-hero__grid">
+      <div>
+        <p class="level__badge ui-bar">Level&nbsp;&ndash;&nbsp;3</p>
+        <div class="level__panel ui-panel"><h1 class="proj-title arcade">Studio Work</h1></div>
+        <p class="proj-lede">
+          Production UI for a live free-to-play racing title — mobile-first, but built and
+          shipped cross-platform — made during my internship at NaturalMotion. Eleven feature
+          areas: the screens a player lives in, the moments that interrupt them, and the art
+          that fills both.
+        </p>
+
+        <dl class="meta">
+          <div>
+            <dt class="meta__k">Role</dt>
+            <dd class="meta__v">UI Artist</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Studio</dt>
+            <dd class="meta__v">NaturalMotion</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Year</dt>
+            <dd class="meta__v">2022 &ndash; 2023</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Tools</dt>
+            <dd class="meta__v">Photoshop, Illustrator, Unity, Jira</dd>
+          </div>
+        </dl>
+        <div class="rc-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><span>Featured</span></div>
+      </div>
+
+      <!-- The hero's media column was removed on 2026-08-15: it pointed at
+           assets/img/studio-work/previews/hero.jpg, which was RETIRED when
+           featurelogos.png moved to the Feature Logos section, so the src was
+           dead. It never rendered either - the hero's .proj-sec__media is
+           display:none on this page - so this was invisible dead markup
+           carrying a broken image reference. Do not re-add it. -->
+    </div>
+
+    <div class="rc-note">
+      <p>
+        Selected UI work and interface concepts created during my internship at
+        NaturalMotion. <strong>Some screens shown are collaborative production work, while
+        others were designed independently</strong> &mdash; the note on each section says
+        which. All showcased content is based on publicly released or soft-launched material.
+      </p>
+      <p>
+        The game shipped on mobile, tablet, PC and cross-platform, so many screens exist in
+        several versions. Where a section shows more than one, the row is labelled with the
+        platform it belongs to.
+      </p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.stage-top -->
+
+
+<!-- ===================== SECTION JUMP LIST ===================== -->
+<nav class="toc" id="sections" aria-labelledby="toc-title">
+  <div class="shell" data-win="Feature areas" style="--rc-w:60%;--rc-ml:auto;--rc-mr:0">
+    <h2 class="toc__head arcade" id="toc-title">Feature areas</h2>
+    <ul class="toc__list">
+      <li><a class="toc__link ui-slot" href="#player-profile">Player Profile</a></li>
+      <li><a class="toc__link ui-slot" href="#messaging">Messaging &amp; Rewards</a></li>
+      <li><a class="toc__link ui-slot" href="#pvp">PvP Interface</a></li>
+      <li><a class="toc__link ui-slot" href="#crew">Crew Selection</a></li>
+      <li><a class="toc__link ui-slot" href="#popups">Pop-Ups &amp; Rewards</a></li>
+      <li><a class="toc__link ui-slot" href="#deeplinking">Deeplinking Campaign</a></li>
+      <li><a class="toc__link ui-slot" href="#branding">Logo &amp; Branding</a></li>
+      <li><a class="toc__link ui-slot" href="#feature-logos">Feature Logos</a></li>
+      <li><a class="toc__link ui-slot" href="#icons-avatars">Icons &amp; Avatars</a></li>
+      <li><a class="toc__link ui-slot" href="#portraits">Character Portraits</a></li>
+      <li><a class="toc__link ui-slot" href="#ui-exploration">UI Exploration</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<!-- ===================== 3–1 PLAYER PROFILE ===================== -->
+<section class="proj-sec" id="player-profile" aria-labelledby="s1-title">
+  <div class="shell" data-win="Player Profile" style="--rc-w:54%;--rc-ml:0;--rc-mr:auto">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#player-profile">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;1</span>
+            <img src="../../assets/img/studio-work/previews/player-profile.jpg" width="480" height="640"
+                 loading="lazy" decoding="async"
+                 alt="Player profile thumbnail: the International Racer title bar above a most-used-car panel">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">8 screens</p>
+        <h2 class="proj-sec__title" id="s1-title">Player Profile</h2>
+        <p class="proj-sec__text">
+          The player&rsquo;s home in the game &mdash; identity, stats and progression gathered into a single panel. Eight screens covering the layout, the states it moves through, and how the panel changes as a player levels up and unlocks the elements that sit on it.
+        </p>
+        <p class="proj-sec__text rc-credit">Created and iterated on multiple player profile directions &mdash; layout hierarchy, progression display and social features.</p>
+        <ul class="tags"><li>Layout</li><li>States</li><li>Progression</li></ul>
+        <a class="rc-seeall" href="gallery/#player-profile">View all 8 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== 3–2 MESSAGING & REWARDS ===================== -->
+<section class="proj-sec proj-sec--flip" id="messaging" aria-labelledby="s2-title">
+  <div class="shell" data-win="Messaging &amp; Rewards" style="--rc-w:58%;--rc-ml:auto;--rc-mr:0">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#messaging">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;2</span>
+            <img src="../../assets/img/studio-work/previews/messaging.jpg" width="480" height="640"
+                 loading="lazy" decoding="async"
+                 alt="Messaging thumbnail: a message header above four reward item cards">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">11 screens</p>
+        <h2 class="proj-sec__title" id="s2-title">Messaging &amp; Rewards</h2>
+        <p class="proj-sec__text">
+          The inbox and the reward flow that runs through it &mdash; the message list, the states an individual message moves between, the claim and collect screens, and the reporting path. Eleven screens covering how a player is notified, what they see, and what happens once they act on it.
+        </p>
+        <p class="proj-sec__text rc-credit">Designed the complete messaging interface flow, including system notifications, reward collection and gift presentation.</p>
+        <ul class="tags"><li>Inbox</li><li>Reward flow</li><li>Message states</li></ul>
+        <a class="rc-seeall" href="gallery/#messaging">View all 11 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== 3–3 PVP ===================== -->
+<section class="proj-sec" id="pvp" aria-labelledby="s3-title">
+  <div class="shell" data-win="PvP Interface" style="--rc-w:56%;--rc-ml:0;--rc-mr:auto">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#pvp">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;3</span>
+            <img src="../../assets/img/studio-work/previews/pvp.jpg" width="480" height="640"
+                 loading="lazy" decoding="async"
+                 alt="PvP thumbnail: the Unranked rank badge above a tournaments button">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">7 screens</p>
+        <h2 class="proj-sec__title" id="s3-title">PvP Interface</h2>
+        <p class="proj-sec__text">
+          The competitive side of the game &mdash; the ladder, the tier badges that mark a player&rsquo;s standing, and the interface wrapped around them. Seven screens covering how rank is presented going into a match and coming out of one.
+        </p>
+        <p class="proj-sec__text rc-credit">Designed competitive mode interface concepts focused on progression visibility, ranking presentation and event accessibility.</p>
+        <ul class="tags"><li>Ranks</li><li>Tier badges</li><li>Match flow</li></ul>
+        <a class="rc-seeall" href="gallery/#pvp">View all 7 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== 3–4 CREW ===================== -->
+<section class="proj-sec proj-sec--flip" id="crew" aria-labelledby="s4-title">
+  <div class="shell" data-win="Crew Selection" style="--rc-w:60%;--rc-ml:auto;--rc-mr:0">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#crew">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;4</span>
+            <img src="../../assets/img/studio-work/previews/crew.jpg" width="480" height="640"
+                 loading="lazy" decoding="async"
+                 alt="Crew thumbnail: a cat crew emblem above the open, closed and private crew settings">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">3 screens</p>
+        <h2 class="proj-sec__title" id="s4-title">Crew Selection</h2>
+        <p class="proj-sec__text">
+          Screens for the game&rsquo;s social groups &mdash; browsing the crews on offer, the act of joining one, and the emblems that tell them apart at a glance.
+        </p>
+        <p class="proj-sec__text rc-credit">Contributed to visual assets and interface elements for crew-based social systems, including player identity icons and group features.</p>
+        <ul class="tags"><li>Social</li><li>Emblems</li></ul>
+        <a class="rc-seeall" href="gallery/#crew">View all 3 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== 3–5 POP-UPS ===================== -->
+<section class="proj-sec" id="popups" aria-labelledby="s5-title">
+  <div class="shell" data-win="Pop-Ups &amp; Rewards" style="--rc-w:54%;--rc-ml:0;--rc-mr:auto">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#popups">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;5</span>
+            <img src="../../assets/img/studio-work/previews/popups.jpg" width="480" height="640"
+                 loading="lazy" decoding="async"
+                 alt="Pop-up thumbnail: the Regulation Races feature pop-up with its collect button">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">6 screens</p>
+        <h2 class="proj-sec__title" id="s5-title">Pop-Ups &amp; Rewards</h2>
+        <p class="proj-sec__text">
+          The modals that interrupt play to announce a feature or hand over a reward. Two pop-ups drawn across the full sequence the player meets them in &mdash; locked, then unlocked, then claimed &mdash; so the frame holds still while the artwork and the action on it change.
+        </p>
+        <p class="proj-sec__text rc-credit">Designed and contributed to various in-game pop-ups covering rewards, notifications, progression feedback and feature communication.</p>
+        <ul class="tags"><li>Modals</li><li>Reward states</li><li>Feature comms</li></ul>
+        <a class="rc-seeall" href="gallery/#popups">View all 6 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== 3–6 DEEPLINKING ===================== -->
+<section class="proj-sec proj-sec--flip" id="deeplinking" aria-labelledby="s6-title">
+  <div class="shell" data-win="Deeplinking Campaign" style="--rc-w:58%;--rc-ml:auto;--rc-mr:0">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#deeplinking">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;6</span>
+            <img src="../../assets/img/studio-work/previews/deeplinking.jpg" width="480" height="640"
+                 loading="lazy" decoding="async"
+                 alt="Deeplinking thumbnail: a bearing reward card above a Go Race button">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">6 pieces</p>
+        <h2 class="proj-sec__title" id="s6-title">Deeplinking Campaign</h2>
+        <p class="proj-sec__text">
+          Campaign artwork for the game&rsquo;s deeplinked entry points, produced for both phone and tablet. Six pieces, each recomposed rather than rescaled so the focal point survives the change in aspect ratio.
+        </p>
+        <p class="proj-sec__text rc-credit">Contributed to interface concepts for feature entry flows and event navigation, guiding players toward limited-time activities and promotional content.</p>
+        <ul class="tags"><li>Campaign art</li><li>Phone</li><li>Tablet</li></ul>
+        <a class="rc-seeall" href="gallery/#deeplinking">View all 6 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== 3–7 BRANDING ===================== -->
+<section class="proj-sec" id="branding" aria-labelledby="s7-title">
+  <div class="shell" data-win="Logo &amp; Branding" style="--rc-w:56%;--rc-ml:0;--rc-mr:auto">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#branding">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;7</span>
+            <img src="../../assets/img/studio-work/previews/branding.jpg" width="480" height="640"
+                 loading="lazy" decoding="async"
+                 alt="Branding thumbnail: the Tuner, Crew Member and Globe Trotter wordmarks">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">1 sheet</p>
+        <h2 class="proj-sec__title" id="s7-title">Logo &amp; Branding</h2>
+        <p class="proj-sec__text">
+          Logo work for the game&rsquo;s player titles &mdash; the wide exploration and the narrowing that followed, collected on one sheet. Wordmarks for Tuner, Globe Trotter, Competitor, Collector, Crew Member and the rest, each with its own icon set.
+        </p>
+        <p class="proj-sec__text rc-credit">Explored multiple logo directions and graphic treatments for in-game features, events and UI branding elements.</p>
+        <ul class="tags"><li>Wordmarks</li><li>Feature badges</li><li>Exploration</li></ul>
+        <a class="rc-seeall" href="gallery/#branding">Logo exploration sheet &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== 3&ndash;8 FEATURE LOGOS ===================== -->
+<section class="proj-sec proj-sec--flip" id="feature-logos" aria-labelledby="s8-title">
+  <div class="shell" data-win="Feature Logos" style="--rc-w:60%;--rc-ml:auto;--rc-mr:0">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#feature-logos">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;8</span>
+            <img src="../../assets/img/studio-work/previews/feature-logos.jpg" width="600" height="800"
+                 loading="lazy" decoding="async"
+                 alt="Feature logo thumbnail: the Dealer Trials and Tokyo event logos over car art">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">6 pieces</p>
+        <h2 class="proj-sec__title" id="s8-title">Feature Logos</h2>
+        <p class="proj-sec__text">
+          Logos for the features and events themselves rather than for player titles &mdash;
+          the mark that sits on a live event&rsquo;s entry point and has to say what it is at a
+          glance. Six pieces, each drawn to read at the size an event tile actually gets.
+        </p>
+        <p class="proj-sec__text rc-credit">Explored multiple logo directions and graphic treatments for in-game features, events and UI branding elements.</p>
+        <ul class="tags"><li>Event logos</li><li>Feature marks</li><li>Exploration</li></ul>
+        <a class="rc-seeall" href="gallery/#feature-logos">View all 6 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== 3–8 ICONS & AVATARS ===================== -->
+<section class="proj-sec" id="icons-avatars" aria-labelledby="s9-title">
+  <div class="shell" data-win="Icons &amp; Avatars" style="--rc-w:54%;--rc-ml:0;--rc-mr:auto">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#icons-avatars">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;9</span>
+            <img src="../../assets/img/studio-work/previews/icons-avatars.jpg" width="480" height="640"
+                 loading="lazy" decoding="async"
+                 alt="Icons thumbnail: a cluster of helmet and character avatar emblems">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">10 pieces</p>
+        <h2 class="proj-sec__title" id="s9-title">Icons &amp; Avatars</h2>
+        <p class="proj-sec__text">
+          The customisation set &mdash; helmets, emblems and the icons a player picks between to make an account look like theirs. Ten pieces, drawn to stay legible at the size they actually appear rather than the size they were drawn at.
+        </p>
+        <p class="proj-sec__text rc-credit">Contributed to icon development, avatar customisation assets and visual exploration for player identity systems and crew functionality.</p>
+        <ul class="tags"><li>Icons</li><li>Helmets</li><li>Customisation</li></ul>
+        <a class="rc-seeall" href="gallery/#icons-avatars">View all 10 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== 3–9 PORTRAITS ===================== -->
+<section class="proj-sec proj-sec--flip" id="portraits" aria-labelledby="s10-title">
+  <div class="shell" data-win="Character Portraits" style="--rc-w:66%;--rc-ml:auto;--rc-mr:0">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#portraits">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;10</span>
+            <img src="../../assets/img/studio-work/previews/portraits.jpg" width="480" height="640"
+                 loading="lazy" decoding="async"
+                 alt="Character portrait thumbnail: a game character figure produced from model photography">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">30 of 300+</p>
+        <h2 class="proj-sec__title" id="s10-title">Character Portraits</h2>
+        <p class="proj-sec__text">
+          Real model photography, turned into game character figures. Every character was
+          cut three ways &mdash; full body, torso-up and face &mdash; across five poses to
+          start, with more poses and more characters added later: somewhere north of three
+          hundred images in all. The thirty here are the torso-up set, held to one framing
+          and lighting spec so the roster reads as a single cast.
+        </p>
+        <p class="proj-sec__text rc-credit">Edited every figure myself from supplied photography, to a brief that set the effects and treatments.</p>
+        <ul class="tags"><li>Cast</li><li>Photo to game art</li><li>Volume production</li></ul>
+        <a class="rc-seeall" href="gallery/#portraits">View all 30 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== 3–10 UI EXPLORATION ===================== -->
+<section class="proj-sec" id="ui-exploration" aria-labelledby="s11-title">
+  <div class="shell" data-win="UI Exploration" style="--rc-w:58%;--rc-ml:0;--rc-mr:auto">
+    <div class="proj-sec__grid">
+      <div class="proj-sec__media">
+        <a class="rc-plate-link" href="gallery/#ui-exploration">
+          <span class="plate ui-card">
+            <span class="plate__no">3&ndash;11</span>
+            <img src="../../assets/img/studio-work/previews/ui-exploration.jpg" width="480" height="640"
+                 loading="lazy" decoding="async"
+                 alt="UI art test thumbnail: a car customisation screen with a colour selector">
+          </span>
+        </a>
+      </div>
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">4 pieces</p>
+        <h2 class="proj-sec__title" id="s11-title">UI Exploration</h2>
+        <p class="proj-sec__text">
+          Layout studies for the racing interface &mdash; four pieces working through where information sits on screen, what the eye reaches first, and how much can share a screen before the read falls apart.
+        </p>
+        <p class="proj-sec__text rc-credit">A UI art test completed as part of the application process, focused on interface layout, visual hierarchy and presentation for a mobile racing game.</p>
+        <ul class="tags"><li>Layout</li><li>Hierarchy</li></ul>
+        <a class="rc-seeall" href="gallery/#ui-exploration">View all 4 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The "The role" note (CV bullets verbatim) was removed on 2026-08-12: it
+     duplicates the CV that goes out with every application, and the per-section
+     .rc-credit lines already carry the attribution. ".note > .shell" is still in
+     the road router's panel list and now simply matches nothing. -->
+
+<!-- ===================== PAGER ===================== -->
+<nav class="pager" aria-label="Other projects">
+  <div class="shell">
+    <ul class="pager__list">
+      <li>
+        <a class="pager__link ui-panel" href="../project-kryat/">
+          <span class="pager__dir">Previous &mdash; Level 2</span>
+          <span class="pager__name">Project Kryat</span>
+        </a>
+      </li>
+      <li>
+        <a class="pager__link ui-panel pager__link--next" href="../beatbounds/">
+          <span class="pager__dir">Next &mdash; Level 4</span>
+          <span class="pager__name">BeatBounds</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="divider" role="presentation"></div>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p>
+      <a href="../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerinamcl/" rel="me noopener">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a> &middot;
+      <a href="../../index.html#work">All work</a>
+    </p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.
+    </p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+
+<script src="../../assets/app.js?v=17" defer></script>
+<script>
+/* Builds the winding road. The path is generated in real pixels rather than a
+   scaled viewBox, because stretching an SVG non-uniformly would squash the
+   road's stroke widths at the top and bottom of a long page.
+
+   It weaves toward whichever side each panel ISN'T on, so the road reads as
+   guiding you between them rather than running underneath. */
+(function () {
+  var road = document.querySelector(".rc-road");
+  if (!road) return;
+
+  var svg     = road.querySelector(".rc-road__svg");
+  var paths   = road.querySelectorAll("path");
+  var cars    = road.querySelectorAll(".rc-road__car");
+  var sheet   = document.querySelector(".sheet");
+  var canPath = window.CSS && CSS.supports && CSS.supports("offset-path", 'path("M0 0")');
+  /* older Safari: road only, no cars */
+  if (!canPath) { for (var h = 0; h < cars.length; h++) cars[h].style.display = "none"; }
+
+  function build() {
+    var W = sheet.clientWidth;
+    var H = sheet.scrollHeight;
+    if (!W || !H) return;
+
+    var sheetTop = sheet.getBoundingClientRect().top + window.scrollY;
+    function box(el) {
+      var r = el.getBoundingClientRect();
+      return { top: r.top + window.scrollY - sheetTop, bottom: r.bottom + window.scrollY - sheetTop,
+               left: r.left, right: r.right };
+    }
+
+    /* Every panel the road has to get past, in document order.
+       ⚠️ Any NEW full-width block between the hero and the pager must be added
+       here, or the road gets routed straight through it. A standalone
+       attribution panel did exactly that (11 overlaps) before it was folded
+       into the hero — and list the INNER bordered panel, never its full-width
+       .shell, or the road has no side to pass on (28 overlaps). */
+    var panels = Array.prototype.slice.call(document.querySelectorAll(
+      ".toc > .shell, .proj-sec > .shell, .note > .shell"
+    )).map(box);
+    if (!panels.length) return;
+
+    var HALF = 30;      /* half the road's width, incl. kerb */
+
+    /* One waypoint per panel, out in the free column beside it. The panels
+       alternate sides, so these zig-zag — and a spline through them becomes
+       the long lazy S we want rather than straights joined by bends. */
+    function waypoints(clear) {
+      var colX = panels.map(function (p) {
+        var x = p.left >= W - p.right
+          ? (p.left - clear) / 2                          /* pass down the left */
+          : p.right + clear + (W - p.right - clear) / 2;  /* pass down the right */
+        return Math.max(HALF + 6, Math.min(W - HALF - 6, x));
+      });
+
+      /* One point per panel, at its middle. Two points (top and bottom) pinned
+         the road into dead-straight runs joined by tight corners — that is
+         what read as kinks. The panels now come in groups of three per side,
+         so consecutive points share a column and the crossings are spread over
+         a long vertical run: a few lazy bends instead of constant zig-zag. */
+      /* Two points per panel again — one mid-point let the curve drift back
+         across a panel (10 overlaps when measured). Now that the panels come
+         in groups of three per side, consecutive points share a column, so
+         these read as one long run rather than a zig-zag. */
+      var pts = [];
+      panels.forEach(function (p, i) {
+        pts.push({ x: colX[i], y: p.top - 12 });
+        pts.push({ x: colX[i], y: p.bottom + 12 });
+      });
+
+      /* Lead in and out from the opposite side so the road sweeps on and off
+         the page instead of just starting and stopping. */
+      var hero  = document.querySelector(".proj-hero");
+      var pager = document.querySelector(".pager");
+      /* Lead in and out to the left edge. The band above the first panel and
+         below the last is empty, so the road can sweep across there without
+         touching anything — that is what stops it looking cut off. */
+      var firstY = pts[0].y, lastY = pts[pts.length - 1].y;
+      var edgeX  = -110;                 /* past the left edge, so it runs off-page */
+      var topLimit = hero ? box(hero).bottom + 26 : firstY - 260;
+      /* Exit in the band the pager's extra top padding opens up. Measure the
+         pager's SHELL, not the <nav>: the nav's own top sits right under the
+         last panel because the padding is inside it, which made the clearance
+         test fail and dropped the lead-out entirely. */
+      var pagerBox = document.querySelector(".pager > .shell") || pager;
+      var botLimit = pagerBox ? box(pagerBox).top - 60 : lastY + 300;
+
+      if (topLimit < firstY - 40) {
+        /* Mirror of the exit staging. One waypoint at the far edge made the
+           control point overshoot the other way here, which is what put the
+           extra W-wiggles in the entry. Unshifted in reverse so the final
+           order runs edge -> column, x moving one way only. */
+        var xi = colX[0], dxi = xi - edgeX, dyi = firstY - topLimit;
+        pts.unshift({ x: xi - dxi * 0.10, y: firstY - dyi * 0.28 });
+        pts.unshift({ x: xi - dxi * 0.36, y: firstY - dyi * 0.60 });
+        pts.unshift({ x: xi - dxi * 0.75, y: firstY - dyi * 0.86 });
+        pts.unshift({ x: edgeX,           y: topLimit });
+      }
+      if (botLimit > lastY + 40) {
+        /* Step the exit left in stages. A single waypoint at the far-left edge
+           made the tangent at this junction huge, and Catmull-Rom answered it
+           by kicking the curve RIGHT first — that was the stray bulge. Points
+           that only ever move left give a straight drop, one soft left bend,
+           then the run-off. */
+        /* The first exit point must already be left of the vertical run.
+           Catmull-Rom sets c2.x = p2.x - (p3.x - p1.x)/6; with the next point
+           to the LEFT that subtraction pushes the control ~30px RIGHT, which
+           is what bulged the curve. Keeping each step's offset >= the next
+           one's / 6 holds the control on or left of the line. */
+        var x0 = colX[colX.length - 1], dx = x0 - edgeX, dy = botLimit - lastY;
+        pts.push({ x: x0 - dx * 0.10, y: lastY + dy * 0.28 });
+        pts.push({ x: x0 - dx * 0.36, y: lastY + dy * 0.60 });
+        pts.push({ x: x0 - dx * 0.75, y: lastY + dy * 0.86 });
+        pts.push({ x: edgeX,          y: botLimit });
+      }
+      return pts;
+    }
+
+    /* Catmull-Rom through the waypoints, emitted as cubic beziers — every
+       join is tangent-continuous, so the whole road reads as one flowing curve. */
+    function spline(pts) {
+      var s = "M " + pts[0].x.toFixed(1) + " " + pts[0].y.toFixed(1);
+      for (var i = 0; i < pts.length - 1; i++) {
+        var p0 = pts[i - 1] || pts[i], p1 = pts[i],
+            p2 = pts[i + 1], p3 = pts[i + 2] || pts[i + 1];
+        s += " C " + (p1.x + (p2.x - p0.x) / 6).toFixed(1) + " " + (p1.y + (p2.y - p0.y) / 6).toFixed(1) +
+             ", "  + (p2.x - (p3.x - p1.x) / 6).toFixed(1) + " " + (p2.y - (p3.y - p1.y) / 6).toFixed(1) +
+             ", "  + p2.x.toFixed(1) + " " + p2.y.toFixed(1);
+      }
+      return s;
+    }
+
+    /* A spline bulges between its waypoints, so clearance is verified rather
+       than assumed: sample the curve against the panels and, if it grazes one,
+       push the waypoints further out and try again. */
+    function clashes(pathEl) {
+      var L = pathEl.getTotalLength();
+      for (var s = 0; s <= 260; s++) {
+        var pt = pathEl.getPointAtLength(L * s / 260);
+        for (var j = 0; j < panels.length; j++) {
+          var p = panels[j];
+          if (pt.y > p.top && pt.y < p.bottom && pt.x + HALF > p.left && pt.x - HALF < p.right) return true;
+        }
+      }
+      return false;
+    }
+
+    var probe = paths[0], d = "", clear = 18;
+    for (var attempt = 0; attempt < 7; attempt++) {
+      d = spline(waypoints(clear));
+      probe.setAttribute("d", d);
+      if (!clashes(probe)) break;
+      clear += 16;
+    }
+
+    svg.setAttribute("width", W);
+    svg.setAttribute("height", H);
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    for (var p = 0; p < paths.length; p++) paths[p].setAttribute("d", d);
+    road.style.height = H + "px";
+
+    /* every car rides the same generated path; their spacing is the CSS
+       animation-delay, so nothing here needs to know how many there are */
+    if (canPath) {
+      for (var c = 0; c < cars.length; c++) cars[c].style.offsetPath = 'path("' + d + '")';
+    }
+
+    /* plant a chequered flag at each end of the road */
+    var startFlag = road.querySelector(".rc-road__flag--start");
+    var endFlag   = road.querySelector(".rc-road__flag--end");
+    if (startFlag && endFlag) {
+      /* The road now runs off the page at both ends, so pinning the flags to
+         length 0 and 100% put them off-screen. Walk in from each end until the
+         road is properly on the page, and plant them there. */
+      var len = probe.getTotalLength();
+      function firstOnPage(fromStart) {
+        for (var s = 0; s <= 300; s++) {
+          var t = fromStart ? s / 300 : 1 - s / 300;
+          var pt = probe.getPointAtLength(len * t);
+          if (pt.x > 70 && pt.x < W - 70) return pt;
+        }
+        return probe.getPointAtLength(len * (fromStart ? 0 : 1));
+      }
+      var a = firstOnPage(true), b = firstOnPage(false);
+      startFlag.style.left = a.x + "px"; startFlag.style.top = a.y + "px";
+      endFlag.style.left   = b.x + "px"; endFlag.style.top   = b.y + "px";
+    }
+  }
+
+  /* Park the sun in the gap between the hero and the first panel. Both move
+     when the copy reflows, so this is measured rather than hard-coded; the CSS
+     default (840px) is only the pre-script fallback. */
+  function placeHorizon(){
+    var sheetEl = document.querySelector(".sheet");
+    var hero    = document.querySelector(".proj-hero > .shell");
+    var next    = document.querySelector(".toc > .shell");
+    if (!sheetEl || !hero || !next) return;
+    var top  = sheetEl.getBoundingClientRect().top;
+    var gapA = hero.getBoundingClientRect().bottom - top;
+    var gapB = next.getBoundingClientRect().top - top;
+    /* sun spans horizon-250 .. horizon+30, so its centre is horizon-110 */
+    var horizon = Math.round((gapA + gapB) / 2 + 110);
+    document.documentElement.style.setProperty("--sw-horizon", horizon + "px");
+    /* keep the floating icons out of the sky: start them below the panel */
+    var decoTop = Math.round(next.getBoundingClientRect().bottom - top + 40);
+    document.documentElement.style.setProperty("--sw-deco-top", decoTop + "px");
+  }
+
+  build();
+  placeHorizon();
+  window.addEventListener("load", function(){ build(); placeHorizon(); });
+  if ("ResizeObserver" in window) new ResizeObserver(function(){ build(); placeHorizon(); }).observe(sheet);
+  window.addEventListener("resize", function(){ build(); placeHorizon(); }, { passive: true });
+})();
+</script>
+
+</body>
+</html>

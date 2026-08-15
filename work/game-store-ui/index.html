@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en" data-proj="game-store-ui">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Store UI — Katerina Michael</title>
+<meta name="description" content="Game Store UI — a storefront landing page concept built in both light and dark themes.">
+<meta property="og:title" content="Game Store UI — Katerina Michael">
+<meta property="og:description" content="A storefront landing page concept, built in both light and dark themes.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="../../assets/img/p-store.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/styles.css?v=62">
+<style id="gs-theme">
+/* Game Store UI — an arcade at night. The old portfolio calls this "landing page
+   UI concepts for a virtual game store, featuring both light and dark interface
+   themes", and there are only two real screens — so Katerina's idea was to show
+   each one ON a machine. Each storefront sits in a CSS-built CRT monitor: chunky
+   purple casing, gold trim, recessed screen with scanlines, power LED, knobs and
+   a stand. Around them the page is classic-platformer furniture — a star with
+   eyes, coins, a space invader, ? blocks, hearts, a controller — over a night
+   sky closing on a brick ground.
+   All CSS + inline SVG, no image assets (an external decoration file or CSS mask
+   cannot be verified locally and fails silently — the helmet bug, §10k). */
+:root[data-proj="game-store-ui"]{
+  /* --- given --- */
+  --gs-purple:#6A3EC4; --gs-gold:#D9A800; --gs-magenta:#D42477;
+  --gs-green:#1E8556; --gs-blue:#1A6BB8;
+  /* --- derived --- */
+  --gs-night:#1A1038;      /* deepest — top bar, ground */
+  --gs-panel:#2A1A5C;      /* panel fill */
+  --gs-cream:#F5F0E6;      /* primary text */
+  --gs-magenta-lt:#F06AA6; /* text-safe magenta */
+  --gs-green-lt:#3FCB86;   /* text-safe green */
+  --gs-blue-lt:#4FA8E8;    /* text-safe blue */
+  --gs-purple-lt:#8B62D9;  /* purple lifted */
+  --gs-gold-dp:#B08800;    /* gold shading */
+  /* The CRT casing is beige plastic — the colour old PCs actually were. It is
+     the one neutral outside the five given colours, chosen (2026-08-08) because
+     a casing in any palette colour sat in the same family as the page behind it
+     and the machine dissolved into the scene. */
+  --gs-case:#D6CAB0; --gs-case-lt:#F0E8D6;
+
+  /* ⚠️ FOUR of the five given colours fail as text on the dark panel:
+       --gs-green   3.26:1   --gs-magenta 3.10:1
+       --gs-blue    2.75:1   --gs-purple  2.21:1
+     Only --gs-gold clears it (6.85:1). The lifted trio above are the text-safe
+     partners — magenta-lt 5.25:1, green-lt 7.05:1, blue-lt 5.81:1.
+     ⚠️ BUT all five work as FILLS carrying WHITE, which is the arcade way and
+     how they are used here: purple 6.81:1, blue 5.48:1, magenta 4.86:1,
+     green 4.62:1, and gold takes --gs-night at 8.14:1 rather than white.
+     Cream on the panel is 13.27:1. Seventh two-tone split on this site.
+
+     ⚠️ A #55D3B7 teal was tried in place of the green (and on the monitor
+     casings) on 2026-08-08 and REVERTED — it did not work visually. Worth
+     knowing if it ever comes up again: the teal is a LIGHT colour, so it
+     passes as text (8.24:1) but CANNOT carry white as a fill (1.83:1), which
+     is the opposite of the green and forces the level badge to flip. */
+
+  --ink:var(--gs-cream); --ink-soft:var(--gs-cream); --bar-ink:var(--gs-gold);
+  --bezel:var(--gs-gold); --bezel-out:var(--gs-night);
+  /* ⚠️ --sky-1/--sky-2 come from the generated PROJECT MOTIFS block (§9a), and
+     body's frame colour is var(--sky-1) — override (§15c trap 3). */
+  --sky-1:#1A1038; --sky-2:#2A1A5C;
+  /* ⚠️ Narrower than the site default 1180px so the arcade furniture has
+     gutters to sit in — same measured reason as §17d. */
+  --shell:1060px;
+
+  /* --- artwork. Colours inside a data URI are %23, never # (§10b.6) --- */
+  /* the star with eyes — Katerina asked for this one by name */
+  --gs-star:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'><path fill='%23B08800' d='M13 0 L16.4 8.8 L26 9.4 L18.6 15.4 L21.2 25 L13 19.6 L4.8 25 L7.4 15.4 L0 9.4 L9.6 8.8 Z'/><path fill='%23D9A800' d='M13 2.2 L15.9 9.9 L23.6 10.3 L17.6 15.2 L19.7 22.6 L13 18.2 L6.3 22.6 L8.4 15.2 L2.4 10.3 L10.1 9.9 Z'/><g fill='%231A1038'><ellipse cx='10.4' cy='12.6' rx='1.5' ry='2.1'/><ellipse cx='15.6' cy='12.6' rx='1.5' ry='2.1'/></g><g fill='%23F5F0E6'><ellipse cx='10.9' cy='11.9' rx='.5' ry='.7'/><ellipse cx='16.1' cy='11.9' rx='.5' ry='.7'/></g></svg>");
+  --gs-coin:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 20'><ellipse cx='9' cy='10' rx='8' ry='9.5' fill='%23B08800'/><ellipse cx='9' cy='10' rx='6.2' ry='7.8' fill='%23D9A800'/><ellipse cx='9' cy='10' rx='3.4' ry='5.4' fill='%23B08800'/><rect x='7.8' y='6' width='2.4' height='8' fill='%23D9A800'/></svg>");
+  --gs-invader:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 16' shape-rendering='crispEdges'><g fill='%238B62D9'><rect x='4' y='0' width='2' height='2'/><rect x='16' y='0' width='2' height='2'/><rect x='6' y='2' width='2' height='2'/><rect x='14' y='2' width='2' height='2'/><rect x='4' y='4' width='14' height='2'/><rect x='2' y='6' width='4' height='2'/><rect x='8' y='6' width='6' height='2'/><rect x='16' y='6' width='4' height='2'/><rect x='0' y='8' width='22' height='2'/><rect x='0' y='10' width='2' height='2'/><rect x='4' y='10' width='14' height='2'/><rect x='20' y='10' width='2' height='2'/><rect x='0' y='12' width='2' height='2'/><rect x='6' y='12' width='2' height='2'/><rect x='14' y='12' width='2' height='2'/><rect x='20' y='12' width='2' height='2'/><rect x='6' y='14' width='4' height='2'/><rect x='12' y='14' width='4' height='2'/></g><g fill='%23F5F0E6'><rect x='6' y='6' width='2' height='2'/><rect x='14' y='6' width='2' height='2'/></g></svg>");
+  --gs-block:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' shape-rendering='crispEdges'><rect x='0' y='0' width='20' height='20' fill='%23B08800'/><rect x='2' y='2' width='16' height='16' fill='%23D9A800'/><g fill='%231A1038'><rect x='2' y='2' width='2' height='2'/><rect x='16' y='2' width='2' height='2'/><rect x='2' y='16' width='2' height='2'/><rect x='16' y='16' width='2' height='2'/><rect x='7' y='5' width='6' height='2'/><rect x='12' y='7' width='2' height='2'/><rect x='10' y='9' width='2' height='2'/><rect x='9' y='11' width='2' height='2'/><rect x='9' y='15' width='2' height='2'/></g></svg>");
+  --gs-heart:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 13' shape-rendering='crispEdges'><g fill='%23D42477'><rect x='2' y='2' width='3' height='1'/><rect x='9' y='2' width='3' height='1'/><rect x='1' y='3' width='5' height='1'/><rect x='8' y='3' width='5' height='1'/><rect x='1' y='4' width='12' height='2'/><rect x='2' y='6' width='10' height='1'/><rect x='3' y='7' width='8' height='1'/><rect x='4' y='8' width='6' height='1'/><rect x='5' y='9' width='4' height='1'/><rect x='6' y='10' width='2' height='1'/></g><g fill='%23F06AA6'><rect x='3' y='4' width='2' height='1'/><rect x='2' y='5' width='1' height='1'/></g></svg>");
+  --gs-pad:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 18' shape-rendering='crispEdges'><rect x='0' y='3' width='30' height='12' rx='3' fill='%231A6BB8'/><rect x='0' y='3' width='30' height='4' rx='3' fill='%234FA8E8'/><g fill='%231A1038'><rect x='5' y='7' width='2' height='6'/><rect x='3' y='9' width='6' height='2'/></g><circle cx='22' cy='9' r='2' fill='%23D42477'/><circle cx='26' cy='12' r='2' fill='%231E8556'/><rect x='13' y='8' width='4' height='2' rx='1' fill='%231A1038'/></svg>");
+  --gs-1up:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' shape-rendering='crispEdges'><path fill='%231E8556' d='M4 2h12v2h2v6H2V4h2z'/><g fill='%23F5F0E6'><rect x='6' y='4' width='3' height='3'/><rect x='12' y='4' width='3' height='3'/><rect x='9' y='2' width='2' height='2'/></g><rect x='5' y='10' width='10' height='7' fill='%23F5F0E6'/><rect x='5' y='10' width='10' height='2' fill='%23D9D2C4'/><g fill='%231A1038'><rect x='7' y='12' width='2' height='2'/><rect x='11' y='12' width='2' height='2'/></g></svg>");
+  --gs-cloud:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 14' shape-rendering='crispEdges'><g fill='%238B62D9'><rect x='8' y='2' width='8' height='2'/><rect x='6' y='4' width='14' height='2'/><rect x='2' y='6' width='24' height='2'/><rect x='0' y='8' width='30' height='4'/></g><g fill='%23A98AE8'><rect x='10' y='4' width='4' height='2'/><rect x='4' y='8' width='6' height='2'/></g></svg>");
+  /* the brick ground the page stands on */
+  --gs-ground:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='32' shape-rendering='crispEdges'><rect width='64' height='32' fill='%234A2E96'/><g fill='%236A3EC4'><rect x='0' y='0' width='30' height='14'/><rect x='34' y='0' width='30' height='14'/><rect x='0' y='18' width='14' height='14'/><rect x='18' y='18' width='30' height='14'/><rect x='52' y='18' width='12' height='14'/></g></svg>");
+  /* pixel starfield, repeated over the sheet */
+  --gs-stars:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='340' height='340' shape-rendering='crispEdges'><g fill='%23F5F0E6' opacity='.5'><rect x='24' y='40' width='3' height='3'/><rect x='210' y='96' width='2' height='2'/><rect x='118' y='210' width='3' height='3'/><rect x='288' y='268' width='2' height='2'/><rect x='60' y='300' width='2' height='2'/></g><g fill='%23D9A800' opacity='.42'><rect x='160' y='26' width='3' height='3'/><rect x='56' y='150' width='2' height='2'/><rect x='250' y='188' width='3' height='3'/><rect x='300' y='60' width='2' height='2'/></g></svg>");
+}
+
+/* ---- the arcade at night -------------------------------------------------
+   ⚠️ --gs-stars and --gs-ground are TILES, so their background-size must stay
+   `auto` or they stretch across the sheet width (§12c). */
+:root[data-proj="game-store-ui"] .sky{ background:#1A1038; }
+/* ⚠️ .proj-hero carries its OWN linear-gradient as a background-IMAGE and would
+   paint over the scene. backgroundColor reads transparent, so a colour probe
+   will not find it — check backgroundImage (§15c trap 1). */
+:root[data-proj="game-store-ui"] .proj-hero{ background:none; }
+:root[data-proj="game-store-ui"] .sheet{
+  background:linear-gradient(180deg,
+    #2A1A5C 0%,    /* night purple, meets the top bar */
+    #3A2478 22%,
+    #4A2E96 46%,
+    #5A36AE 66%,
+    #4A2E96 82%,
+    #2A1A5C 94%,
+    #1A1038 100%);
+}
+:root[data-proj="game-store-ui"] .sheet::before{
+  content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:var(--gs-stars) 0 0 repeat; opacity:.6;
+}
+/* the brick ground the page stands on */
+:root[data-proj="game-store-ui"] .sheet::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:96px; z-index:0;
+  pointer-events:none;
+  background:var(--gs-ground) 0 bottom repeat-x;
+  border-top:4px solid var(--gs-night);
+}
+/* ⚠️ The shared PROJECT MOTIFS block in styles.css also paints — switch it off
+   or its motif bleeds through, including behind .foot (§10b.1). */
+:root[data-proj="game-store-ui"] .hero::before,
+:root[data-proj="game-store-ui"] .band::before,
+:root[data-proj="game-store-ui"] .level::before,
+:root[data-proj="game-store-ui"] .foot::before,
+:root[data-proj="game-store-ui"] .proj-hero::before,
+:root[data-proj="game-store-ui"] .proj-sec::before{ display:none !important; }
+/* ⚠️ ::before is NOT enough — .proj-hero::after is the pink hotbar ground strip
+   (styles.css:533) and it paints a magenta band across the scene (§15c trap 2). */
+:root[data-proj="game-store-ui"] .proj-hero::after{ display:none !important; }
+/* ⚠️ Decoration layers paint ABOVE unpositioned content (§10b.2). */
+:root[data-proj="game-store-ui"] .sheet .topbar{ position:relative; z-index:20; }
+:root[data-proj="game-store-ui"] .shell{ position:relative; z-index:3; }
+
+/* ---- the arcade furniture (parallaxed by app.js section 6) ----------------
+   ⚠️ .gs-arcade had to be added to the hard-coded selector list in app.js
+   section 6 — no automatic hook, and without it this does not parallax (§15e).
+   That edit forced the JS ?v= sweep 16 -> 17. */
+:root[data-proj="game-store-ui"] .gs-arcade{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+:root[data-proj="game-store-ui"] .gs-arcade span{
+  position:absolute; background-position:center; background-size:contain;
+  background-repeat:no-repeat;
+}
+/* ⚠️ Each element's aspect ratio must MATCH its SVG viewBox or background-size:
+   contain letterboxes it, which reads as a mystery gap (§10b.3). Ratios:
+   star 26:26, coin 18:20, invader 22:16, block 20:20, heart 14:13,
+   pad 30:18, 1up 20:20, cloud 32:14. */
+:root[data-proj="game-store-ui"] .gs-star{ background-image:var(--gs-star); width:52px; height:52px;
+  animation:gsSpin 7s ease-in-out infinite; }
+:root[data-proj="game-store-ui"] .gs-coin{ background-image:var(--gs-coin); width:34px; height:38px;
+  animation:gsFlip 3.2s ease-in-out infinite; }
+:root[data-proj="game-store-ui"] .gs-invader{ background-image:var(--gs-invader); width:66px; height:48px;
+  animation:gsHop 4s steps(2) infinite; }
+:root[data-proj="game-store-ui"] .gs-block{ background-image:var(--gs-block); width:44px; height:44px; }
+:root[data-proj="game-store-ui"] .gs-heart{ background-image:var(--gs-heart); width:42px; height:39px; }
+:root[data-proj="game-store-ui"] .gs-pad{ background-image:var(--gs-pad); width:64px; height:38px; }
+:root[data-proj="game-store-ui"] .gs-1up{ background-image:var(--gs-1up); width:44px; height:44px; }
+:root[data-proj="game-store-ui"] .gs-cloud{ background-image:var(--gs-cloud); width:76px; height:33px; opacity:.75; }
+@keyframes gsSpin{ 0%,100%{ transform:rotate(-9deg) scale(1) } 50%{ transform:rotate(9deg) scale(1.08) } }
+@keyframes gsFlip{ 0%,100%{ transform:scaleX(1) } 50%{ transform:scaleX(.25) } }
+@keyframes gsHop{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-7px) } }
+@media (prefers-reduced-motion: reduce){
+  :root[data-proj="game-store-ui"] .gs-arcade span{ animation:none }
+}
+/* ⚠️ The band starts at 18%, not 0% — the layer is SHORTENED by the parallax
+   travel (§10d), so at rest its 0-100% maps onto roughly the top two-thirds of
+   the page and anything above ~18% hides behind the full-width hero (§17d). */
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(1){ top:18%; left:3%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(2){ top:24%; right:4%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(3){ top:31%; left:5%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(4){ top:37%; right:2%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(5){ top:43%; left:2%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(6){ top:50%; right:5%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(7){ top:56%; left:4%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(8){ top:62%; right:3%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(9){ top:69%; left:2%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(10){ top:75%; right:4%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(11){ top:81%; left:5%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(12){ top:88%; right:2%; }
+:root[data-proj="game-store-ui"] .gs-arcade span:nth-child(13){ top:94%; left:3%; }
+@media (max-width:900px){ :root[data-proj="game-store-ui"] .gs-arcade{ display:none } }
+
+/* ---- chrome ---- */
+:root[data-proj="game-store-ui"] .topbar{ background:var(--gs-night); border-bottom:4px solid var(--gs-gold); }
+:root[data-proj="game-store-ui"] .brand__mark{ background-image:none; background-color:var(--gs-magenta); color:#fff;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.28), inset 0 -4px 0 rgba(0,0,0,.3), 0 0 0 3px var(--gs-night), 0 0 0 6px var(--gs-gold); }
+:root[data-proj="game-store-ui"] .brand__name{ color:var(--gs-cream); }
+:root[data-proj="game-store-ui"] .nav a{ color:var(--gs-cream); }
+:root[data-proj="game-store-ui"] .nav a[aria-current]{ background:var(--gs-magenta); color:#fff; }
+:root[data-proj="game-store-ui"] .nav a:hover{ background:rgba(245,240,230,.16); }
+
+/* ---- panels: console menu boxes ------------------------------------------
+   Chunky square borders and a hard offset shadow, the way a 16-bit menu draws
+   its frame. ⚠️ .proj-sec > .shell is deliberately NOT a panel (§17c). */
+:root[data-proj="game-store-ui"] .proj-hero > .shell,
+:root[data-proj="game-store-ui"] .pager > .shell,
+:root[data-proj="game-store-ui"] .proj-sec__body{
+  background:var(--gs-panel); color:var(--gs-cream);
+  border:4px solid var(--gs-gold); border-radius:0;
+  padding:30px 26px 26px;
+  box-shadow:0 0 0 4px var(--gs-night), 8px 8px 0 rgba(26,16,56,.55);
+}
+:root[data-proj="game-store-ui"] .proj-sec__body{ position:relative; z-index:3; }
+
+:root[data-proj="game-store-ui"] .crumb{ color:var(--gs-gold); }
+:root[data-proj="game-store-ui"] .crumb img{ display:none; }
+:root[data-proj="game-store-ui"] .crumb::before{ content:"\25C4"; margin-right:.5em; }
+:root[data-proj="game-store-ui"] .level__badge.ui-bar{ border-image:none; border:3px solid var(--gs-night);
+  background:var(--gs-green); color:#fff; padding:4px 14px; border-radius:0; }
+/* the title reads as a marquee: gold plate, dark type, hard shadow */
+:root[data-proj="game-store-ui"] .level__panel.ui-panel{ border-image:none; border:4px solid var(--gs-night);
+  background:var(--gs-gold); border-radius:0; padding:10px 22px;
+  box-shadow:6px 6px 0 rgba(26,16,56,.55); }
+:root[data-proj="game-store-ui"] .proj-title.arcade{ color:var(--gs-night); text-shadow:none; }
+:root[data-proj="game-store-ui"] .proj-lede,
+:root[data-proj="game-store-ui"] .proj-sec__text{ color:var(--gs-cream); }
+:root[data-proj="game-store-ui"] .meta > div{ border-image:none; border:3px solid var(--gs-blue);
+  background:rgba(26,107,184,.2); border-radius:0; padding:5px 10px; }
+:root[data-proj="game-store-ui"] .meta__k{ color:var(--gs-gold); }
+:root[data-proj="game-store-ui"] .meta__v{ color:var(--gs-cream); }
+:root[data-proj="game-store-ui"] .proj-sec__count{ color:var(--gs-green-lt); font-weight:800; }
+:root[data-proj="game-store-ui"] .proj-sec__title{ color:var(--gs-cream); text-shadow:3px 3px 0 var(--gs-magenta); }
+:root[data-proj="game-store-ui"] .tags li{ border-image:none; border:3px solid var(--gs-magenta);
+  background:rgba(212,36,119,.18); color:var(--gs-cream); border-radius:0; padding:1px 10px; }
+:root[data-proj="game-store-ui"] .divider{ display:none; }
+
+/* ---- THE CRT MONITORS ----------------------------------------------------
+   Katerina's idea: only two real screens, so each is shown ON a machine.
+   Entirely CSS — casing, bezel, recessed screen, scanlines, LED, knobs, stand.
+   ⚠️ The scanline overlay is `pointer-events:none` or it would swallow the
+   click that opens the lightbox (§19). */
+:root[data-proj="game-store-ui"] .gs-screens{
+  list-style:none; margin:30px 0 0; padding:0;
+  display:grid; gap:34px; grid-template-columns:minmax(0,1fr);
+}
+@media (min-width:900px){
+  :root[data-proj="game-store-ui"] .gs-screens{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+:root[data-proj="game-store-ui"] .gs-crt{ display:flex; flex-direction:column; align-items:center; }
+:root[data-proj="game-store-ui"] .gs-crt__body{
+  width:100%; background:linear-gradient(180deg, var(--gs-case-lt), var(--gs-case));
+  border:4px solid var(--gs-night); border-radius:14px 14px 8px 8px;
+  padding:14px 14px 0;
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.22), inset 0 -6px 0 rgba(0,0,0,.28), 8px 8px 0 rgba(26,16,56,.5);
+}
+:root[data-proj="game-store-ui"] .gs-crt__screen{
+  position:relative; background:var(--gs-night);
+  border:4px solid #120A28; border-radius:8px; padding:6px;
+  box-shadow:inset 0 0 14px rgba(0,0,0,.8);
+}
+:root[data-proj="game-store-ui"] .gs-crt__screen img{
+  display:block; width:100%; height:auto; border-radius:3px;
+}
+/* CRT scanlines + a soft corner vignette */
+:root[data-proj="game-store-ui"] .gs-crt__screen::after{
+  content:""; position:absolute; inset:6px; border-radius:3px; pointer-events:none;
+  background:
+    radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,.35) 100%),
+    repeating-linear-gradient(180deg, rgba(0,0,0,.16) 0 1px, rgba(0,0,0,0) 1px 3px);
+}
+:root[data-proj="game-store-ui"] .gs-crt__panel{
+  display:flex; align-items:center; gap:9px;
+  padding:9px 4px 11px;
+}
+:root[data-proj="game-store-ui"] .gs-crt__led{
+  width:9px; height:9px; border-radius:50%; background:var(--gs-green);
+  box-shadow:0 0 7px var(--gs-green-lt), inset 0 -2px 0 rgba(0,0,0,.3);
+}
+:root[data-proj="game-store-ui"] .gs-crt__knob{
+  width:13px; height:13px; border-radius:50%;
+  background:var(--gs-night); box-shadow:inset 0 2px 0 rgba(255,255,255,.18);
+}
+:root[data-proj="game-store-ui"] .gs-crt__vent{
+  flex:1; height:7px; margin-left:4px;
+  background:repeating-linear-gradient(90deg, rgba(26,16,56,.55) 0 3px, rgba(0,0,0,0) 3px 7px);
+}
+/* neck + base */
+:root[data-proj="game-store-ui"] .gs-crt__stand{ width:78px; height:16px; background:var(--gs-case);
+  border:4px solid var(--gs-night); border-top:0; }
+:root[data-proj="game-store-ui"] .gs-crt__foot{ width:150px; height:12px; background:var(--gs-case-lt);
+  border:4px solid var(--gs-night); border-radius:0 0 7px 7px;
+  box-shadow:6px 6px 0 rgba(26,16,56,.45); }
+/* ⚠️ These captions sit on the SHEET GRADIENT, not on a panel — .gs-screens is
+   a direct child of .shell. Gold measured 4.47:1 and 3.88:1 against the
+   gradient where it lightens (rgb(75,46,151) and rgb(86,52,169)), so it FAILED
+   AA at this size. Cream clears it everywhere on the ramp (8.65:1 / 7.15:1).
+   Any probe that assumes --gs-panel behind these will report a false pass. */
+:root[data-proj="game-store-ui"] .gs-crt__cap{
+  margin:16px 0 0; font-family:var(--display); font-size:1.02rem;
+  letter-spacing:.06em; color:var(--gs-cream); text-align:center;
+  text-shadow:0 1px 3px rgba(26,16,56,.7);
+}
+
+/* ---- the tabbed frame (button sheet) -------------------------------------
+   Deliberately the QUIETEST block on the page. It is supporting material next
+   to the two storefronts, so: no panel fill, no gold keyline, no hard offset
+   shadow — just a small title tab over a thin recessed box. Anything heavier
+   and it competes with the copy block, which is what a full panel did. */
+/* ⚠️ Capped at 380px on purpose. The sheet is a SQUARE image, so width drives
+   height: at 520px the block stood 663px tall — taller than a whole monitor
+   (451px) — and the "supporting material" reading collapsed. At 380 it lands
+   about level with a monitor. The lightbox (§19) is the route to detail. */
+:root[data-proj="game-store-ui"] .gs-tabbed{
+  margin:52px auto 0; max-width:380px;
+}
+:root[data-proj="game-store-ui"] .gs-tab{
+  display:inline-block; margin:0; padding:6px 16px 5px;
+  font-family:var(--display); font-size:.95rem; letter-spacing:.06em;
+  color:var(--gs-gold);
+  background:rgba(26,16,56,.92);
+  border:2px solid rgba(217,168,0,.45); border-bottom:0;
+  border-radius:5px 5px 0 0;
+}
+:root[data-proj="game-store-ui"] .gs-tabbed__body{
+  background:rgba(26,16,56,.55);
+  border:2px solid rgba(217,168,0,.45);
+  border-radius:0 5px 5px 5px;
+  padding:16px 16px 14px;
+}
+:root[data-proj="game-store-ui"] .gs-tabbed__note{
+  margin:0 0 14px; font-size:.88rem; line-height:1.5; color:var(--gs-cream);
+}
+:root[data-proj="game-store-ui"] .gs-extra{
+  list-style:none; margin:0; padding:0;
+}
+/* the sheet is drawn on white, so it only needs a hairline to sit on */
+:root[data-proj="game-store-ui"] .gs-piece{
+  background:#fff; padding:6px 6px 3px;
+  border:2px solid rgba(26,16,56,.75); border-radius:3px;
+  box-shadow:none;
+}
+:root[data-proj="game-store-ui"] .gs-piece img{
+  display:block; width:100%; height:auto; border-radius:0;
+}
+:root[data-proj="game-store-ui"] .gs-piece__cap{
+  margin:8px 2px 2px; font-family:var(--display); font-size:.92rem;
+  letter-spacing:.06em; color:var(--gs-night);
+}
+/* ---- pager + foot ---- */
+:root[data-proj="game-store-ui"] .pager__link.ui-panel{ border-image:none; border:3px solid var(--gs-gold);
+  background:rgba(42,26,92,.85); border-radius:0; box-shadow:5px 5px 0 rgba(26,16,56,.5); }
+:root[data-proj="game-store-ui"] .pager__name{ color:var(--gs-cream); }
+:root[data-proj="game-store-ui"] .pager__dir{ color:var(--gs-gold); }
+/* ⚠️ .foot__credits carries its OWN colour in styles.css and does not inherit
+   from .foot — name it explicitly or it stays the dark theme's lavender (§10k).
+   The footer sits on the brick ground, so cream it is. */
+:root[data-proj="game-store-ui"] .foot,
+:root[data-proj="game-store-ui"] .foot a,
+:root[data-proj="game-store-ui"] .foot__credits{ color:var(--gs-cream); }
+:root[data-proj="game-store-ui"] .skip{ color:var(--gs-night); }
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<div class="gs-arcade" aria-hidden="true">
+  <span class="gs-star"></span><span class="gs-invader"></span>
+  <span class="gs-coin"></span><span class="gs-block"></span>
+  <span class="gs-cloud"></span><span class="gs-pad"></span>
+  <span class="gs-heart"></span><span class="gs-1up"></span>
+  <span class="gs-coin"></span><span class="gs-star"></span>
+  <span class="gs-invader"></span><span class="gs-cloud"></span>
+  <span class="gs-block"></span>
+</div>
+
+<a class="skip ui-bar ui-bar-cream" href="#overview">Skip to the work</a>
+
+<div class="stage-top">
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../index.html#experience">Experience</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="proj-hero proj-hero--solo" id="top">
+  <div class="shell">
+    <a class="crumb" href="../../index.html#level-5">
+      <img src="../../assets/ui6/arrow-left.png" alt="" width="48" height="103">
+      Back to Level 5
+    </a>
+
+    <div class="proj-hero__grid">
+      <div>
+        <p class="level__badge ui-bar">Level&nbsp;&ndash;&nbsp;5</p>
+        <div class="level__panel ui-panel"><h1 class="proj-title arcade">Game Store UI</h1></div>
+        <p class="proj-lede">
+          A storefront landing page, built twice — once light and once dark. Two themes rather
+          than one because a store is where a colour system is tested hardest: every product
+          image on the page is fighting the background for attention.
+        </p>
+
+        <dl class="meta">
+          <div>
+            <dt class="meta__k">Discipline</dt>
+            <dd class="meta__v">Storefront UI</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Year</dt>
+            <dd class="meta__v">2024</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Tools</dt>
+            <dd class="meta__v">Figma</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Themes</dt>
+            <dd class="meta__v">Light and dark</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.stage-top -->
+
+<section class="proj-sec" id="overview" aria-labelledby="ov-title">
+  <div class="shell">
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Landing page</p>
+        <h2 class="proj-sec__title" id="ov-title">Storefront</h2>
+        <p class="proj-sec__text">
+          The landing page carries featured titles, a browsing grid and the promotional slots
+          that pay for the page. Building both themes from the same layout forced the contrast
+          decisions to be made in the system rather than per element, which is the only way the
+          dark version avoids becoming a separate design.
+        </p>
+        <ul class="tags"><li>Landing page</li><li>Light theme</li><li>Dark theme</li><li>Product grid</li></ul>
+      </div>
+    <!-- There are only two real screens, so each is shown ON a machine — the
+         CRT casing, bezel, scanlines, LED, knobs and stand are all CSS, built
+         around the image. The button-state sheet is not a screen, so it sits
+         in a plain frame underneath. -->
+    <ul class="gs-screens">
+      <li class="gs-crt">
+        <span class="gs-crt__body">
+          <span class="gs-crt__screen">
+            <img src="../../assets/img/game-store-ui/game-store-ui-02.jpg" width="1400" height="788"
+                 loading="lazy" decoding="async"
+                 alt="Game store landing page in a light lavender theme: left navigation, search bar, a featured offers banner with a character illustration, and a row of game cards">
+          </span>
+          <span class="gs-crt__panel">
+            <span class="gs-crt__led"></span>
+            <span class="gs-crt__knob"></span>
+            <span class="gs-crt__knob"></span>
+            <span class="gs-crt__vent"></span>
+          </span>
+        </span>
+        <span class="gs-crt__stand"></span>
+        <span class="gs-crt__foot"></span>
+        <p class="gs-crt__cap">Light theme</p>
+      </li>
+      <li class="gs-crt">
+        <span class="gs-crt__body">
+          <span class="gs-crt__screen">
+            <img src="../../assets/img/game-store-ui/game-store-ui-03.jpg" width="1400" height="788"
+                 loading="lazy" decoding="async"
+                 alt="The same game store landing page rebuilt as a dark theme, with green accent icons and a deep charcoal panel">
+          </span>
+          <span class="gs-crt__panel">
+            <span class="gs-crt__led"></span>
+            <span class="gs-crt__knob"></span>
+            <span class="gs-crt__knob"></span>
+            <span class="gs-crt__vent"></span>
+          </span>
+        </span>
+        <span class="gs-crt__stand"></span>
+        <span class="gs-crt__foot"></span>
+        <p class="gs-crt__cap">Dark theme</p>
+      </li>
+    </ul>
+
+    <!-- The button sheet is not a screen, so it stays out of the monitors. It is
+         also secondary to them, so it does NOT get a full panel — a full panel
+         gave it the same visual weight as the copy block and it read as a
+         separate, competing thing. It sits in a tabbed frame instead: a small
+         title tab over a thin recessed box, quieter than everything around it. -->
+    <div class="gs-tabbed">
+      <h3 class="gs-tab">Button variants</h3>
+      <div class="gs-tabbed__body">
+        <p class="gs-tabbed__note">
+          Designed as potential future button variants for the store UI &mdash; eight actions,
+          each drawn in three states so the set could be dropped in without redrawing the
+          interaction: default, hover, and pressed.
+        </p>
+        <ul class="gs-extra">
+          <li class="gs-piece">
+            <img src="../../assets/img/game-store-ui/game-store-ui-01.jpg" width="1400" height="1400"
+                 loading="lazy" decoding="async"
+                 alt="Button variant sheet: eight pill-shaped actions — Back, Next, Add, Edit, More, Cancel, Delete and Enter — each with a circular icon and drawn in three columns for default, hover and pressed states">
+            <p class="gs-piece__cap">Eight actions &times; three states</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<nav class="pager" aria-label="Other projects">
+  <div class="shell">
+    <ul class="pager__list">
+      <li>
+        <a class="pager__link ui-panel" href="../parent-guidance-app/">
+          <span class="pager__dir">Previous &mdash; Level 5</span>
+          <span class="pager__name">Parent Guidance App</span>
+        </a>
+      </li>
+      <li>
+        <a class="pager__link ui-panel pager__link--next" href="../../index.html#work">
+          <span class="pager__dir">Back to</span>
+          <span class="pager__name">All work</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="divider" role="presentation"></div>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p>
+      <a href="../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerinamcl/" rel="me noopener">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a> &middot;
+      <a href="../../index.html#work">All work</a>
+    </p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.
+    </p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+
+<script src="../../assets/app.js?v=17" defer></script>
+
+</body>
+</html>

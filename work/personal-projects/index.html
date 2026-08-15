@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en" data-proj="personal-projects">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Individual Projects — Katerina Michael</title>
+<meta name="description" content="Individual Projects — self-directed game UI and interface work by Katerina Michael. Five briefs set to explore styles, systems and screens outside of studio production.">
+<meta property="og:title" content="Individual Projects — Katerina Michael">
+<meta property="og:description" content="Five self-directed game UI and interface projects, exploring styles, systems and screens outside of studio production.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="../../assets/img/p-hydro.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/styles.css?v=62">
+<style id="ip-theme">
+/* Individual Projects — a retro console screen. The hero is a handheld
+   (screen + d-pad + buttons), the grid sits in a pixel window with a hearts
+   title bar, and old-game icons drift around the edges.
+   magenta #D6449E · orange #F0A32E · purple #6B3FA0 · red #D9455A · cream #F5EDE0 */
+:root[data-proj="personal-projects"]{
+  --ip-mag:#D6449E; --ip-orange:#F0A32E; --ip-purple:#6B3FA0; --ip-red:#D9455A; --ip-cream:#F5EDE0;
+  /* Two frame colours picked AGAINST the thumbnails they surround, measured
+     rather than eyeballed (scratchpad/sample2.ps1 samples the dominant bands):
+
+     --ip-blue  Apocalyptic. #3E8FC4 (Art & Concept's blue) read as too bright:
+                that art is very dark (dominant bands ~lum .007-.028) so the
+                frame sat 2.69x lighter and glared. #2E74A0 drops it to 1.87x —
+                still clearly a frame, no longer a glow.
+     --ip-violet Game Store. --ip-purple #6B3FA0 was only 1.22x separated from
+                the thumbnail's own #7830C0, which is why they blended into each
+                other. #401C7D is 2.08x and stays saturated. It reads as a deep
+                frame because the 5px --ip-ink border still bounds it against
+                the page. */
+  --ip-blue:#2E74A0; --ip-violet:#401C7D;
+  --ip-ink:#241033;
+  --bezel:#D6449E; --bezel-out:#150822;
+  --ink:#F5EDE0; --ink-soft:#c9a9df; --bar-ink:#F5EDE0;
+  /* pixel grid + a few glints, so the ground reads as a CRT field */
+  --ip-grid:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><g stroke='%236B3FA0' stroke-width='1' opacity='.20'><path d='M0 .5 H32'/><path d='M.5 0 V32'/></g></svg>");
+  /* retro icons */
+  --ip-coin:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'><rect x='4' y='1' width='8' height='14' fill='%23241033'/><rect x='2' y='3' width='12' height='10' fill='%23241033'/><rect x='5' y='2' width='6' height='12' fill='%23F0A32E'/><rect x='3' y='4' width='10' height='8' fill='%23F0A32E'/><rect x='7' y='4' width='2' height='8' fill='%23D9455A'/></svg>");
+  --ip-heart:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='14' shape-rendering='crispEdges'><g fill='%23241033'><rect x='1' y='0' width='6' height='2'/><rect x='9' y='0' width='6' height='2'/><rect x='0' y='2' width='16' height='4'/><rect x='1' y='6' width='14' height='2'/><rect x='3' y='8' width='10' height='2'/><rect x='5' y='10' width='6' height='2'/><rect x='6' y='12' width='4' height='2'/></g><g fill='%23D9455A'><rect x='2' y='1' width='4' height='2'/><rect x='10' y='1' width='4' height='2'/><rect x='1' y='3' width='14' height='3'/><rect x='2' y='6' width='12' height='2'/><rect x='4' y='8' width='8' height='2'/><rect x='6' y='10' width='4' height='2'/></g></svg>");
+  --ip-star:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'><g fill='%23F0A32E'><rect x='7' y='1' width='2' height='14'/><rect x='1' y='7' width='14' height='2'/><rect x='6' y='3' width='4' height='10'/><rect x='3' y='6' width='10' height='4'/><rect x='5' y='5' width='6' height='6'/></g></svg>");
+  --ip-pad:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='16' shape-rendering='crispEdges'><rect x='0' y='3' width='26' height='11' fill='%23241033'/><rect x='1' y='4' width='24' height='9' fill='%23D6449E'/><rect x='4' y='7' width='6' height='2' fill='%23F5EDE0'/><rect x='6' y='5' width='2' height='6' fill='%23F5EDE0'/><rect x='16' y='6' width='3' height='3' fill='%23F5EDE0'/><rect x='20' y='9' width='3' height='3' fill='%23F5EDE0'/></svg>");
+  --ip-cart:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='18' shape-rendering='crispEdges'><rect x='1' y='0' width='14' height='17' fill='%23241033'/><rect x='2' y='1' width='12' height='15' fill='%236B3FA0'/><rect x='4' y='3' width='8' height='5' fill='%23F5EDE0'/><rect x='5' y='12' width='6' height='3' fill='%23241033'/></svg>");
+  --ip-mush:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'><g fill='%23241033'><rect x='4' y='1' width='8' height='8'/><rect x='2' y='3' width='12' height='6'/><rect x='5' y='9' width='6' height='6'/></g><g fill='%23D9455A'><rect x='5' y='2' width='6' height='6'/><rect x='3' y='4' width='10' height='4'/></g><g fill='%23F5EDE0'><rect x='6' y='10' width='4' height='5'/><rect x='6' y='4' width='2' height='2'/><rect x='9' y='5' width='2' height='2'/></g></svg>");
+  /* console furniture */
+  --ip-dpad:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' shape-rendering='crispEdges'><g fill='%23241033'><rect x='19' y='2' width='18' height='52'/><rect x='2' y='19' width='52' height='18'/></g><g fill='%236B3FA0'><rect x='22' y='5' width='12' height='46'/><rect x='5' y='22' width='46' height='12'/></g></svg>");
+  --ip-btns:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='72' height='44'><circle cx='19' cy='30' r='14' fill='%23241033'/><circle cx='19' cy='30' r='10.5' fill='%23D9455A'/><circle cx='53' cy='15' r='14' fill='%23241033'/><circle cx='53' cy='15' r='10.5' fill='%23D9455A'/></svg>");
+  --ip-hearts:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='58' height='14' shape-rendering='crispEdges'><g fill='%23D9455A'><rect x='2' y='1' width='4' height='2'/><rect x='10' y='1' width='4' height='2'/><rect x='1' y='3' width='14' height='3'/><rect x='2' y='6' width='12' height='2'/><rect x='4' y='8' width='8' height='2'/><rect x='6' y='10' width='4' height='2'/><rect x='23' y='1' width='4' height='2'/><rect x='31' y='1' width='4' height='2'/><rect x='22' y='3' width='14' height='3'/><rect x='23' y='6' width='12' height='2'/><rect x='25' y='8' width='8' height='2'/><rect x='27' y='10' width='4' height='2'/><rect x='44' y='1' width='4' height='2'/><rect x='52' y='1' width='4' height='2'/><rect x='43' y='3' width='14' height='3'/><rect x='44' y='6' width='12' height='2'/><rect x='46' y='8' width='8' height='2'/><rect x='48' y='10' width='4' height='2'/></g></svg>");
+  --ip-winctrl:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='12'><g fill='%23F5EDE0'><path d='M2 3 L12 3 L7 9 Z'/><path d='M22 1.5 L27 6 L22 10.5 L17 6 Z'/></g><g stroke='%23F5EDE0' stroke-width='2.2' stroke-linecap='round'><path d='M38 2 L46 10'/><path d='M46 2 L38 10'/></g></svg>");
+}
+/* ground */
+:root[data-proj="personal-projects"] .sky{ background:#150822; }
+:root[data-proj="personal-projects"] .sheet{ background:var(--ip-grid) repeat, linear-gradient(180deg,#1a0b2b 0%,#2A1140 55%,#1a0b2b 100%); }
+:root[data-proj="personal-projects"] .proj-hero{ background:none; }
+:root[data-proj="personal-projects"] .proj-hero::before,
+:root[data-proj="personal-projects"] .proj-sec::before,
+:root[data-proj="personal-projects"] .proj-hero::after,
+:root[data-proj="personal-projects"] .divider{ display:none; }
+/* text always above the arcade icons */
+:root[data-proj="personal-projects"] .sheet .topbar{ position:relative; z-index:20; }
+:root[data-proj="personal-projects"] .shell{ position:relative; z-index:3; }
+/* top bar */
+:root[data-proj="personal-projects"] .topbar{ background:#150822; border-bottom:4px solid var(--ip-mag); }
+:root[data-proj="personal-projects"] .nav a[aria-current]{ background:var(--ip-mag); color:#fff; }
+:root[data-proj="personal-projects"] .nav a:hover{ background:rgba(214,68,158,.24); }
+:root[data-proj="personal-projects"] .brand__mark{ background-image:none; background-color:var(--ip-mag); color:#fff; box-shadow:inset 0 3px 0 rgba(255,255,255,.35), inset 0 -4px 0 rgba(0,0,0,.28), 0 0 0 3px var(--ip-ink), 0 0 0 6px var(--ip-orange); }
+:root[data-proj="personal-projects"] .brand__name{ color:var(--ip-cream); }
+:root[data-proj="personal-projects"] .crumb{ color:var(--ip-orange); }
+:root[data-proj="personal-projects"] .crumb img{ display:none; }
+:root[data-proj="personal-projects"] .crumb::before{ content:"\25C4"; margin-right:.5em; }
+
+/* ---- HERO = a handheld console ---- */
+:root[data-proj="personal-projects"] .proj-hero > .shell{
+  background:var(--ip-orange);
+  border:5px solid var(--ip-ink);
+  border-radius:20px 20px 74px 20px;
+  padding:26px 26px 104px;
+  box-shadow:0 10px 0 rgba(0,0,0,.45), inset 0 4px 0 rgba(255,255,255,.28);
+}
+/* speaker grille + d-pad + A/B buttons along the bottom of the shell */
+:root[data-proj="personal-projects"] .proj-hero > .shell::after{
+  content:""; position:absolute; left:26px; right:26px; bottom:20px; height:60px;
+  background:var(--ip-dpad) left center/56px 56px no-repeat,
+             var(--ip-btns) right 6px center/72px 44px no-repeat;
+}
+/* the screen */
+:root[data-proj="personal-projects"] .level__panel.ui-panel{
+  border-image:none; border:5px solid var(--ip-ink); background:#2a1a3d;
+  border-radius:10px 10px 26px 10px; padding:14px 24px;
+  box-shadow:inset 0 0 0 5px var(--ip-purple);
+}
+:root[data-proj="personal-projects"] .proj-title.arcade{ color:var(--ip-cream); text-shadow:3px 3px 0 var(--ip-mag); }
+:root[data-proj="personal-projects"] .level__badge.ui-bar{ border-image:none; border:3px solid var(--ip-ink); background:var(--ip-mag); color:#fff; border-radius:99px; padding:3px 14px; }
+:root[data-proj="personal-projects"] .proj-lede{ color:var(--ip-ink); font-weight:600; }
+:root[data-proj="personal-projects"] .meta > div{ border-image:none; border:3px solid var(--ip-ink); background:var(--ip-cream); border-radius:8px; padding:5px 10px; }
+:root[data-proj="personal-projects"] .meta__k{ color:var(--ip-purple); }
+:root[data-proj="personal-projects"] .meta__v{ color:var(--ip-ink); }
+
+/* ---- GRID = a pixel window with a hearts title bar ---- */
+:root[data-proj="personal-projects"] .proj-sec > .shell{
+  background:#2a1a3d; border:5px solid var(--ip-ink); border-radius:12px;
+  padding:52px 22px 24px; box-shadow:0 10px 0 rgba(0,0,0,.45);
+}
+:root[data-proj="personal-projects"] .proj-sec > .shell::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:38px;
+  background:var(--ip-hearts) left 14px center/58px 14px no-repeat,
+             var(--ip-winctrl) right 14px center/48px 12px no-repeat,
+             var(--ip-mag);
+  border-bottom:4px solid var(--ip-ink); border-radius:7px 7px 0 0;
+}
+:root[data-proj="personal-projects"] .proj-sec__title{ color:var(--ip-orange); text-shadow:3px 3px 0 rgba(0,0,0,.45); }
+/* cards read as little console screens, frame colour cycling the palette */
+:root[data-proj="personal-projects"] .poster__art.ui-card{
+  border-image:none; border:5px solid var(--ip-ink); background:var(--ip-purple);
+  border-radius:8px 8px 22px 8px; padding:7px;
+  box-shadow:0 6px 0 rgba(0,0,0,.4);
+}
+:root[data-proj="personal-projects"] .poster__art.ui-card img{ border-radius:4px; }
+/* Frame colour now matches each project's own theme rather than cycling the
+   palette. Card order is fixed by the markup: hydro, dragon fest, apocalyptic,
+   parent guidance, game store.
+   ⚠️ These are nth-child, so REORDERING THE CARDS SILENTLY REASSIGNS THE
+   COLOURS — move a card and you must move its rule too.
+   (The old rules repeated magenta on 1 and 5; every card now has its own.) */
+:root[data-proj="personal-projects"] .proj-grid > li:nth-child(1) .poster__art.ui-card{ background:var(--ip-orange); } /* Hydro-Grow — yellow, its own amber */
+:root[data-proj="personal-projects"] .proj-grid > li:nth-child(2) .poster__art.ui-card{ background:var(--ip-mag); }    /* Dragon Fest — pink, its own rose */
+:root[data-proj="personal-projects"] .proj-grid > li:nth-child(3) .poster__art.ui-card{ background:var(--ip-blue); }   /* Apocalyptic — blue */
+:root[data-proj="personal-projects"] .proj-grid > li:nth-child(4) .poster__art.ui-card{ background:var(--ip-red); }    /* Parent Guidance — unchanged */
+:root[data-proj="personal-projects"] .proj-grid > li:nth-child(5) .poster__art.ui-card{ background:var(--ip-violet); } /* Game Store — deep violet, see --ip-violet note */
+:root[data-proj="personal-projects"] .poster__title{ color:var(--ip-cream); }
+:root[data-proj="personal-projects"] .poster__sub{ color:var(--ip-orange); }
+/* pager + footer */
+:root[data-proj="personal-projects"] .pager__link.ui-panel{ border-image:none; border:5px solid var(--ip-ink); background:var(--ip-purple); border-radius:12px; box-shadow:0 6px 0 rgba(0,0,0,.4); }
+:root[data-proj="personal-projects"] .pager__name{ color:var(--ip-cream); }
+:root[data-proj="personal-projects"] .pager__dir{ color:var(--ip-orange); }
+:root[data-proj="personal-projects"] .foot, :root[data-proj="personal-projects"] .foot a{ color:#c9a9df; }
+/* .foot__credits carries its own colour in styles.css, so it does NOT inherit
+   the footer override above - it must be named explicitly or the colophon line
+   stays the default lavender. */
+:root[data-proj="personal-projects"] .foot__credits{ color:#c9a9df; }
+
+/* ---- drifting arcade icons ---- */
+:root[data-proj="personal-projects"] .ip-arcade{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+:root[data-proj="personal-projects"] .ip-arcade span{ position:absolute; background-position:center; background-size:contain; background-repeat:no-repeat; animation:ipbob 4.6s ease-in-out infinite; }
+@keyframes ipbob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-9px) } }
+@keyframes ipspin{ 0%,100%{ transform:scaleX(1) } 50%{ transform:scaleX(.25) } }
+@media (prefers-reduced-motion: reduce){ :root[data-proj="personal-projects"] .ip-arcade span{ animation:none } }
+:root[data-proj="personal-projects"] .ip-coin{ background-image:var(--ip-coin); width:24px; height:24px; animation:ipspin 2.6s ease-in-out infinite; }
+:root[data-proj="personal-projects"] .ip-heart{ background-image:var(--ip-heart); width:24px; height:21px; }
+:root[data-proj="personal-projects"] .ip-star{ background-image:var(--ip-star); width:24px; height:24px; }
+:root[data-proj="personal-projects"] .ip-pad{ background-image:var(--ip-pad); width:40px; height:25px; }
+:root[data-proj="personal-projects"] .ip-cart{ background-image:var(--ip-cart); width:26px; height:29px; }
+:root[data-proj="personal-projects"] .ip-mush{ background-image:var(--ip-mush); width:26px; height:26px; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(1){ top:3%;  left:3%;  animation-delay:0s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(2){ top:7%;  right:3%; animation-delay:.8s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(3){ top:13%; left:5%;  animation-delay:1.4s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(4){ top:18%; right:5%; animation-delay:.4s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(5){ top:24%; left:2%;  animation-delay:1.1s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(6){ top:30%; right:2%; animation-delay:.6s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(7){ top:36%; left:4%;  animation-delay:1.7s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(8){ top:42%; right:4%; animation-delay:.2s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(9){ top:48%; left:3%;  animation-delay:1.3s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(10){ top:54%; right:3%; animation-delay:.9s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(11){ top:60%; left:5%;  animation-delay:1.5s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(12){ top:66%; right:5%; animation-delay:.3s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(13){ top:72%; left:2%;  animation-delay:1.0s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(14){ top:78%; right:2%; animation-delay:.7s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(15){ top:84%; left:4%;  animation-delay:1.6s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(16){ top:90%; right:4%; animation-delay:.5s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(17){ top:95%; left:3%;  animation-delay:1.2s; }
+:root[data-proj="personal-projects"] .ip-arcade span:nth-child(18){ top:97%; right:6%; animation-delay:.1s; }
+@media (max-width:900px){ :root[data-proj="personal-projects"] .ip-arcade{ display:none } }
+/* shared project-motif decoration off */
+:root[data-proj="personal-projects"] .hero::before,
+:root[data-proj="personal-projects"] .band::before,
+:root[data-proj="personal-projects"] .level::before,
+:root[data-proj="personal-projects"] .foot::before,
+:root[data-proj="personal-projects"] .proj-hero::before,
+:root[data-proj="personal-projects"] .proj-sec::before{ display:none !important; }
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<div class="ip-arcade" aria-hidden="true">
+  <span class="ip-coin"></span><span class="ip-star"></span>
+  <span class="ip-heart"></span><span class="ip-cart"></span>
+  <span class="ip-mush"></span><span class="ip-pad"></span>
+  <span class="ip-star"></span><span class="ip-coin"></span>
+  <span class="ip-cart"></span><span class="ip-heart"></span>
+  <span class="ip-pad"></span><span class="ip-mush"></span>
+  <span class="ip-coin"></span><span class="ip-star"></span>
+  <span class="ip-heart"></span><span class="ip-cart"></span>
+  <span class="ip-mush"></span><span class="ip-coin"></span>
+</div>
+
+<a class="skip ui-bar ui-bar-cream" href="#projects">Skip to the projects</a>
+
+<div class="stage-top">
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../index.html#experience">Experience</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="proj-hero proj-hero--solo" id="top">
+  <div class="shell">
+    <a class="crumb" href="../../index.html#level-5">
+      <img src="../../assets/ui6/arrow-left.png" alt="" width="48" height="103">
+      Back to Level 5
+    </a>
+
+    <div class="proj-hero__grid">
+      <div>
+        <p class="level__badge ui-bar">Level&nbsp;&ndash;&nbsp;5</p>
+        <div class="level__panel ui-panel"><h1 class="proj-title arcade">Individual Projects</h1></div>
+        <p class="proj-lede">
+          Self-directed game UI and interface work &mdash; briefs I set myself to explore styles,
+          systems and screens outside of studio production. Five projects, each with its own page;
+          this is all of them in one place.
+        </p>
+
+        <dl class="meta">
+          <div>
+            <dt class="meta__k">Projects</dt>
+            <dd class="meta__v">5 self-directed</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Focus</dt>
+            <dd class="meta__v">Game UI &amp; UX</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Years</dt>
+            <dd class="meta__v">2024&ndash;2026</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Brief</dt>
+            <dd class="meta__v">Self-set</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.stage-top -->
+
+<section class="proj-sec" id="projects" aria-labelledby="projects-title">
+  <div class="shell">
+    <h2 class="proj-sec__title" id="projects-title" style="text-align:center">The five projects</h2>
+    <ul class="proj-grid">
+      <li>
+        <a class="poster" href="../hydro-grow-station/">
+          <span class="poster__art ui-card"><img src="../../assets/img/p-hydro.jpg" width="600" height="800" loading="lazy" decoding="async" alt="Upgrade Station panel: the solar rig upgrade with its cost and an upgrade button"></span>
+          <span class="poster__title">Hydro-Grow Station<span class="poster__sub">2026 &middot; Asset &amp; UI</span></span>
+        </a>
+      </li>
+      <li>
+        <a class="poster" href="../dragon-fest/">
+          <span class="poster__art ui-card"><img src="../../assets/img/p-dragonfest.jpg" width="600" height="800" loading="lazy" decoding="async" alt="Dragon Fest event art: a dragon egg hatching into a dragon, over the line Can you climb to the top?"></span>
+          <span class="poster__title">Dragon Fest<span class="poster__sub">2025 &middot; Event concept</span></span>
+        </a>
+      </li>
+      <li>
+        <a class="poster" href="../apocalyptic-game-ui/">
+          <span class="poster__art ui-card"><img src="../../assets/img/p-apoc.jpg" width="600" height="800" loading="lazy" decoding="async" alt="Worn-out tools item card from the post-apocalyptic interface, on a dark hex-pattern panel"></span>
+          <span class="poster__title">Apocalyptic Game UI<span class="poster__sub">2025 &middot; Interface concept</span></span>
+        </a>
+      </li>
+      <li>
+        <a class="poster" href="../parent-guidance-app/">
+          <span class="poster__art ui-card"><img src="../../assets/img/p-parent.jpg" width="600" height="800" loading="lazy" decoding="async" alt="Beat Mom Burnout landing screen from the parenting app, with a recovery plan callout"></span>
+          <span class="poster__title">Parent Guidance App<span class="poster__sub">2025 &middot; Mobile UX</span></span>
+        </a>
+      </li>
+      <li>
+        <a class="poster" href="../game-store-ui/">
+          <span class="poster__art ui-card"><img src="../../assets/img/p-store.jpg" width="600" height="800" loading="lazy" decoding="async" alt="Game store navigation menu: dashboard, game store, my library, coming soon and settings"></span>
+          <span class="poster__title">Game Store UI<span class="poster__sub">2024 &middot; Storefront</span></span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<nav class="pager" aria-label="Other levels">
+  <div class="shell">
+    <ul class="pager__list">
+      <li>
+        <a class="pager__link ui-panel" href="../beatbounds/">
+          <span class="pager__dir">Previous &mdash; Level 4</span>
+          <span class="pager__name">BeatBounds</span>
+        </a>
+      </li>
+      <li>
+        <a class="pager__link ui-panel pager__link--next" href="../../index.html#work">
+          <span class="pager__dir">Back to</span>
+          <span class="pager__name">All work</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="divider" role="presentation"></div>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p>
+      <a href="../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerinamcl/" rel="me noopener">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a> &middot;
+      <a href="../../index.html#work">All work</a>
+    </p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.
+    </p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+
+<script src="../../assets/app.js?v=17" defer></script>
+
+</body>
+</html>

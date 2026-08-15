@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en" data-proj="project-kryat">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Kryat — all work — Katerina Michael</title>
+<meta name="description" content="Every painted piece from Project Kryat — ten creatures designed as cards and seven environment backgrounds.">
+<meta property="og:title" content="Project Kryat — all work">
+<meta property="og:description" content="Every painted creature and environment from Project Kryat.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="../../../assets/img/kryat/kr-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../../assets/styles.css?v=62">
+<style id="gal-theme">
+/* Project Kryat gallery — the full artwork set.
+   Deliberately slim: no mushrooms, no title-bar panels, no road. It re-declares
+   only the palette, the ground and the gallery frames rather than duplicating
+   the project page's theme. Same structure as the Studio Work gallery. */
+:root[data-proj="project-kryat"]{
+  --kr-teal:#1E8F87; --kr-gold:#C9A85C; --kr-pink:#D9457A; --kr-plum:#4A2E3D;
+  --kr-blue:#2E9FD9; --kr-cream:#F2E4C8; --kr-dark:#241019;
+  --ink:#F2E4C8; --ink-soft:#d8c39b; --bar-ink:#F2E4C8;
+  --bezel:#1E8F87; --bezel-out:#241019;
+}
+:root[data-proj="project-kryat"] .sky{ background:#33202b; }
+:root[data-proj="project-kryat"] .sheet{
+  background:linear-gradient(180deg,#33202b 0%,#4A2E3D 42%,#2f5d63 78%,#1E8F87 100%);
+}
+:root[data-proj="project-kryat"] .topbar{ background:#2b1a24; border-bottom-color:var(--kr-teal); }
+:root[data-proj="project-kryat"] .sheet .topbar{ position:relative; z-index:20; }
+:root[data-proj="project-kryat"] .nav a[aria-current]{ background:var(--kr-pink); color:#fff; }
+:root[data-proj="project-kryat"] .brand__mark{ background-image:none; background-color:var(--kr-pink); color:#fff;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.35), inset 0 -4px 0 rgba(0,0,0,.25), 0 0 0 3px var(--kr-dark), 0 0 0 6px var(--kr-gold); }
+:root[data-proj="project-kryat"] .brand__name{ color:var(--kr-cream); }
+/* the shared project motif also paints — switch it off (§10b.1) */
+:root[data-proj="project-kryat"] .hero::before,
+:root[data-proj="project-kryat"] .band::before,
+:root[data-proj="project-kryat"] .level::before,
+:root[data-proj="project-kryat"] .foot::before,
+:root[data-proj="project-kryat"] .proj-hero::before,
+:root[data-proj="project-kryat"] .proj-sec::before{ display:none !important; }
+.shell{ position:relative; z-index:3; }
+
+/* ---- header ---- */
+.gal-head{ padding:calc(var(--u)*10) 0 calc(var(--u)*4); }
+.gal-head .crumb{ color:var(--kr-gold); font-family:var(--display); font-size:1.05rem; display:inline-block; }
+.gal-title{ font-family:var(--display); font-size:clamp(2rem,5vw,3rem); color:var(--kr-gold);
+  margin:calc(var(--u)*2) 0; letter-spacing:.04em; text-shadow:3px 3px 0 var(--kr-pink); }
+.gal-lede{ color:var(--kr-cream); max-width:60ch; margin:0; font-size:1.02rem; }
+
+/* ---- jump nav ---- */
+.gal-jump{ padding:calc(var(--u)*4) 0 calc(var(--u)*6); }
+.gal-jump__head{ font-family:var(--display); font-size:1.1rem; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--kr-gold); margin:0 0 calc(var(--u)*3); }
+.gal-jump ul{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:9px; }
+.gal-jump__link{ display:inline-block; padding:5px 12px; text-decoration:none;
+  border:2px solid var(--kr-teal); color:var(--kr-cream); font-weight:700; font-size:.9rem; }
+.gal-jump__link:hover{ background:var(--kr-teal); color:#fff; }
+
+/* ---- sections ---- */
+.gal-sec{ padding:calc(var(--u)*8) 0; scroll-margin-top:16px; }
+.gal-sec__title{ font-family:var(--display); font-size:clamp(1.5rem,3.4vw,2.1rem);
+  color:var(--kr-gold); margin:0; letter-spacing:.04em; text-shadow:2px 2px 0 rgba(0,0,0,.35); }
+.gal-sec__count{ color:var(--kr-pink); font-weight:800; font-size:.82rem;
+  letter-spacing:.08em; text-transform:uppercase; margin:calc(var(--u)*1) 0 calc(var(--u)*4); }
+
+/* The gallery mat, same as the project page had: cream mount, gold frame, dark
+   keyline, pixel plate number. Native ratios — no aspect-ratio, no object-fit —
+   so nothing is cropped (10 pieces are 5:7, 5 are square, 2 near 5:7). The
+   width/height attributes reserve each box before the lazy image lands. */
+.gal-grid{ list-style:none; margin:0; padding:0; display:grid; gap:18px;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); align-items:start; }
+.gal-piece{ background:var(--kr-cream); padding:10px 10px 7px;
+  border:4px solid var(--kr-gold); box-shadow:0 0 0 3px var(--kr-dark); }
+.gal-piece img{ display:block; width:100%; height:auto; border-radius:0;
+  box-shadow:0 0 0 2px var(--kr-dark); }
+/* --display-num keeps the pixel face for lettering but pulls the NUMERALS from
+   Source Sans (styles.css @font-face, unicode-range U+0030-0039). Jersey 15's
+   6 and 8 are near-identical at this size - "2-06" was read as "2-08". */
+.gal-piece__no{ display:block; margin-top:7px; font-family:var(--display-num);
+  font-size:.82rem; letter-spacing:.08em; color:var(--kr-plum); }
+/* ---- 2-04 / 2-05: one mount holding two versions of the same creature ----
+   The pair keeps .gal-piece, so the cream mount, gold frame and dark ring are
+   unchanged. It spans the 2 cells the separate boxes used and its 46px inner
+   gap reproduces the exact space between the two images before, so nothing
+   moves or resizes.
+   It may only span 2 cells when 2-04 and 2-05 are ALREADY side by side, which
+   is true at 3 and 5 columns. At 2 or 4 columns 2-04 ends its row, so a span-2
+   item cannot fit in the 1 remaining cell - it would be pushed to the next row
+   and leave a hole. At those widths the pair collapses to a single column and
+   stacks instead, which is still one mount and still has no hole.
+   Keyed off the GRID's width (container query), not the viewport, because the
+   grid's width is what actually decides the column count. Browsers without
+   container query support simply get the stacked form. */
+/* both galleries are containers so .kr-wide / .kr-pair can query the GRID's
+   width rather than the viewport - the grid's width is what decides how many
+   columns there are */
+.gal-sec .gal-grid{ container-type:inline-size; }
+.kr-pair{ display:grid; grid-template-columns:1fr; gap:18px; }
+.kr-pair__item{ min-width:0; }
+@container (min-width:606px) and (max-width:813px){
+  .kr-pair{ grid-column:span 2; grid-template-columns:1fr 1fr; gap:46px; }
+}
+@container (min-width:1022px){
+  .kr-pair{ grid-column:span 2; grid-template-columns:1fr 1fr; gap:46px; }
+}
+/* On phones the pair must stay side by side - the whole point is comparing
+   the flat-colour and painted versions, and stacking them breaks that read.
+   `1 / -1` spans whatever columns exist (2 on a phone, 1 on a very narrow
+   one), so the two images sit horizontally either way. The 46px desktop gap
+   is tuned to the desktop frame geometry and is far too wide here, so this
+   drops to the grid's own 18px. */
+@container (max-width:605px){
+  .kr-pair{ grid-column:1 / -1; grid-template-columns:1fr 1fr; gap:18px; }
+  /* Pieces promoted to full width on phones. Three of them: the one before the
+     pair (which also fixes parity - a full-width item can only start a row, and
+     an ODD number of tiles precedes the pair), plus one chosen piece in each
+     section shown large by request.
+     ⚠️ EVERY .kr-wide must sit at a row boundary, i.e. an EVEN number of small
+     tiles must precede it, or it is pushed down and leaves an empty cell.
+     Adding or removing a tile in either section can break that - re-check the
+     row layout, do not assume. This replaced a `:has(+ .kr-pair)` rule that
+     inferred the position; the class states it outright. */
+  .kr-wide{ grid-column:1 / -1; }
+}
+.gal-top{ display:inline-block; margin-top:calc(var(--u)*4); color:var(--kr-gold);
+  font-family:var(--display); font-size:.95rem; letter-spacing:.06em; }
+@media (max-width:520px){
+  .gal-grid{ grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:14px; }
+}
+</style>
+</head>
+<body>
+<a class="skip ui-bar ui-bar-cream" href="#gal-top">Skip to sections</a>
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../../index.html#experience">Experience</a></li>
+        <li><a href="../../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="gal-head">
+  <div class="shell">
+    <a class="crumb" href="../">&#9664; Back to Project Kryat</a>
+    <h1 class="gal-title arcade">All Work</h1>
+    <p class="gal-lede">Every piece of artwork I made for the project, grouped by kind.
+      17 pieces in total.</p>
+  </div>
+</div>
+
+<nav class="gal-jump" id="gal-top" aria-label="Sections">
+  <div class="shell">
+    <p class="gal-jump__head">Jump to a section</p>
+    <ul>
+      <li><a class="gal-jump__link" href="#creatures">Creatures</a></li>
+      <li><a class="gal-jump__link" href="#backgrounds">Backgrounds</a></li>
+    </ul>
+  </div>
+</nav>
+
+  <section class="gal-sec" id="creatures" aria-labelledby="creatures-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="creatures-h">Creatures</h2>
+      <p class="gal-sec__count">10 pieces</p>
+      <ul class="gal-grid">
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-01.jpg" width="1000" height="1000"
+               loading="lazy" decoding="async" alt="Painted creature from Project Kryat">
+          <span class="gal-piece__no">2&ndash;01</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-02.jpg" width="1000" height="1000"
+               loading="lazy" decoding="async" alt="Painted creature from Project Kryat">
+          <span class="gal-piece__no">2&ndash;02</span>
+        </li>
+        <!-- kr-wide: shown large on phones. It also sits immediately before the
+             pair, which is what keeps the pair on a row boundary - an ODD number
+             of tiles precedes it otherwise and the pair would leave an empty
+             cell beside this one. -->
+        <li class="gal-piece kr-wide">
+          <img src="../../../assets/img/kryat/kr-03.jpg" width="600" height="840"
+               loading="lazy" decoding="async" alt="Painted creature from Project Kryat">
+          <span class="gal-piece__no">2&ndash;03</span>
+        </li>
+        <!-- 2-04 and 2-05 are the SAME creature - flat colour, then painted - so
+             they share one mount instead of sitting in two separate frames.
+             Geometry is deliberately identical to the two boxes it replaces: the
+             pair spans exactly those 2 grid cells, and the 46px inner gap is the
+             same negative space their two frame edges plus the grid gap already
+             made (10+4+18+4+10). Both images keep their original width and x
+             position - verify that, do not eyeball it. -->
+        <li class="gal-piece kr-pair">
+          <div class="kr-pair__item">
+            <img src="../../../assets/img/kryat/kr-04.jpg" width="600" height="840"
+                 loading="lazy" decoding="async"
+                 alt="Butterfly-frog creature from Project Kryat, flat-colour version">
+            <span class="gal-piece__no">2&ndash;04</span>
+          </div>
+          <div class="kr-pair__item">
+            <img src="../../../assets/img/kryat/kr-05.jpg" width="714" height="1000"
+                 loading="lazy" decoding="async"
+                 alt="The same butterfly-frog creature, fully painted over a lily-pad background">
+            <span class="gal-piece__no">2&ndash;05</span>
+          </div>
+        </li>
+        <!-- kr-07 and kr-06 are SWAPPED here on purpose. kr-07 is shown large
+             (kr-wide) on phones, and a full-width piece can only start a row -
+             so it has to be the FIRST of the five that follow the pair, or it
+             gets pushed down and leaves an empty cell. Moving it here also
+             leaves exactly four small pieces after it, which fills two even
+             rows with no orphan.
+             ⚠️ The plate numbers stay in POSITIONAL order (…06, 07, 08…) so the
+             sequence a reader sees still counts up. They label the slot, not
+             the file - do not "resync" them to the kr-NN filenames. -->
+        <li class="gal-piece kr-wide">
+          <img src="../../../assets/img/kryat/kr-07.jpg" width="714" height="1000"
+               loading="lazy" decoding="async" alt="Painted creature from Project Kryat">
+          <span class="gal-piece__no">2&ndash;06</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-06.jpg" width="714" height="1000"
+               loading="lazy" decoding="async" alt="Painted creature from Project Kryat">
+          <span class="gal-piece__no">2&ndash;07</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-08.jpg" width="714" height="1000"
+               loading="lazy" decoding="async" alt="Painted creature from Project Kryat">
+          <span class="gal-piece__no">2&ndash;08</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-09.jpg" width="714" height="1000"
+               loading="lazy" decoding="async" alt="Painted creature from Project Kryat">
+          <span class="gal-piece__no">2&ndash;09</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-10.jpg" width="600" height="840"
+               loading="lazy" decoding="async" alt="Painted creature from Project Kryat">
+          <span class="gal-piece__no">2&ndash;10</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="backgrounds" aria-labelledby="backgrounds-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="backgrounds-h">Backgrounds</h2>
+      <p class="gal-sec__count">7 pieces</p>
+      <ul class="gal-grid">
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-11.jpg" width="734" height="1000"
+               loading="lazy" decoding="async" alt="Painted environment from Project Kryat">
+          <span class="gal-piece__no">2&ndash;11</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-12.jpg" width="734" height="1000"
+               loading="lazy" decoding="async" alt="Painted environment from Project Kryat">
+          <span class="gal-piece__no">2&ndash;12</span>
+        </li>
+        <!-- kr-17 sits between the FIRST row (11/12) and what follows, shown
+             large (kr-wide) on phones.
+             ⚠️ A full-width piece can only START a row, so an EVEN number of
+             small tiles must precede it - here exactly two. Everything after it
+             shifts down one slot, which still leaves an even count, so the
+             section ends on a full row with no orphan.
+             ⚠️ Plate numbers stay POSITIONAL, so the visible sequence counts up
+             1 by 1 - they label the SLOT, not the kr-NN file. That is why 2-13
+             is kr-17.jpg. Do not "resync" them to the filenames.
+             ⚠️ width/height move WITH each image; they reserve the box before
+             the lazy load and a stale pair makes the grid jump. -->
+        <li class="gal-piece kr-wide">
+          <img src="../../../assets/img/kryat/kr-17.jpg" width="714" height="1000"
+               loading="lazy" decoding="async" alt="Painted environment from Project Kryat">
+          <span class="gal-piece__no">2&ndash;13</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-13.jpg" width="600" height="600"
+               loading="lazy" decoding="async" alt="Painted environment from Project Kryat">
+          <span class="gal-piece__no">2&ndash;14</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-14.jpg" width="1000" height="1000"
+               loading="lazy" decoding="async" alt="Painted environment from Project Kryat">
+          <span class="gal-piece__no">2&ndash;15</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-15.jpg" width="1000" height="1000"
+               loading="lazy" decoding="async" alt="Painted environment from Project Kryat">
+          <span class="gal-piece__no">2&ndash;16</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/kryat/kr-16.jpg" width="600" height="600"
+               loading="lazy" decoding="async" alt="Painted environment from Project Kryat">
+          <span class="gal-piece__no">2&ndash;17</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p>
+      <a href="../../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerinamcl/" rel="me noopener">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a> &middot;
+      <a href="../../../index.html#work">All work</a>
+    </p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.
+    </p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+<script src="../../../assets/app.js?v=17"></script>
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en" data-proj="apocalyptic-game-ui">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apocalyptic Game UI — Katerina Michael</title>
+<meta name="description" content="Apocalyptic Game UI — an interface concept for a post-apocalyptic survival game, centred on the building assignment screen.">
+<meta property="og:title" content="Apocalyptic Game UI — Katerina Michael">
+<meta property="og:description" content="An interface concept for a post-apocalyptic survival game — assigning survivors to buildings.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="../../assets/img/p-apoc.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/styles.css?v=62">
+<style id="ap-theme">
+/* Apocalyptic Game UI — "elegance gone to seed". The old portfolio describes this
+   concept as a world that "was once bright and cheerful ... but now carries subtle
+   signs of wear, muted tones, and a more restrained style". So the chrome is the
+   ornate plaque-and-filigree vocabulary from Katerina's first reference — cream
+   banners, gold scrollwork, stylised curling clouds — desaturated into the muted
+   palette and overtaken by the creeping vine growth of her second and third.
+   The page itself is a ruined skyline under drifting ash.
+   All CSS + inline SVG, no image assets (an external decoration file or CSS mask
+   cannot be verified locally and fails silently — the helmet bug, §10k). */
+:root[data-proj="apocalyptic-game-ui"]{
+  /* --- given --- */
+  --ap-sage:#B8C4A8; --ap-teal:#5C7268; --ap-brass:#9B8B4A;
+  --ap-dark:#2E362E; --ap-grey:#7A7A6E;
+  /* --- derived --- */
+  --ap-night:#1C221C;     /* top bar, deepest ground */
+  --ap-panel:#252B25;     /* panel fill — weathered concrete */
+  --ap-stone:#3A443A;     /* rubble, mid ruins */
+  --ap-mist:#D8E0CC;      /* --ap-sage lifted — headings */
+  --ap-brass-lit:#C4B06A; /* --ap-brass lifted — see below */
+  --ap-teal-lit:#6E8478;  /* --ap-teal lifted — leaves, cloud curls */
+
+  /* ⚠️ THREE of the five given colours are decoration-only on the dark panel:
+       --ap-brass #9B8B4A  4.27:1  (large display only)
+       --ap-grey  #7A7A6E  3.34:1  (never text)
+       --ap-teal  #5C7268  2.81:1  (never text)
+     --ap-brass-lit #C4B06A is the text-safe brass at 6.74:1 — the same two-tone
+     split as §12b, §13d, §15b and §17b, now the FIFTH time on this site.
+     Safe on the panel: --ap-sage 7.86:1, --ap-mist 10.67:1, --ap-brass-lit 6.74:1.
+     The sage plaque carries --ap-dark at 6.69:1, and white on --ap-teal is 5.16:1
+     (the nav pill) — those are the only two inverted surfaces. */
+
+  --ink:var(--ap-sage); --ink-soft:var(--ap-sage); --bar-ink:var(--ap-mist);
+  --bezel:var(--ap-brass); --bezel-out:var(--ap-night);
+  /* ⚠️ --sky-1/--sky-2 come from the generated PROJECT MOTIFS block (§9a), and
+     body's frame colour is var(--sky-1) — override or the page sits in a border
+     belonging to no colour in this palette (§15c trap 3). */
+  --sky-1:#1C221C; --sky-2:#262E26;
+  /* ⚠️ Narrower than the site default 1180px, for the same measured reason as
+     §17d: at 1180 the gutter is ~40px and the decoration layer is invisible. */
+  --shell:1060px;
+
+  /* --- artwork. Colours inside a data URI are %23, never # (§10b.6) --- */
+  /* corner scrollwork, straight from reference 1's gold filigree */
+  --ap-fil:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><g fill='none' stroke='%239B8B4A' stroke-width='4' stroke-linecap='round'><path d='M4 66 C4 32 32 4 66 4'/><path d='M16 68 C16 40 40 16 68 16'/><path d='M4 66 C4 82 18 92 28 84 C35 78 32 66 22 66'/><path d='M66 4 C82 4 92 18 84 28 C78 35 66 32 66 22'/></g><g fill='%235C7268'><circle cx='42' cy='26' r='4.5'/><circle cx='26' cy='42' r='4.5'/></g><circle cx='34' cy='34' r='3' fill='%239B8B4A'/></svg>");
+  /* the plaque end-mark: reference 1 puts a teal-and-gold lozenge mid-edge */
+  --ap-mark:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 44'><path fill='%235C7268' d='M20 2 L35 22 L20 42 L5 22 Z'/><path fill='%239B8B4A' d='M20 10 L29 22 L20 34 L11 22 Z'/></svg>");
+  /* reference 1's stylised curling cloud — here it reads as drifting ash */
+  --ap-cloud:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 72'><path fill='%235C7268' d='M26 58 C10 58 4 44 16 38 C12 24 28 16 40 22 C46 8 70 8 76 22 C92 16 108 24 106 38 C122 38 126 56 110 58 Z'/><path fill='none' stroke='%236E8478' stroke-width='6' stroke-linecap='round' d='M108 48 C132 48 148 38 146 26 C144 16 130 14 126 24 C123 32 132 38 139 33'/></svg>");
+  --ap-tower:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 210'><path fill='%232E362E' d='M12 210 L12 44 L26 32 L26 10 L42 10 L42 30 L58 30 L58 18 L74 38 L74 210 Z'/><g fill='%231C221C'><rect x='19' y='56' width='9' height='13'/><rect x='34' y='52' width='9' height='13'/><rect x='50' y='60' width='9' height='13'/><rect x='19' y='84' width='9' height='13'/><rect x='50' y='88' width='9' height='13'/><rect x='34' y='104' width='9' height='13'/><rect x='19' y='124' width='9' height='13'/><rect x='50' y='128' width='9' height='13'/><rect x='34' y='150' width='9' height='13'/><rect x='19' y='168' width='9' height='13'/><rect x='50' y='172' width='9' height='13'/></g><g fill='%235C7268'><ellipse cx='30' cy='40' rx='14' ry='7'/><ellipse cx='62' cy='44' rx='11' ry='6'/><ellipse cx='20' cy='140' rx='9' ry='16'/></g></svg>");
+  --ap-tree:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 140'><g stroke='%232E362E' stroke-width='8' fill='none' stroke-linecap='round'><path d='M55 140 L55 66'/></g><g stroke='%232E362E' stroke-width='6' fill='none' stroke-linecap='round'><path d='M55 88 L28 56'/><path d='M55 78 L84 48'/><path d='M55 106 L32 88'/><path d='M55 96 L78 78'/></g><g stroke='%232E362E' stroke-width='3.5' fill='none' stroke-linecap='round'><path d='M28 56 L17 42'/><path d='M28 56 L30 38'/><path d='M84 48 L95 34'/><path d='M84 48 L80 32'/></g><g fill='%235C7268'><ellipse cx='40' cy='122' rx='16' ry='7'/><ellipse cx='72' cy='128' rx='13' ry='6'/></g></svg>");
+  --ap-creeper:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 170'><path d='M35 0 C29 28 41 48 34 78 C27 108 40 130 32 166' stroke='%235C7268' stroke-width='6' fill='none' stroke-linecap='round'/><g fill='%236E8478'><path d='M0 0 C10 -13 25 -13 33 -2 C22 9 8 9 0 0 Z' transform='translate(33 24) rotate(28) scale(0.72)'/><path d='M0 0 C10 -13 25 -13 33 -2 C22 9 8 9 0 0 Z' transform='translate(36 52) rotate(-160) scale(0.68)'/><path d='M0 0 C10 -13 25 -13 33 -2 C22 9 8 9 0 0 Z' transform='translate(33 84) rotate(24) scale(0.7)'/><path d='M0 0 C10 -13 25 -13 33 -2 C22 9 8 9 0 0 Z' transform='translate(35 116) rotate(-156) scale(0.64)'/><path d='M0 0 C10 -13 25 -13 33 -2 C22 9 8 9 0 0 Z' transform='translate(31 146) rotate(20) scale(0.6)'/></g></svg>");
+  --ap-rubble:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 130 62'><g fill='%233A443A'><path d='M4 58 L20 32 L38 58 Z'/><rect x='40' y='40' width='28' height='18'/><path d='M70 58 L86 28 L104 58 Z'/><rect x='104' y='44' width='22' height='14'/></g><g fill='%232E362E'><rect x='46' y='46' width='7' height='7'/><rect x='58' y='46' width='7' height='7'/></g><g fill='%235C7268'><ellipse cx='26' cy='56' rx='12' ry='5'/><ellipse cx='96' cy='57' rx='14' ry='5'/></g></svg>");
+  --ap-dish:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 96'><ellipse cx='48' cy='34' rx='34' ry='24' transform='rotate(-18 48 34)' fill='%237A7A6E'/><ellipse cx='48' cy='34' rx='23' ry='15' transform='rotate(-18 48 34)' fill='%235C6258'/><g stroke='%237A7A6E' stroke-width='5' fill='none' stroke-linecap='round'><path d='M50 50 L54 76'/><path d='M36 92 L54 76 L74 90'/></g><circle cx='48' cy='34' r='5' fill='%239B8B4A'/></svg>");
+  /* one wide ruined skyline, two depths */
+  --ap-skyline:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 420'><path fill='%233A443A' d='M0 300 L40 300 L40 210 L70 210 L70 240 L110 240 L110 160 L150 160 L150 200 L190 200 L190 260 L240 260 L240 190 L280 190 L280 150 L300 130 L320 150 L320 250 L370 250 L370 210 L410 210 L410 280 L470 280 L470 180 L500 180 L500 220 L540 220 L540 170 L580 170 L580 260 L640 260 L640 200 L690 200 L690 240 L730 240 L730 150 L760 150 L760 230 L810 230 L810 270 L860 270 L860 190 L900 190 L900 160 L930 160 L930 250 L980 250 L980 210 L1030 210 L1030 280 L1080 280 L1080 170 L1120 170 L1120 220 L1170 220 L1170 250 L1220 250 L1220 180 L1260 180 L1260 230 L1310 230 L1310 200 L1360 200 L1360 260 L1410 260 L1410 190 L1460 190 L1460 240 L1520 240 L1520 210 L1560 210 L1560 270 L1600 270 L1600 420 L0 420 Z'/><path fill='%232E362E' d='M0 340 L60 340 L60 280 L110 280 L110 310 L170 310 L170 260 L220 260 L220 300 L280 300 L280 330 L340 330 L340 270 L400 270 L400 310 L460 310 L460 290 L520 290 L520 340 L580 340 L580 280 L640 280 L640 320 L700 320 L700 270 L760 270 L760 300 L820 300 L820 340 L880 340 L880 290 L940 290 L940 320 L1000 320 L1000 280 L1060 280 L1060 330 L1120 330 L1120 300 L1180 300 L1180 270 L1240 270 L1240 320 L1300 320 L1300 290 L1360 290 L1360 330 L1420 330 L1420 280 L1480 280 L1480 310 L1540 310 L1540 340 L1600 340 L1600 420 L0 420 Z'/></svg>");
+  /* drifting ash: small curling clouds + specks, repeated over the sheet */
+  --ap-ash:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><g opacity='.42'><path fill='%235C7268' d='M26 58 C10 58 4 44 16 38 C12 24 28 16 40 22 C46 8 70 8 76 22 C92 16 108 24 106 38 C122 38 126 56 110 58 Z' transform='translate(10 24) scale(0.5)'/><path fill='%235C7268' d='M26 58 C10 58 4 44 16 38 C12 24 28 16 40 22 C46 8 70 8 76 22 C92 16 108 24 106 38 C122 38 126 56 110 58 Z' transform='translate(240 168) scale(0.38)'/><path fill='%235C7268' d='M26 58 C10 58 4 44 16 38 C12 24 28 16 40 22 C46 8 70 8 76 22 C92 16 108 24 106 38 C122 38 126 56 110 58 Z' transform='translate(96 296) scale(0.44)'/></g><g fill='%237A7A6E' opacity='.4'><circle cx='330' cy='60' r='3'/><circle cx='128' cy='150' r='2.4'/><circle cx='388' cy='250' r='2.6'/><circle cx='40' cy='372' r='2.4'/><circle cx='286' cy='396' r='3'/><circle cx='210' cy='96' r='2.2'/></g></svg>");
+}
+
+/* ---- the ruin ------------------------------------------------------------
+   ⚠️ --ap-skyline is ONE wide scene pinned to the bottom, so `100% auto` is
+   correct there. --ap-ash is a TILE, so its size must stay `auto` or it
+   stretches across the sheet width (§12c). Do not swap those two lines. */
+:root[data-proj="apocalyptic-game-ui"] .sky{ background:#1C221C; }
+/* ⚠️ .proj-hero carries its OWN linear-gradient as a background-IMAGE and paints
+   straight over the scene. backgroundColor reads transparent, so a colour probe
+   will not find it — check backgroundImage (§15c trap 1). */
+:root[data-proj="apocalyptic-game-ui"] .proj-hero{ background:none; }
+:root[data-proj="apocalyptic-game-ui"] .sheet{
+  background:linear-gradient(180deg,
+    #8E9A86 0%,    /* hazy sage sky, meets the top bar */
+    #7A7A6E 12%,   /* dust */
+    #63705F 30%,
+    #4C5A4C 52%,
+    #3A443A 72%,
+    #2E362E 88%,
+    #232A23 100%);
+}
+/* drifting ash over the whole page */
+:root[data-proj="apocalyptic-game-ui"] .sheet::before{
+  content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:var(--ap-ash) 0 0 repeat; opacity:.55;
+}
+/* the ruined skyline the page closes on */
+:root[data-proj="apocalyptic-game-ui"] .sheet::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:420px; z-index:0;
+  pointer-events:none;
+  background:var(--ap-skyline) center bottom/100% auto no-repeat;
+}
+/* ⚠️ The shared PROJECT MOTIFS block in styles.css also paints — switch it off or
+   its motif bleeds through, including behind .foot (§10b.1). */
+:root[data-proj="apocalyptic-game-ui"] .hero::before,
+:root[data-proj="apocalyptic-game-ui"] .band::before,
+:root[data-proj="apocalyptic-game-ui"] .level::before,
+:root[data-proj="apocalyptic-game-ui"] .foot::before,
+:root[data-proj="apocalyptic-game-ui"] .proj-hero::before,
+:root[data-proj="apocalyptic-game-ui"] .proj-sec::before{ display:none !important; }
+/* ⚠️ ::before is NOT enough — .proj-hero::after is the pink hotbar ground strip
+   (styles.css:533) and it paints a magenta band across the ruins (§15c trap 2). */
+:root[data-proj="apocalyptic-game-ui"] .proj-hero::after{ display:none !important; }
+/* ⚠️ Decoration layers paint ABOVE unpositioned content (§10b.2). */
+:root[data-proj="apocalyptic-game-ui"] .sheet .topbar{ position:relative; z-index:20; }
+:root[data-proj="apocalyptic-game-ui"] .shell{ position:relative; z-index:3; }
+
+/* ---- the ruins layer (parallaxed by app.js section 6) ---------------------
+   ⚠️ .ap-ruins had to be added to the hard-coded selector list in app.js
+   section 6 — no automatic hook, and without it this does not parallax (§15e).
+   That edit forced the JS ?v= sweep 13 -> 14. */
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span{
+  position:absolute; background-position:center; background-size:contain;
+  background-repeat:no-repeat;
+}
+/* ⚠️ Each element's aspect ratio must MATCH its SVG viewBox or background-size:
+   contain letterboxes it, which reads as a mystery gap (§10b.3). Ratios here:
+   tower 90:210, tree 110:140, creeper 70:170, rubble 130:62, dish 100:96,
+   cloud 180:72. */
+:root[data-proj="apocalyptic-game-ui"] .ap-tower{ background-image:var(--ap-tower); width:90px; height:210px; }
+:root[data-proj="apocalyptic-game-ui"] .ap-tower--sm{ width:60px; height:140px; opacity:.85; }
+:root[data-proj="apocalyptic-game-ui"] .ap-tree{ background-image:var(--ap-tree); width:110px; height:140px; }
+:root[data-proj="apocalyptic-game-ui"] .ap-creeper{ background-image:var(--ap-creeper); width:70px; height:170px;
+  animation:apSway 11s ease-in-out infinite; transform-origin:50% 0; }
+:root[data-proj="apocalyptic-game-ui"] .ap-rubble{ background-image:var(--ap-rubble); width:130px; height:62px; }
+:root[data-proj="apocalyptic-game-ui"] .ap-dish{ background-image:var(--ap-dish); width:100px; height:96px; }
+:root[data-proj="apocalyptic-game-ui"] .ap-drift{ background-image:var(--ap-cloud); width:180px; height:72px; opacity:.7;
+  animation:apDrift 19s ease-in-out infinite; }
+@keyframes apSway{ 0%,100%{ transform:rotate(-1.8deg) } 50%{ transform:rotate(1.8deg) } }
+@keyframes apDrift{ 0%,100%{ transform:translateX(0) } 50%{ transform:translateX(30px) } }
+@media (prefers-reduced-motion: reduce){
+  :root[data-proj="apocalyptic-game-ui"] .ap-ruins span{ animation:none }
+}
+/* ⚠️ The band starts at 18%, not 0% — the layer is SHORTENED by the parallax
+   travel (§10d), so at rest its 0-100% maps onto roughly the top two-thirds of
+   the page and anything above ~18% hides behind the full-width hero (§17d). */
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(1){ top:18%; left:3%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(2){ top:24%; right:3%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(3){ top:31%; left:5%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(4){ top:37%; right:5%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(5){ top:43%; left:2%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(6){ top:50%; right:2%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(7){ top:56%; left:4%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(8){ top:62%; right:4%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(9){ top:69%; left:3%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(10){ top:75%; right:3%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(11){ top:81%; left:5%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(12){ top:88%; right:5%; }
+:root[data-proj="apocalyptic-game-ui"] .ap-ruins span:nth-child(13){ top:94%; left:2%; }
+@media (max-width:900px){ :root[data-proj="apocalyptic-game-ui"] .ap-ruins{ display:none } }
+
+/* ---- chrome ---- */
+:root[data-proj="apocalyptic-game-ui"] .topbar{ background:var(--ap-night); border-bottom:3px solid var(--ap-brass); }
+:root[data-proj="apocalyptic-game-ui"] .brand__mark{ background-image:none; background-color:var(--ap-teal); color:#fff;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.22), inset 0 -4px 0 rgba(0,0,0,.3), 0 0 0 3px var(--ap-night), 0 0 0 6px var(--ap-brass); }
+:root[data-proj="apocalyptic-game-ui"] .brand__name{ color:var(--ap-mist); }
+:root[data-proj="apocalyptic-game-ui"] .nav a{ color:var(--ap-sage); }
+:root[data-proj="apocalyptic-game-ui"] .nav a[aria-current]{ background:var(--ap-teal); color:#fff; }
+:root[data-proj="apocalyptic-game-ui"] .nav a:hover{ background:rgba(184,196,168,.16); }
+
+/* ---- panels: weathered concrete with brass filigree at the corners --------
+   ⚠️ .proj-sec > .shell is deliberately NOT a panel. This section carries 11
+   images; panelling the shell would make one slab most of the sheet tall and
+   bury the whole scene behind it — measured and fixed on Hydro-Grow (§17c).
+   The copy block and each of the four groups are their own panel instead. */
+:root[data-proj="apocalyptic-game-ui"] .proj-hero > .shell,
+:root[data-proj="apocalyptic-game-ui"] .pager > .shell,
+:root[data-proj="apocalyptic-game-ui"] .proj-sec__body,
+:root[data-proj="apocalyptic-game-ui"] .ap-group{
+  background:var(--ap-panel); color:var(--ap-sage);
+  border:3px solid var(--ap-night); border-radius:6px;
+  padding:32px 28px 28px;
+  box-shadow:7px 7px 0 rgba(28,34,28,.45), inset 0 0 0 2px rgba(155,139,74,.3);
+}
+:root[data-proj="apocalyptic-game-ui"] .proj-sec__body,
+:root[data-proj="apocalyptic-game-ui"] .ap-group{ position:relative; z-index:3; }
+:root[data-proj="apocalyptic-game-ui"] .proj-hero > .shell::before,
+:root[data-proj="apocalyptic-game-ui"] .pager > .shell::before,
+:root[data-proj="apocalyptic-game-ui"] .proj-sec__body::before,
+:root[data-proj="apocalyptic-game-ui"] .ap-group::before,
+:root[data-proj="apocalyptic-game-ui"] .proj-hero > .shell::after,
+:root[data-proj="apocalyptic-game-ui"] .pager > .shell::after,
+:root[data-proj="apocalyptic-game-ui"] .proj-sec__body::after,
+:root[data-proj="apocalyptic-game-ui"] .ap-group::after{
+  content:""; position:absolute; width:110px; height:110px; z-index:1;
+  background:var(--ap-fil) center/contain no-repeat; pointer-events:none;
+}
+:root[data-proj="apocalyptic-game-ui"] .proj-hero > .shell::before,
+:root[data-proj="apocalyptic-game-ui"] .pager > .shell::before,
+:root[data-proj="apocalyptic-game-ui"] .proj-sec__body::before,
+:root[data-proj="apocalyptic-game-ui"] .ap-group::before{ top:-6px; left:-6px; }
+:root[data-proj="apocalyptic-game-ui"] .proj-hero > .shell::after,
+:root[data-proj="apocalyptic-game-ui"] .pager > .shell::after,
+:root[data-proj="apocalyptic-game-ui"] .proj-sec__body::after,
+:root[data-proj="apocalyptic-game-ui"] .ap-group::after{ bottom:-6px; right:-6px; transform:rotate(180deg); }
+@media (max-width:700px){
+  :root[data-proj="apocalyptic-game-ui"] .proj-hero > .shell::before,
+  :root[data-proj="apocalyptic-game-ui"] .pager > .shell::before,
+  :root[data-proj="apocalyptic-game-ui"] .proj-sec__body::before,
+  :root[data-proj="apocalyptic-game-ui"] .ap-group::before,
+  :root[data-proj="apocalyptic-game-ui"] .proj-hero > .shell::after,
+  :root[data-proj="apocalyptic-game-ui"] .pager > .shell::after,
+  :root[data-proj="apocalyptic-game-ui"] .proj-sec__body::after,
+  :root[data-proj="apocalyptic-game-ui"] .ap-group::after{ width:72px; height:72px; }
+}
+
+:root[data-proj="apocalyptic-game-ui"] .crumb{ color:var(--ap-brass-lit); }
+:root[data-proj="apocalyptic-game-ui"] .crumb img{ display:none; }
+:root[data-proj="apocalyptic-game-ui"] .crumb::before{ content:"\25C4"; margin-right:.5em; }
+:root[data-proj="apocalyptic-game-ui"] .level__badge.ui-bar{ border-image:none; border:2.5px solid var(--ap-night);
+  background:var(--ap-teal); color:#fff; padding:4px 14px; border-radius:3px; }
+/* the title plaque — reference 1's cream banner with a gold double-rule and a
+   teal-and-gold lozenge at each end. This is the page's one light surface, and
+   it carries --ap-dark at 6.69:1. */
+:root[data-proj="apocalyptic-game-ui"] .level__panel.ui-panel{
+  border-image:none; border:3px solid var(--ap-brass);
+  background:var(--ap-sage); border-radius:4px;
+  padding:10px 44px; position:relative;
+  box-shadow:4px 4px 0 rgba(28,34,28,.45), inset 0 0 0 2px var(--ap-panel), inset 0 0 0 4px var(--ap-sage);
+}
+:root[data-proj="apocalyptic-game-ui"] .level__panel.ui-panel::before,
+:root[data-proj="apocalyptic-game-ui"] .level__panel.ui-panel::after{
+  content:""; position:absolute; top:50%; width:22px; height:24px;
+  transform:translateY(-50%); background:var(--ap-mark) center/contain no-repeat;
+}
+:root[data-proj="apocalyptic-game-ui"] .level__panel.ui-panel::before{ left:9px; }
+:root[data-proj="apocalyptic-game-ui"] .level__panel.ui-panel::after{ right:9px; }
+:root[data-proj="apocalyptic-game-ui"] .proj-title.arcade{ color:var(--ap-dark); text-shadow:none; }
+:root[data-proj="apocalyptic-game-ui"] .proj-lede,
+:root[data-proj="apocalyptic-game-ui"] .proj-sec__text{ color:var(--ap-sage); }
+:root[data-proj="apocalyptic-game-ui"] .meta > div{ border-image:none; border:2px solid var(--ap-brass);
+  background:rgba(184,196,168,.08); border-radius:3px; padding:5px 10px; }
+:root[data-proj="apocalyptic-game-ui"] .meta__k{ color:var(--ap-brass-lit); }
+:root[data-proj="apocalyptic-game-ui"] .meta__v{ color:var(--ap-mist); }
+:root[data-proj="apocalyptic-game-ui"] .proj-sec__count{ color:var(--ap-brass-lit); font-weight:800; }
+:root[data-proj="apocalyptic-game-ui"] .proj-sec__title{ color:var(--ap-mist); text-shadow:none; }
+:root[data-proj="apocalyptic-game-ui"] .tags li{ border-image:none; border:2px solid var(--ap-teal);
+  background:transparent; color:var(--ap-sage); border-radius:3px; padding:1px 10px; }
+:root[data-proj="apocalyptic-game-ui"] .divider{ display:none; }
+
+/* ---- the work (§15g shape, grouped) ---------------------------------------
+   11 images, grouped rather than left as a flat 2-up: outcome first, then the
+   layout studies behind it, then the design breakdown, then the reference
+   boards. Each group is its own panel so the scene shows between them. */
+:root[data-proj="apocalyptic-game-ui"] .proj-sec__text{ max-width:74ch; }
+:root[data-proj="apocalyptic-game-ui"] .ap-groups{
+  list-style:none; margin:40px 0 0; padding:0; display:grid; gap:40px;
+}
+:root[data-proj="apocalyptic-game-ui"] .ap-group__name{
+  margin:0 0 10px; font-family:var(--display); font-size:1.3rem;
+  letter-spacing:.06em; color:var(--ap-brass-lit);
+  display:flex; align-items:center; gap:14px;
+}
+:root[data-proj="apocalyptic-game-ui"] .ap-group__name::after{
+  content:""; flex:1; height:2px;
+  background:linear-gradient(90deg, rgba(155,139,74,.75), rgba(155,139,74,0));
+}
+:root[data-proj="apocalyptic-game-ui"] .ap-group__note{
+  margin:0 0 18px; max-width:74ch; color:var(--ap-sage);
+  font-size:.95rem; line-height:1.5;
+}
+:root[data-proj="apocalyptic-game-ui"] .ap-shots{
+  list-style:none; margin:0; padding:0; display:grid; gap:18px;
+  grid-template-columns:minmax(0,1fr);
+}
+/* TIER 1 — the design. A single tall portrait (788x1400): full width would
+   render it ~1,900px tall, so it is capped and centred as the section's object. */
+:root[data-proj="apocalyptic-game-ui"] .ap-shots--final{ max-width:460px; margin-inline:auto; }
+
+/* TIER 2 — drafts. One row of four, deliberately about 2.5x smaller than the
+   main so the hierarchy is unmistakable at a glance. Capped rather than filling
+   the panel, because four items stretched across 1,004px would read as equal
+   billing with the final screen. */
+/* ⚠️ margin-inline:auto is required alongside max-width — without it a capped
+   grid pins to the left of the panel and reads as a mistake next to the
+   centred main design. */
+:root[data-proj="apocalyptic-game-ui"] .ap-shots--drafts{ gap:12px; margin-inline:auto; }
+@media (min-width:480px){
+  :root[data-proj="apocalyptic-game-ui"] .ap-shots--drafts{
+    grid-template-columns:repeat(3,minmax(0,1fr)); max-width:580px;
+  }
+}
+/* TIER 3 — reference and moodboards, quietest and last. Three across, smaller
+   again; these are previews of research, not work to be studied at size. */
+:root[data-proj="apocalyptic-game-ui"] .ap-shots--refs{ gap:12px; margin-inline:auto; }
+@media (min-width:480px){
+  :root[data-proj="apocalyptic-game-ui"] .ap-shots--refs{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (min-width:760px){
+  :root[data-proj="apocalyptic-game-ui"] .ap-shots--refs{
+    grid-template-columns:repeat(3,minmax(0,1fr)); max-width:720px;
+  }
+}
+
+/* ---- panel weight also carries the hierarchy -----------------------------
+   Only the main group keeps the brass filigree corners and the hard shadow.
+   The two supporting groups drop the ornament and sit flatter, so the eye
+   lands on the finished screen first and reads the rest as apparatus. */
+:root[data-proj="apocalyptic-game-ui"] .ap-group--drafts,
+:root[data-proj="apocalyptic-game-ui"] .ap-group--refs{
+  background:rgba(37,43,37,.82);
+  border:2px solid rgba(155,139,74,.42);
+  box-shadow:4px 4px 0 rgba(28,34,28,.32);
+  padding:24px 24px 22px;
+}
+:root[data-proj="apocalyptic-game-ui"] .ap-group--drafts::before,
+:root[data-proj="apocalyptic-game-ui"] .ap-group--drafts::after,
+:root[data-proj="apocalyptic-game-ui"] .ap-group--refs::before,
+:root[data-proj="apocalyptic-game-ui"] .ap-group--refs::after{ display:none; }
+/* ⚠️ Sub-headings drop to --ap-sage (7.86:1), NOT a dimmed brass — reducing
+   emphasis must not cost contrast. Nothing here goes below AA. */
+:root[data-proj="apocalyptic-game-ui"] .ap-group__name--sub{
+  font-size:1.02rem; color:var(--ap-sage);
+}
+:root[data-proj="apocalyptic-game-ui"] .ap-group__name--sub::after{
+  background:linear-gradient(90deg, rgba(184,196,168,.4), rgba(184,196,168,0));
+}
+:root[data-proj="apocalyptic-game-ui"] .ap-group--drafts .ap-group__note,
+:root[data-proj="apocalyptic-game-ui"] .ap-group--refs .ap-group__note{ font-size:.88rem; }
+/* the supporting tiles lose the brass edge too */
+:root[data-proj="apocalyptic-game-ui"] .ap-shots--drafts .ap-piece,
+:root[data-proj="apocalyptic-game-ui"] .ap-shots--refs .ap-piece{
+  padding:6px 6px 3px; border:2px solid rgba(155,139,74,.5);
+  box-shadow:3px 3px 0 rgba(28,34,28,.32);
+}
+:root[data-proj="apocalyptic-game-ui"] .ap-shots--drafts .ap-piece__cap,
+:root[data-proj="apocalyptic-game-ui"] .ap-shots--refs .ap-piece__cap{ font-size:.8rem; }
+:root[data-proj="apocalyptic-game-ui"] .ap-piece{
+  background:#fff; padding:8px 8px 4px;
+  border:2px solid var(--ap-brass); border-radius:3px;
+  box-shadow:4px 4px 0 rgba(28,34,28,.45);
+}
+/* native ratio, no crop; width/height reserve the box before the lazy load */
+:root[data-proj="apocalyptic-game-ui"] .ap-piece img{
+  display:block; width:100%; height:auto; border-radius:2px;
+}
+:root[data-proj="apocalyptic-game-ui"] .ap-piece__cap{
+  margin:7px 2px 2px; font-family:var(--display); font-size:.9rem;
+  letter-spacing:.06em; color:var(--ap-dark);
+}
+/* ⚠️ §16d: the third-party boards ship ONLY because they are labelled as such.
+   This chip is part of that disclosure — do not remove it. */
+:root[data-proj="apocalyptic-game-ui"] .ap-thirdparty{
+  display:inline-block; margin:0 0 14px; padding:3px 10px;
+  border:2px solid var(--ap-brass); border-radius:3px;
+  background:rgba(155,139,74,.14); color:var(--ap-brass-lit);
+  font-size:.8rem; letter-spacing:.04em; font-weight:700;
+}
+
+/* ---- pager + foot ---- */
+:root[data-proj="apocalyptic-game-ui"] .pager__link.ui-panel{ border-image:none; border:2px solid var(--ap-brass);
+  background:rgba(184,196,168,.08); border-radius:3px; box-shadow:4px 4px 0 rgba(28,34,28,.45); }
+:root[data-proj="apocalyptic-game-ui"] .pager__name{ color:var(--ap-mist); }
+:root[data-proj="apocalyptic-game-ui"] .pager__dir{ color:var(--ap-brass-lit); }
+/* ⚠️ .foot__credits carries its OWN colour in styles.css and does not inherit
+   from .foot — name it explicitly or it stays the dark theme's lavender (§10k). */
+:root[data-proj="apocalyptic-game-ui"] .foot,
+:root[data-proj="apocalyptic-game-ui"] .foot a,
+:root[data-proj="apocalyptic-game-ui"] .foot__credits{ color:var(--ap-sage); }
+:root[data-proj="apocalyptic-game-ui"] .skip{ color:var(--ap-dark); }
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<div class="ap-ruins" aria-hidden="true">
+  <span class="ap-tower"></span><span class="ap-creeper"></span>
+  <span class="ap-tree"></span><span class="ap-drift"></span>
+  <span class="ap-rubble"></span><span class="ap-tower ap-tower--sm"></span>
+  <span class="ap-creeper"></span><span class="ap-dish"></span>
+  <span class="ap-tree"></span><span class="ap-drift"></span>
+  <span class="ap-rubble"></span><span class="ap-tower ap-tower--sm"></span>
+  <span class="ap-creeper"></span>
+</div>
+
+<a class="skip ui-bar ui-bar-cream" href="#overview">Skip to the work</a>
+
+<div class="stage-top">
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../index.html#experience">Experience</a></li>
+        <li><a href="../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="proj-hero proj-hero--solo" id="top">
+  <div class="shell">
+    <a class="crumb" href="../../index.html#level-5">
+      <img src="../../assets/ui6/arrow-left.png" alt="" width="48" height="103">
+      Back to Level 5
+    </a>
+
+    <div class="proj-hero__grid">
+      <div>
+        <p class="level__badge ui-bar">Level&nbsp;&ndash;&nbsp;5</p>
+        <div class="level__panel ui-panel"><h1 class="proj-title arcade">Apocalyptic Game UI</h1></div>
+        <p class="proj-lede">
+          A UI concept that blends the bright, polished look of a casual competitive game with a
+          gritty post-apocalyptic setting &mdash; a world that was once cheerful and full of bold
+          colour, now carrying signs of wear, muted tones and a more restrained style.
+        </p>
+
+        <dl class="meta">
+          <div>
+            <dt class="meta__k">Discipline</dt>
+            <dd class="meta__v">Interface concept</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Year</dt>
+            <dd class="meta__v">2025</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Tools</dt>
+            <dd class="meta__v">Photoshop, Figma</dd>
+          </div>
+          <div>
+            <dt class="meta__k">Brief</dt>
+            <dd class="meta__v">Self-directed</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.stage-top -->
+
+<section class="proj-sec" id="overview" aria-labelledby="ov-title">
+  <div class="shell">
+      <div class="proj-sec__body">
+        <p class="proj-sec__count">Interface concept</p>
+        <h2 class="proj-sec__title" id="ov-title">Building Assignment</h2>
+        <p class="proj-sec__text">
+          The screen has to carry two moods at once: the playful charm of where this world came
+          from, and the hardship of what it became. Bold shapes and clean panels do the first;
+          worn texture, muted colour and a restrained palette do the second. The grime stays in
+          the frame and the background, and keeps clear of anywhere a player has to read a number.
+        </p>
+        <ul class="tags"><li>Building assignment</li><li>Character panels</li><li>Dense layout</li><li>Survival</li></ul>
+      </div>
+    <!-- THREE TIERS OF FOCUS, decided 2026-08-08 and requested explicitly:
+         the finished design carries the section; the drafts folder sits below it
+         at much smaller size in a single row; the references and moodboards come
+         last and quietest. Anything not the main design is a PREVIEW.
+         ⚠️ Source folders decide the tier: Projects/DesignTests-IndividualProjects/
+         ApocalypticGameUI/{drafts,FinalDesigns}. -->
+    <ul class="ap-groups">
+
+      <li class="ap-group ap-group--main">
+        <h3 class="ap-group__name">The design</h3>
+        <p class="ap-group__note">
+          The building-assignment screen — a survivor's portrait, their previous life, the four
+          attributes that decide where they are worth posting, and the cost of levelling them.
+        </p>
+        <ul class="ap-shots ap-shots--final">
+          <li class="ap-piece">
+            <img src="../../assets/img/apocalyptic-game-ui/apocalyptic-game-ui-05.jpg" width="788" height="1400"
+                 loading="lazy" decoding="async"
+                 alt="Final character screen: a mutated survivor portrait over a dark hex-pattern panel, with name and building assignment, previous occupation, four attribute stats, a star rating, XP and evolve bars and a five-icon bottom bar">
+            <p class="ap-piece__cap">Final screen</p>
+          </li>
+        </ul>
+      </li>
+
+      <li class="ap-group ap-group--drafts">
+        <h3 class="ap-group__name ap-group__name--sub">Draft &mdash; older versions</h3>
+        <p class="ap-group__note">
+          Earlier passes at the same screen, kept for the record rather than shown at size.
+        </p>
+        <ul class="ap-shots ap-shots--drafts">
+          <li class="ap-piece">
+            <img src="../../assets/img/apocalyptic-game-ui/apocalyptic-game-ui-01.jpg" width="788" height="1400"
+                 loading="lazy" decoding="async" alt="First draft of the character screen layout">
+            <p class="ap-piece__cap">Draft 1</p>
+          </li>
+          <li class="ap-piece">
+            <img src="../../assets/img/apocalyptic-game-ui/apocalyptic-game-ui-02.jpg" width="788" height="1400"
+                 loading="lazy" decoding="async" alt="Second draft of the character screen layout">
+            <p class="ap-piece__cap">Draft 2</p>
+          </li>
+          <li class="ap-piece">
+            <img src="../../assets/img/apocalyptic-game-ui/apocalyptic-game-ui-03.jpg" width="788" height="1400"
+                 loading="lazy" decoding="async" alt="Third draft of the character screen layout">
+            <p class="ap-piece__cap">Draft 3</p>
+          </li>
+          <!-- ⚠️ There is NO Draft 4. Katerina deleted
+               drafts/Brief-UI Wireframetest4.png on 2026-08-08; the built
+               apocalyptic-game-ui-04.jpg is still on disk but is now ORPHANED
+               and must not be re-added. Disk is ground truth (§13a). -->
+        </ul>
+      </li>
+
+      <li class="ap-group ap-group--refs">
+        <h3 class="ap-group__name ap-group__name--sub">Reference &amp; moodboards</h3>
+        <!-- ⚠️ §16d: these boards ship ONLY because they are labelled as
+             third-party. Do not remove this chip or the captions. -->
+        <p class="ap-thirdparty">Contains third-party reference material</p>
+        <p class="ap-group__note">
+          The research behind the screen: her own icon set built against sourced icon sheets, an
+          annotated breakdown crediting what each decision came from, and the collected boards.
+        </p>
+        <ul class="ap-shots ap-shots--refs">
+          <li class="ap-piece">
+            <img src="../../assets/img/apocalyptic-game-ui/apocalyptic-game-ui-07.jpg" width="859" height="544"
+                 loading="lazy" decoding="async"
+                 alt="Icon design sheet: currency, chest, heart, scroll, hammer and building icons, shown alongside the third-party icon sets used as reference">
+            <p class="ap-piece__cap">Icons &mdash; with sourced references</p>
+          </li>
+          <li class="ap-piece">
+            <img src="../../assets/img/apocalyptic-game-ui/apocalyptic-game-ui-06.jpg" width="1400" height="1244"
+                 loading="lazy" decoding="async"
+                 alt="Annotated reference sheet placing the final screen beside screenshots from other studios' games, with notes explaining which layout and colour decisions each one informed">
+            <p class="ap-piece__cap">Annotated &mdash; third-party games</p>
+          </li>
+          <li class="ap-piece">
+            <img src="../../assets/img/apocalyptic-game-ui/apocalyptic-game-ui-08.jpg" width="1400" height="788"
+                 loading="lazy" decoding="async"
+                 alt="Moodboard of collected interface screenshots from other studios' games, annotated with notes on layout, colour and mood">
+            <p class="ap-piece__cap">Moodboard 1 &mdash; third-party</p>
+          </li>
+          <li class="ap-piece">
+            <img src="../../assets/img/apocalyptic-game-ui/apocalyptic-game-ui-09.jpg" width="1400" height="788"
+                 loading="lazy" decoding="async"
+                 alt="Second moodboard of collected third-party interface references">
+            <p class="ap-piece__cap">Moodboard 2 &mdash; third-party</p>
+          </li>
+          <li class="ap-piece">
+            <img src="../../assets/img/apocalyptic-game-ui/apocalyptic-game-ui-10.jpg" width="1400" height="788"
+                 loading="lazy" decoding="async"
+                 alt="Third moodboard of collected third-party interface references">
+            <p class="ap-piece__cap">Moodboard 3 &mdash; third-party</p>
+          </li>
+          <li class="ap-piece">
+            <img src="../../assets/img/apocalyptic-game-ui/apocalyptic-game-ui-11.jpg" width="1400" height="788"
+                 loading="lazy" decoding="async"
+                 alt="Fourth moodboard of collected third-party interface references">
+            <p class="ap-piece__cap">Moodboard 4 &mdash; third-party</p>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<div class="divider" role="presentation"></div>
+
+<nav class="pager" aria-label="Other projects">
+  <div class="shell">
+    <ul class="pager__list">
+      <li>
+        <a class="pager__link ui-panel" href="../dragon-fest/">
+          <span class="pager__dir">Previous &mdash; Level 5</span>
+          <span class="pager__name">Dragon Fest</span>
+        </a>
+      </li>
+      <li>
+        <a class="pager__link ui-panel pager__link--next" href="../parent-guidance-app/">
+          <span class="pager__dir">Next &mdash; Level 5</span>
+          <span class="pager__name">Parent Guidance App</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="divider" role="presentation"></div>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p>
+      <a href="../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerinamcl/" rel="me noopener">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a> &middot;
+      <a href="../../index.html#work">All work</a>
+    </p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.
+    </p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+
+<script src="../../assets/app.js?v=17" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="en" data-proj="studio-work">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio Work — all work — Katerina Michael</title>
+<meta name="description" content="Every piece of production UI from the Studio Work project — player profile, messaging, PvP, pop-ups, branding, icons and character portraits.">
+<meta property="og:title" content="Studio Work — all work">
+<meta property="og:description" content="Every piece of production UI from the Studio Work project.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="../../../assets/img/studio-work/player-profile-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../../assets/styles.css?v=62">
+<style id="gal-theme">
+/* Studio Work gallery — the full artwork set for the project.
+   Deliberately slim: this page has NO road, no cars, no flags and no title-bar
+   panels, so it re-declares only the palette, the ground and the frames rather
+   than duplicating the 58 KB project-page theme. */
+:root[data-proj="studio-work"]{
+  --rc-orange:#E8298C; --rc-pink-text:#C51E75;   /* 4.79:1 on the pale; the bright pink is only 3.57 */ --rc-gold:#F5A03E; --rc-red:#8B3EC4;
+  --rc-cream:#F2EDFB; --rc-ink:#1A1240; --rc-navy:#241A5E;
+  --ink:#F2EDFB; --ink-soft:#C9BCE8; --bar-ink:#F2EDFB;
+  --bezel:#E8298C; --bezel-out:#120C2E;
+  --rc-grid:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><g stroke='%234A3A9E' stroke-width='1' opacity='.22'><path d='M0 .5 H32'/><path d='M.5 0 V32'/></g></svg>");
+}
+:root[data-proj="studio-work"] .sky{ background:#120C2E; }
+:root[data-proj="studio-work"] .sheet{
+  background:var(--rc-grid) repeat,
+    linear-gradient(180deg,#150E33 0%,#1F1550 30%,#241659 62%,#33206B 100%);
+}
+:root[data-proj="studio-work"] .topbar{ background:#120C2E; border-bottom-color:var(--rc-pink-text); }
+:root[data-proj="studio-work"] .sheet .topbar{ position:relative; z-index:20; }
+:root[data-proj="studio-work"] .nav a[aria-current]{ background:var(--rc-orange); color:#F2EDFB; }
+:root[data-proj="studio-work"] .brand__mark{ background-image:none; background-color:var(--rc-pink-text); color:#F2EDFB;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.35), inset 0 -4px 0 rgba(0,0,0,.28), 0 0 0 3px #F2EDFB, 0 0 0 6px #3A2A6B; }
+/* turn the shared project motif off — same trap as the project page (§10b.1) */
+:root[data-proj="studio-work"] .hero::before,
+:root[data-proj="studio-work"] .band::before,
+:root[data-proj="studio-work"] .level::before,
+:root[data-proj="studio-work"] .foot::before,
+:root[data-proj="studio-work"] .proj-hero::before,
+:root[data-proj="studio-work"] .proj-sec::before{ display:none !important; }
+.shell{ position:relative; z-index:3; }
+
+/* ---- header ---- */
+.gal-head{ padding:calc(var(--u)*10) 0 calc(var(--u)*4); }
+.gal-head .crumb{ color:var(--rc-pink-text); font-family:var(--display); font-size:1.05rem; display:inline-block; }
+.gal-title{ font-family:var(--display); font-size:clamp(2rem,5vw,3rem); color:var(--rc-cream);
+  margin:calc(var(--u)*2) 0 calc(var(--u)*2); letter-spacing:.04em; text-shadow:3px 3px 0 var(--rc-orange); }
+.gal-lede{ color:var(--rc-cream); max-width:60ch; margin:0; font-size:1.02rem; }
+
+/* ---- jump nav: every section title, at the top ---- */
+.gal-jump{ padding:calc(var(--u)*4) 0 calc(var(--u)*6); }
+.gal-jump__head{ font-family:var(--display); font-size:1.1rem; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--rc-gold); margin:0 0 calc(var(--u)*3); }
+.gal-jump ul{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:9px; }
+.gal-jump__link{ display:inline-block; padding:5px 12px; text-decoration:none;
+  border:2px solid var(--rc-gold); color:var(--rc-cream); font-weight:700; font-size:.9rem; }
+.gal-jump__link:hover{ background:var(--rc-gold); color:var(--rc-ink); }
+
+/* ---- sections ---- */
+.gal-sec{ padding:calc(var(--u)*8) 0; scroll-margin-top:16px; }
+.gal-sec__title{ font-family:var(--display); font-size:clamp(1.5rem,3.4vw,2.1rem);
+  color:var(--rc-gold); margin:0; letter-spacing:.04em; }
+.gal-sec__count{ color:var(--rc-pink-text); font-weight:800; font-size:.82rem;
+  letter-spacing:.08em; text-transform:uppercase; margin:calc(var(--u)*1) 0 calc(var(--u)*4); }
+
+/* Native ratios, no cropping: these sections range from 0.36 to 3.82 wide,
+   so anything that forces one aspect would butcher them. width/height attrs
+   reserve each box before the lazy image lands. */
+.gal-grid{ list-style:none; margin:0; padding:0; display:grid; gap:16px;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); align-items:start; }
+.gal-piece{ background:var(--rc-cream); padding:9px; border:3px solid var(--rc-gold);
+  box-shadow:0 0 0 2px var(--rc-ink); }
+.gal-piece img{ display:block; width:100%; height:auto; border-radius:0;
+  box-shadow:0 0 0 2px var(--rc-ink); }
+.gal-top{ display:inline-block; margin-top:calc(var(--u)*4); color:var(--rc-gold);
+  font-family:var(--display); font-size:.95rem; letter-spacing:.06em; }
+
+/* ---- grouping inside a section -------------------------------------------
+   Sections now carry sub-groups (platform sets, helmets vs icons, rewards vs
+   feature pop-ups) rather than one undifferentiated auto-fill grid. */
+.gal-grouplabel{ margin:calc(var(--u)*5) 0 calc(var(--u)*2); color:var(--rc-gold);
+  font-family:var(--display); font-size:1rem; letter-spacing:.06em; }
+.gal-grouplabel:first-of-type{ margin-top:0; }
+/* smaller tiles for the numerous supporting sets — portraits, icons — which
+   should not read at the same size as a UI screen.
+   ⚠️ --small MUST come before --four: several sets carry both, and --four has
+   to win the grid-template-columns (equal specificity, so source order decides). */
+.gal-grid--small{ grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; }
+/* explicit column counts, for sets that must sit evenly */
+.gal-grid--four{ grid-template-columns:repeat(4,minmax(0,1fr)); }
+.gal-grid--three{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+.gal-grid--two{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+.gal-grid--six{ grid-template-columns:repeat(6,minmax(0,1fr)); gap:12px; }
+.gal-grid--stack,
+.gal-grid--banner{ grid-template-columns:minmax(0,1fr); }
+.gal-grid--banner{ margin-bottom:16px; }
+.gal-grid--mid{ max-width:560px; margin-inline:auto; }
+/* equalise tile heights where the set is a mixed-ratio row (UI exploration):
+   contain, never crop — the images keep their own shape inside a common box */
+.gal-grid--even .gal-piece img{ height:230px; object-fit:contain; background:#fff; }
+
+/* the caption sits on its own ink plate so it reads on ANY frame colour —
+   cream on #1A1240 is 15.2:1, where cream on the magenta bezel is only 3.56 */
+/* --display-num: pixel lettering, legible numerals (styles.css @font-face).
+   "Unlock 6" was reading as "Unlock 8" in plain Jersey 15. */
+.gal-piece__no{ display:block; margin-top:8px; padding:3px 8px;
+  background:var(--rc-ink); color:var(--rc-cream);
+  font-family:var(--display-num); font-size:.82rem; letter-spacing:.06em; }
+
+/* ---- the pyramid (Icons & Avatars) --------------------------------------
+   One screen centred on top, two beneath it, all the same width. The first
+   child spans both columns but is capped to one column's width so it centres
+   over the gap between the two below. */
+.gal-pyramid{ grid-template-columns:repeat(2,minmax(0,1fr)); justify-items:center; }
+.gal-pyramid > :first-child{ grid-column:1 / -1; width:min(100%, calc(50% - 8px)); }
+.gal-pyramid > *{ width:100%; }
+
+/* ---- paired rows (Deeplinking) ------------------------------------------
+   The ROW is the screen and the COLUMN is the platform, so a screen with no
+   counterpart leaves a deliberate gap rather than shunting the next one up. */
+.gal-pairs{ display:grid; gap:16px 22px; grid-template-columns:minmax(0,1fr);
+  align-items:start; }
+@media (min-width:820px){ .gal-pairs{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+.gal-pairs__head{ margin:0; padding:4px 12px; justify-self:start;
+  background:var(--rc-gold); color:var(--rc-ink);
+  font-family:var(--display); font-size:.92rem; letter-spacing:.08em; }
+@media (max-width:819px){ .gal-pairs__head{ display:none; } }
+.gal-spacer{ list-style:none; }
+@media (max-width:819px){ .gal-spacer{ display:none; } }
+
+/* ⚠️ Device frames (magenta phone / gold iPad / purple PC bezels) were built and
+   REVERTED on 2026-08-08 — Katerina rejected the outlines. If they come back:
+   the stepped corner was a clip-path notch; clip-path CLIPS box-shadow so the
+   frames carried none; and the caption needed its own ink plate because cream on
+   the magenta bezel is only 3.56:1. */
+
+/* Logo Exploration sits narrower than the shell on purpose — these are reference
+   sheets, and at full width the wide strips left dead space beside them. */
+.gal-tight{ max-width:880px; margin-inline:auto; }
+
+/* Feature logos are 400x400 native. At full shell width a 3-up renders them
+   at ~381px, i.e. 1:1 with the JPEG artefacts visible, which reads as blur.
+   760px puts each tile at ~242px, so the browser downsamples and they sharpen. */
+.gal-logos{ max-width:760px; margin-inline:auto; }
+.gal-tight > .gal-grid{ margin-bottom:14px; }
+.gal-tight > .gal-grid:last-child{ margin-bottom:0; }
+
+/* ---- platform columns ----------------------------------------------------
+   Deeplinking and the PvP landing screen show ONE screen across platforms, so
+   the column is the platform and the header names it. Reading down a column is
+   the same device; reading across is the same screen. */
+.gal-plat{ display:grid; gap:18px; grid-template-columns:minmax(0,1fr); align-items:start; }
+@media (min-width:760px){ .gal-plat{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (min-width:1000px){ .gal-plat--three{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.gal-plat__head{ margin:0 0 10px; padding:4px 12px; display:inline-block;
+  background:var(--rc-gold); color:var(--rc-ink);
+  font-family:var(--display); font-size:.92rem; letter-spacing:.08em; }
+.gal-plat__col > .gal-grid{ gap:12px; }
+
+@media (max-width:1000px){
+  .gal-grid--six{ grid-template-columns:repeat(4,minmax(0,1fr)); }
+}
+@media (max-width:700px){
+  .gal-grid--four{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .gal-grid--three{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .gal-grid--six{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .gal-pyramid{ grid-template-columns:minmax(0,1fr); }
+  .gal-pyramid > :first-child{ width:100%; }
+}
+@media (max-width:560px){
+  .gal-grid{ grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
+  /* ⚠️ The rule above is the LAST one to set grid-template-columns and carries
+     the SAME specificity as .gal-grid--six, so it silently overrode it: the 30
+     character portraits fell back to auto-fill, which is ONE column in a 298px
+     phone shell, rendering each at 275x498 and turning a single section into a
+     ~15,000px scroll. Restating the modifier after it puts them back to 2-up
+     (~119x215 each).
+     Same silent-failure mode as a missing grid modifier — the layout stays
+     plausible and is simply wrong, so assert the column count rather than
+     trusting the class name.
+     Only --six is restated on purpose: --three/--four hold UI SCREENSHOTS,
+     where one full-width column is the right call on a phone. */
+  .gal-grid--six{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+
+  /* Feature logos: 2-up, so 6 pieces read as 3 rows of 2 rather than six
+     full-width tiles each eating a screen. They are 400x400 NATIVE, so 2-up
+     draws them at ~119px - a 3.4x downscale, which is what keeps them sharp
+     (their blur was always a rendering-too-large problem, never a source one).
+     ⚠️ Specificity (0,2,0) beats the generic .gal-grid rule above, so this
+     cannot be silently undone by source order the way --six was. */
+  .gal-logos .gal-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+
+  /* Rank badges 2-up, so 4 badges are 2 rows of 2 rather than four full-width
+     tiles. They are 1000x875 native, so ~119px here is a huge downscale.
+     ⚠️ Scoped to #pvp, NOT to .gal-grid--four generally. The only other --four
+     group is UI Exploration, which holds full UI boards - those want one
+     full-width column on a phone, the same call made for --three/--four above. */
+  #pvp .gal-grid--four{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+</style>
+</head>
+<body>
+<a class="skip ui-bar ui-bar-cream" href="#gal-top">Skip to sections</a>
+<div class="sky" aria-hidden="true"></div>
+<div class="sheet">
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="../../../index.html#top">
+      <span class="brand__mark" aria-hidden="true">KM</span>
+      <span class="brand__name">Katerina Michael</span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="nav-menu" aria-expanded="false" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav" id="nav-menu">
+        <li><a href="../../../index.html#work" aria-current="location">Work</a></li>
+        <li><a href="../../../index.html#highlights">Highlights</a></li>
+        <li><a href="../../../index.html#experience">Experience</a></li>
+        <li><a href="../../../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="gal-head">
+  <div class="shell">
+    <a class="crumb" href="../">&#9664; Back to Studio Work</a>
+    <h1 class="gal-title arcade">All Work</h1>
+    <p class="gal-lede">Every screen and asset from the project, grouped by feature area.
+      123 pieces in total.</p>
+  </div>
+</div>
+
+<nav class="gal-jump" id="gal-top" aria-label="Sections">
+  <div class="shell">
+    <p class="gal-jump__head">Jump to a section</p>
+    <ul>
+      <li><a class="gal-jump__link" href="#player-profile">Player Profile</a></li>
+      <li><a class="gal-jump__link" href="#messaging">Messaging &amp; Rewards</a></li>
+      <li><a class="gal-jump__link" href="#pvp">PvP Interface</a></li>
+      <li><a class="gal-jump__link" href="#crew">Crew Selection</a></li>
+      <li><a class="gal-jump__link" href="#popups">Pop-Ups &amp; Rewards</a></li>
+      <li><a class="gal-jump__link" href="#deeplinking">Deeplinking Campaign</a></li>
+      <li><a class="gal-jump__link" href="#branding">Logo Exploration</a></li>
+      <li><a class="gal-jump__link" href="#feature-logos">Feature Logos</a></li>
+      <li><a class="gal-jump__link" href="#icons-avatars">Icons &amp; Avatars</a></li>
+      <li><a class="gal-jump__link" href="#portraits">Character Portraits</a></li>
+      <li><a class="gal-jump__link" href="#ui-exploration">UI Exploration</a></li>
+    </ul>
+  </div>
+</nav>
+
+        <section class="gal-sec" id="player-profile" aria-labelledby="player-profile-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="player-profile-h">Player Profile</h2>
+      <p class="gal-sec__count">8 pieces</p>
+      <p class="gal-grouplabel">Profile screens &mdash; mobile</p>
+      <ul class="gal-grid gal-grid--three">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/player-profile-03.jpg" width="1000" height="462"
+               loading="lazy" decoding="async"
+               alt="Player profile summary view on mobile">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/player-profile-02.jpg" width="1000" height="462"
+               loading="lazy" decoding="async"
+               alt="Alternative detailed player profile layout on mobile">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/player-profile-01.jpg" width="1000" height="462"
+               loading="lazy" decoding="async"
+               alt="Detailed player profile on mobile: racer card with rank and collector title, most-used car panel and a career graph">
+        </li>
+      </ul>
+      <p class="gal-grouplabel">Profile screens &mdash; PC</p>
+      <ul class="gal-grid gal-grid--three">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/player-profile-04.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Player profile icon selection screen on PC">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/player-profile-05.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Alternative player profile icon screen on PC">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/player-profile-06.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Player profile rendered for PC at 4K">
+        </li>
+      </ul>
+      <p class="gal-grouplabel">Racing licence screens</p>
+      <ul class="gal-grid">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/player-profile-07.jpg" width="1000" height="462"
+               loading="lazy" decoding="async"
+               alt="Racing licence pop-up on mobile">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/player-profile-08.jpg" width="1000" height="462"
+               loading="lazy" decoding="async"
+               alt="Alternative racing licence pop-up on mobile">
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="messaging" aria-labelledby="messaging-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="messaging-h">Messaging &amp; Rewards</h2>
+      <p class="gal-sec__count">11 pieces</p>
+      <p class="gal-grouplabel">Inbox &amp; rewards</p>
+      <ul class="gal-grid">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-01.jpg" width="1000" height="562"
+               loading="lazy" decoding="async" alt="Messaging and Rewards — 1 of 11">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-02.jpg" width="1000" height="562"
+               loading="lazy" decoding="async" alt="Messaging and Rewards — 2 of 11">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-05.jpg" width="1000" height="562"
+               loading="lazy" decoding="async" alt="Messaging and Rewards — 3 of 11">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-04.jpg" width="1000" height="562"
+               loading="lazy" decoding="async" alt="Messaging and Rewards — 4 of 11">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-03.jpg" width="1000" height="562"
+               loading="lazy" decoding="async" alt="Messaging and Rewards — 5 of 11">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-06.jpg" width="1000" height="562"
+               loading="lazy" decoding="async" alt="Messaging and Rewards — 6 of 11">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-07.jpg" width="1000" height="562"
+               loading="lazy" decoding="async" alt="Messaging and Rewards — 7 of 11">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-08.jpg" width="1000" height="562"
+               loading="lazy" decoding="async" alt="Messaging and Rewards — 8 of 11">
+        </li>
+      </ul>
+      <p class="gal-grouplabel">Reporting a player</p>
+      <ul class="gal-grid gal-grid--three">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-10.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Report Player screen: a list of reasons to choose from — cheating, exploiting, offensive name, offensive behaviour, other">
+          <span class="gal-piece__no">Choose a reason</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-09.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Report Player screen: a free-text field to add extra information about the chosen reason, with a Report button">
+          <span class="gal-piece__no">Add detail</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/messaging-11.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Thank You confirmation screen shown after a report is submitted, with a character portrait alongside the message">
+          <span class="gal-piece__no">Confirmation</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+        <section class="gal-sec" id="pvp" aria-labelledby="pvp-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="pvp-h">PvP Interface</h2>
+      <p class="gal-sec__count">7 pieces</p>
+      <p class="gal-grouplabel">Landing screen &mdash; the same screen on three platforms</p>
+      <div class="gal-plat gal-plat--three">
+        <div class="gal-plat__col">
+          <p class="gal-plat__head">Mobile</p>
+          <ul class="gal-grid gal-grid--stack">
+            <li class="gal-piece">
+              <img src="../../../assets/img/studio-work/pvp-02.jpg" width="1000" height="462"
+                   loading="lazy" decoding="async"
+                   alt="PvP landing screen on mobile">
+            </li>
+          </ul>
+        </div>
+        <div class="gal-plat__col">
+          <p class="gal-plat__head">iPad</p>
+          <ul class="gal-grid gal-grid--stack">
+            <li class="gal-piece">
+              <img src="../../../assets/img/studio-work/pvp-01.jpg" width="1000" height="750"
+                   loading="lazy" decoding="async"
+                   alt="PvP landing screen on iPad">
+            </li>
+          </ul>
+        </div>
+        <div class="gal-plat__col">
+          <p class="gal-plat__head">PC</p>
+          <ul class="gal-grid gal-grid--stack">
+            <li class="gal-piece">
+              <img src="../../../assets/img/studio-work/pvp-03.jpg" width="1000" height="562"
+                   loading="lazy" decoding="async"
+                   alt="PvP landing screen on PC">
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p class="gal-grouplabel">Rank badges</p>
+      <ul class="gal-grid gal-grid--four">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/pvp-04.jpg" width="1000" height="875"
+               loading="lazy" decoding="async"
+               alt="Top 25 rank badge">
+          <span class="gal-piece__no">Top 25</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/pvp-05.jpg" width="1000" height="875"
+               loading="lazy" decoding="async"
+               alt="Top 50 rank badge">
+          <span class="gal-piece__no">Top 50</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/pvp-06.jpg" width="1000" height="875"
+               loading="lazy" decoding="async"
+               alt="Top 75 rank badge">
+          <span class="gal-piece__no">Top 75</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/pvp-07.jpg" width="1000" height="875"
+               loading="lazy" decoding="async"
+               alt="Unranked badge">
+          <span class="gal-piece__no">Unranked</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+      <section class="gal-sec" id="crew" aria-labelledby="crew-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="crew-h">Crew Selection</h2>
+      <p class="gal-sec__count">3 pieces</p>
+      <ul class="gal-grid">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/crew-03.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Crew type selection screen">
+          <span class="gal-piece__no">Crew type</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/crew-01.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Crew auto-kick settings screen">
+          <span class="gal-piece__no">Auto-kick</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/crew-02.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Main crew screen">
+          <span class="gal-piece__no">Main crew</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+    <section class="gal-sec" id="popups" aria-labelledby="popups-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="popups-h">Pop-Ups &amp; Rewards</h2>
+      <p class="gal-sec__count">6 pieces</p>
+      <p class="gal-grouplabel">Rewards pop-up &mdash; locked, unlocked, claimed</p>
+      <ul class="gal-grid gal-grid--three">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/popups-01.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Rewards pop-up in its locked state, titled Reach CL 3: the reward cards are shown in full colour but there is no claim button">
+          <span class="gal-piece__no">Locked</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/popups-02.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Rewards pop-up in its unlocked state, titled Rewards: the same cards with a bright Claim button beneath them">
+          <span class="gal-piece__no">Unlocked</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/popups-03.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Rewards pop-up in its claimed state, titled CL 3 Cleared: the cards are desaturated and each carries a green tick">
+          <span class="gal-piece__no">Claimed</span>
+        </li>
+      </ul>
+      <p class="gal-grouplabel">Feature unlock pop-up &mdash; locked, unlocked, claimed</p>
+      <ul class="gal-grid gal-grid--three">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/popups-04.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Feature unlock pop-up in its locked state, headed Reach CL 5 to unlock Regulation Races, with the feature art in colour and no action button">
+          <span class="gal-piece__no">Locked</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/popups-05.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Feature unlock pop-up in its unlocked state, headed Regulation Races, with the feature art in colour and a Collect button">
+          <span class="gal-piece__no">Unlocked</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/popups-06.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Feature unlock pop-up in its claimed state: the same screen with the art desaturated and a green tick over it">
+          <span class="gal-piece__no">Claimed</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+        <section class="gal-sec" id="deeplinking" aria-labelledby="deeplinking-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="deeplinking-h">Deeplinking Campaign</h2>
+      <p class="gal-sec__count">6 pieces</p>
+      <p class="gal-grouplabel">Each row is one campaign screen; the column is the platform</p>
+      <div class="gal-pairs">
+        <p class="gal-pairs__head">Mobile</p>
+        <p class="gal-pairs__head">iPad</p>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/deeplinking-01.jpg" width="1000" height="462"
+               loading="lazy" decoding="async"
+               alt="Material deeplinking screen on mobile">
+          <span class="gal-piece__no">Material</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/deeplinking-02.jpg" width="1000" height="750"
+               loading="lazy" decoding="async"
+               alt="Material deeplinking screen on iPad">
+          <span class="gal-piece__no">Material</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/deeplinking-03.jpg" width="1000" height="462"
+               loading="lazy" decoding="async"
+               alt="Part deeplinking screen on mobile">
+          <span class="gal-piece__no">Part</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/deeplinking-04.jpg" width="1000" height="750"
+               loading="lazy" decoding="async"
+               alt="Part deeplinking screen on iPad">
+          <span class="gal-piece__no">Part</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/deeplinking-05.jpg" width="1000" height="462"
+               loading="lazy" decoding="async"
+               alt="Prestige deeplinking screen on mobile">
+          <span class="gal-piece__no">Prestige</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/deeplinking-06.jpg" width="1000" height="750"
+               loading="lazy" decoding="async"
+               alt="Prestige deeplinking screen on iPad">
+          <span class="gal-piece__no">Prestige</span>
+        </li>
+      </div>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+        <section class="gal-sec" id="branding" aria-labelledby="branding-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="branding-h">Logo Exploration</h2>
+      <p class="gal-sec__count">1 sheet</p>
+      <div class="gal-tight">
+        <ul class="gal-grid gal-grid--banner">
+          <li class="gal-piece">
+            <img src="../../../assets/img/studio-work/branding-01.jpg" width="1409" height="2000"
+                 loading="lazy" decoding="async"
+                 alt="Logo exploration sheet: seven player-title wordmarks — Events VIP, Tuner, Globe Trotter, Collector, Competitor, Crew Member and Seasons Campaigner — each labelled with the typeface it was set in and paired with its own set of monochrome icons, above a block of Competitor wordmark variants in racing, chequered-flag and outline treatments">
+          </li>
+        </ul>
+      </div>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+      <section class="gal-sec" id="feature-logos" aria-labelledby="feature-logos-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="feature-logos-h">Feature Logos</h2>
+      <p class="gal-sec__count">6 pieces</p>
+      <!-- narrowed deliberately: these are 400x400 native, so a full-width
+           3-up renders them at ~381px and the JPEG softness shows. -->
+      <div class="gal-logos">
+      <ul class="gal-grid gal-grid--three">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/feature-logos-01.jpg" width="400" height="400"
+               loading="lazy" decoding="async"
+               alt="Feature unlock logo 1">
+          <span class="gal-piece__no">Unlock 1</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/feature-logos-02.jpg" width="400" height="400"
+               loading="lazy" decoding="async"
+               alt="Feature unlock logo 2">
+          <span class="gal-piece__no">Unlock 2</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/feature-logos-03.jpg" width="400" height="400"
+               loading="lazy" decoding="async"
+               alt="Feature unlock logo 3">
+          <span class="gal-piece__no">Unlock 3</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/feature-logos-04.jpg" width="400" height="400"
+               loading="lazy" decoding="async"
+               alt="Feature unlock logo 4">
+          <span class="gal-piece__no">Unlock 4</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/feature-logos-05.jpg" width="400" height="400"
+               loading="lazy" decoding="async"
+               alt="Feature unlock logo 5">
+          <span class="gal-piece__no">Unlock 5</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/feature-logos-06.jpg" width="400" height="400"
+               loading="lazy" decoding="async"
+               alt="Feature unlock logo 6">
+          <span class="gal-piece__no">Unlock 6</span>
+        </li>
+      </ul>
+      </div>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+        <section class="gal-sec" id="icons-avatars" aria-labelledby="icons-avatars-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="icons-avatars-h">Icons &amp; Avatars</h2>
+      <p class="gal-sec__count">10 pieces</p>
+      <p class="gal-grouplabel">Main UI screens</p>
+      <ul class="gal-grid gal-pyramid">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/icons-avatars-03.jpg" width="1000" height="562"
+               loading="lazy" decoding="async"
+               alt="Crew avatar selection screen">
+          <span class="gal-piece__no">Crew avatar</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/icons-avatars-01.jpg" width="1000" height="462"
+               loading="lazy" decoding="async"
+               alt="Select your title screen on mobile">
+          <span class="gal-piece__no">Select your title</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/icons-avatars-02.jpg" width="1000" height="462"
+               loading="lazy" decoding="async"
+               alt="Player profile avatar edit screen on mobile">
+          <span class="gal-piece__no">Select your avatar</span>
+        </li>
+      </ul>
+      <p class="gal-grouplabel">Crew emblems</p>
+      <ul class="gal-grid gal-grid--stack gal-grid--mid">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/icons-avatars-04.jpg" width="1000" height="1000"
+               loading="lazy" decoding="async"
+               alt="Crew emblems shown across the full range of colours">
+        </li>
+      </ul>
+      <p class="gal-grouplabel">Helmets</p>
+      <ul class="gal-grid gal-grid--six">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/icons-avatars-05.jpg" width="582" height="581"
+               loading="lazy" decoding="async"
+               alt="Default helmet avatar">
+          <span class="gal-piece__no">Default</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/icons-avatars-06.jpg" width="582" height="581"
+               loading="lazy" decoding="async"
+               alt="LA helmet avatar">
+          <span class="gal-piece__no">LA</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/icons-avatars-07.jpg" width="582" height="581"
+               loading="lazy" decoding="async"
+               alt="Medcoast helmet avatar">
+          <span class="gal-piece__no">Medcoast</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/icons-avatars-08.jpg" width="582" height="581"
+               loading="lazy" decoding="async"
+               alt="Tokyo helmet avatar">
+          <span class="gal-piece__no">Tokyo</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/icons-avatars-09.jpg" width="582" height="581"
+               loading="lazy" decoding="async"
+               alt="Tokyo helmet avatar, second variant">
+          <span class="gal-piece__no">Tokyo 2</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/icons-avatars-10.jpg" width="582" height="581"
+               loading="lazy" decoding="async"
+               alt="Tokyo default helmet avatar">
+          <span class="gal-piece__no">Tokyo default</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+      <section class="gal-sec" id="portraits" aria-labelledby="portraits-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="portraits-h">Character Portraits</h2>
+      <p class="gal-sec__count">30 pieces</p>
+      <ul class="gal-grid gal-grid--six gal-grid--plain">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-01.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Achika, question pose">
+          <span class="gal-piece__no">Achika</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-02.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Ava, neutral pose">
+          <span class="gal-piece__no">Ava</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-03.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Billie, question pose">
+          <span class="gal-piece__no">Billie</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-04.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Bo, serious pose">
+          <span class="gal-piece__no">Bo</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-05.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Dee, neutral pose">
+          <span class="gal-piece__no">Dee</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-06.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Donna, neutral pose">
+          <span class="gal-piece__no">Donna</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-07.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Donna, shoulder pose">
+          <span class="gal-piece__no">Donna</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-08.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Gyda, neutral pose">
+          <span class="gal-piece__no">Gyda</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-09.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Hina, neutral pose">
+          <span class="gal-piece__no">Hina</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-10.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Ichiro, question pose">
+          <span class="gal-piece__no">Ichiro</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-11.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Jeremiah, neutral pose">
+          <span class="gal-piece__no">Jeremiah</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-12.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Joe, neutral pose">
+          <span class="gal-piece__no">Joe</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-13.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Kei, question pose">
+          <span class="gal-piece__no">Kei</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-14.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Kiki, neutral pose">
+          <span class="gal-piece__no">Kiki</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-15.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Lou, neutral pose">
+          <span class="gal-piece__no">Lou</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-16.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Lou, shoulder pose">
+          <span class="gal-piece__no">Lou</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-17.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Lukas, question pose">
+          <span class="gal-piece__no">Lukas</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-18.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Maria, neutral pose">
+          <span class="gal-piece__no">Maria</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-19.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Mateusz, neutral pose">
+          <span class="gal-piece__no">Mateusz</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-20.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Minnie, question pose">
+          <span class="gal-piece__no">Minnie</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-21.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Musa, neutral pose">
+          <span class="gal-piece__no">Musa</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-22.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Andrea, neutral pose">
+          <span class="gal-piece__no">Andrea</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-23.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Nina, neutral pose">
+          <span class="gal-piece__no">Nina</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-24.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Nina, shoulder pose">
+          <span class="gal-piece__no">Nina</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-25.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Olly, neutral pose">
+          <span class="gal-piece__no">Olly</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-26.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Poppy, question pose">
+          <span class="gal-piece__no">Poppy</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-27.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Rashid, neutral pose">
+          <span class="gal-piece__no">Rashid</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-28.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Rosie, neutral pose">
+          <span class="gal-piece__no">Rosie</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-29.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Simon, neutral pose">
+          <span class="gal-piece__no">Simon</span>
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/portraits-30.jpg" width="553" height="1000"
+               loading="lazy" decoding="async"
+               alt="Character torso portrait of Trish, question pose">
+          <span class="gal-piece__no">Trish</span>
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="ui-exploration" aria-labelledby="ui-exploration-h">
+    <div class="shell">
+      <h2 class="gal-sec__title" id="ui-exploration-h">UI Exploration</h2>
+      <p class="gal-sec__count">4 pieces</p>
+      <ul class="gal-grid gal-grid--four gal-grid--even">
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/ui-exploration-01.jpg" width="1000" height="571"
+               loading="lazy" decoding="async" alt="UI Exploration — 1 of 4">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/ui-exploration-02.jpg" width="1000" height="714"
+               loading="lazy" decoding="async" alt="UI Exploration — 2 of 4">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/ui-exploration-03.jpg" width="1000" height="714"
+               loading="lazy" decoding="async" alt="UI Exploration — 3 of 4">
+        </li>
+        <li class="gal-piece">
+          <img src="../../../assets/img/studio-work/ui-exploration-04.jpg" width="1000" height="714"
+               loading="lazy" decoding="async" alt="UI Exploration — 4 of 4">
+        </li>
+      </ul>
+      <a class="gal-top" href="#gal-top">&uarr; Back to sections</a>
+    </div>
+  </section>
+
+<footer class="foot" id="contact">
+  <div class="shell">
+    <p>
+      <a href="../../../index.html#top">About</a> &middot; <a href="https://www.linkedin.com/in/katerinamcl/" rel="me noopener">LinkedIn</a> &middot; <a href="mailto:katiemichael18@hotmail.com">Email</a> &middot;
+      <a href="../../../index.html#work">All work</a>
+    </p>
+    <p class="foot__credits">
+      UI frames and cursors from the Cozy UI Pack by dobo_ui.
+      Type: Jersey 15 &amp; Source Sans 3.
+    </p>
+  </div>
+</footer>
+
+</div><!-- /.sheet -->
+<script src="../../../assets/app.js?v=17"></script>
+</body>
+</html>
