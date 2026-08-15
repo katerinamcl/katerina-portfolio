@@ -414,6 +414,62 @@
     Object.keys(byId).forEach(function (id) { spy.observe(document.getElementById(id)); });
   }
 
+  /* ---------- 7b. Active section in the top nav ----------
+     Only runs where the nav points at same-page anchors, i.e. the landing
+     page. On a project page the links are cross-document
+     ("../../index.html#work") so they don't match [href^='#'] and the static
+     aria-current="location" on Work is left alone — which is correct there,
+     you ARE inside the work section of the site.
+
+     ⚠️ Deliberately NOT an IntersectionObserver, unlike section 7 above.
+     "Highlighted only while the target is intersecting" leaves the nav blank
+     for long stretches here: #work is just the level-select band, and the five
+     level sections after it are thousands of px with no nav target of their
+     own. Picking the LAST section whose top has passed a threshold keeps Work
+     lit all the way through the levels, which is what a reader expects.
+
+     The bottom case is special-cased: #contact is the footer, and on a long
+     page its top may never cross the threshold before the page runs out of
+     scroll, so hitting the end activates the last link outright. */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav a[href^='#']"));
+  if (navLinks.length) {
+    var navTargets = [];
+    navLinks.forEach(function (a) {
+      var t = document.getElementById(a.getAttribute("href").slice(1));
+      if (t) navTargets.push({ link: a, el: t });
+    });
+
+    if (navTargets.length) {
+      var navTicking = false;
+
+      function markNav() {
+        navTicking = false;
+        var line = window.innerHeight * 0.35;   /* a third down the viewport */
+        var current = navTargets[0];
+
+        for (var i = 0; i < navTargets.length; i++) {
+          if (navTargets[i].el.getBoundingClientRect().top <= line) current = navTargets[i];
+        }
+        /* scrolled to the very bottom — the footer wins even if its top
+           never reached the line */
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+          current = navTargets[navTargets.length - 1];
+        }
+
+        navTargets.forEach(function (t) {
+          if (t === current) t.link.setAttribute("aria-current", "true");
+          else t.link.removeAttribute("aria-current");
+        });
+      }
+
+      window.addEventListener("scroll", function () {
+        if (!navTicking) { navTicking = true; requestAnimationFrame(markNav); }
+      }, { passive: true });
+      window.addEventListener("resize", markNav, { passive: true });
+      markNav();
+    }
+  }
+
   /* ---------- 8. Lightbox / click-to-zoom ----------
      Every piece of artwork on the site opens full size on click. This is
      OPT-OUT, not opt-in: qualifying images are found by rule, so no page
