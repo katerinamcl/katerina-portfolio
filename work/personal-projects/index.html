@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Individual Projects — Katerina Michael</title>
-<meta name="description" content="Individual Projects — self-directed game UI and interface work by Katerina Michael. Five briefs set to explore styles, systems and screens outside of studio production.">
+<meta name="description" content="Individual Projects — self-directed game UI and interface work by Katerina Michael. Six briefs set to explore styles, systems and screens outside of studio production.">
 <meta property="og:title" content="Individual Projects — Katerina Michael">
-<meta property="og:description" content="Five self-directed game UI and interface projects, exploring styles, systems and screens outside of studio production.">
+<meta property="og:description" content="Six self-directed game UI and interface projects, exploring styles, systems and screens outside of studio production.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="../../assets/img/p-hydro.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -14,7 +14,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon-16.png">
 <link rel="apple-touch-icon" href="../../assets/favicon-180.png">
-<link rel="stylesheet" href="../../assets/styles.css?v=63">
+<link rel="stylesheet" href="../../assets/styles.css?v=64">
 <style id="ip-theme">
 /* Individual Projects — a retro console screen. The hero is a handheld
    (screen + d-pad + buttons), the grid sits in a pixel window with a hearts
@@ -35,6 +35,10 @@
                 frame because the 5px --ip-ink border still bounds it against
                 the page. */
   --ip-blue:#2E74A0; --ip-violet:#401C7D;
+  /* --ip-gold  Cat Bed. Its own palette's gold, so the hub keeps the rule that
+     each card is framed in a colour the project itself uses. Distinct from
+     --ip-orange (Hydro-Grow) by saturation as well as hue. */
+  --ip-gold:#C29F58;
   --ip-ink:#241033;
   --bezel:#D6449E; --bezel-out:#150822;
   --ink:#F5EDE0; --ink-soft:#c9a9df; --bar-ink:#F5EDE0;
@@ -128,10 +132,18 @@
    COLOURS — move a card and you must move its rule too.
    (The old rules repeated magenta on 1 and 5; every card now has its own.) */
 :root[data-proj="personal-projects"] .proj-grid > li:nth-child(1) .poster__art.ui-card{ background:var(--ip-orange); } /* Hydro-Grow — yellow, its own amber */
-:root[data-proj="personal-projects"] .proj-grid > li:nth-child(2) .poster__art.ui-card{ background:var(--ip-mag); }    /* Dragon Fest — pink, its own rose */
-:root[data-proj="personal-projects"] .proj-grid > li:nth-child(3) .poster__art.ui-card{ background:var(--ip-blue); }   /* Apocalyptic — blue */
-:root[data-proj="personal-projects"] .proj-grid > li:nth-child(4) .poster__art.ui-card{ background:var(--ip-red); }    /* Parent Guidance — unchanged */
-:root[data-proj="personal-projects"] .proj-grid > li:nth-child(5) .poster__art.ui-card{ background:var(--ip-violet); } /* Game Store — deep violet, see --ip-violet note */
+:root[data-proj="personal-projects"] .proj-grid > li:nth-child(2) .poster__art.ui-card{ background:var(--ip-blue); } /* Apocalyptic — blue, darkened so it does not glare on dark art */
+:root[data-proj="personal-projects"] .proj-grid > li:nth-child(3) .poster__art.ui-card{ background:var(--ip-gold); } /* Cat Bed — yellow, its own palette gold */
+:root[data-proj="personal-projects"] .proj-grid > li:nth-child(4) .poster__art.ui-card{ background:var(--ip-red); } /* Parent Guidance — the one colour never specified */
+:root[data-proj="personal-projects"] .proj-grid > li:nth-child(5) .poster__art.ui-card{ background:var(--ip-violet); } /* Game Store — deep violet, see the --ip-violet note */
+:root[data-proj="personal-projects"] .proj-grid > li:nth-child(6) .poster__art.ui-card{ background:var(--ip-mag); } /* Dragon Fest — pink, its own rose */
+/* Cat Bed — yellow, taken from that project's own palette (#C29F58) rather
+   than reusing --ip-orange, which Hydro-Grow already has.
+   ⚠️ Measured, not eyeballed: the thumbnail is 64% bright green (#6C9428 /
+   #78A42D), and this gold sits 1.42x off it in luminance. That is lower than
+   the other frames, and it is fine HERE because the earlier blend failure was
+   purple-frame-on-purple-art — the SAME hue. Gold against green is a hue
+   contrast, so it separates regardless of the luminance being closer. */
 :root[data-proj="personal-projects"] .poster__title{ color:var(--ip-cream); }
 :root[data-proj="personal-projects"] .poster__sub{ color:var(--ip-orange); }
 /* pager + footer */
@@ -237,7 +249,7 @@
         <div class="level__panel ui-panel"><h1 class="proj-title arcade">Individual Projects</h1></div>
         <p class="proj-lede">
           Self-directed game UI and interface work &mdash; briefs I set myself to explore styles,
-          systems and screens outside of studio production. Five projects, each with its own page;
+          systems and screens outside of studio production. Six projects, each with its own page;
           this is all of them in one place.
         </p>
 
@@ -268,7 +280,7 @@
 
 <section class="proj-sec" id="projects" aria-labelledby="projects-title">
   <div class="shell">
-    <h2 class="proj-sec__title" id="projects-title" style="text-align:center">The five projects</h2>
+    <h2 class="proj-sec__title" id="projects-title" style="text-align:center">The six projects</h2>
     <ul class="proj-grid">
       <li>
         <a class="poster" href="../hydro-grow-station/">
@@ -277,15 +289,15 @@
         </a>
       </li>
       <li>
-        <a class="poster" href="../dragon-fest/">
-          <span class="poster__art ui-card"><img src="../../assets/img/p-dragonfest.jpg" width="600" height="800" loading="lazy" decoding="async" alt="Dragon Fest event art: a dragon egg hatching into a dragon, over the line Can you climb to the top?"></span>
-          <span class="poster__title">Dragon Fest<span class="poster__sub">2025 &middot; Event concept</span></span>
-        </a>
-      </li>
-      <li>
         <a class="poster" href="../apocalyptic-game-ui/">
           <span class="poster__art ui-card"><img src="../../assets/img/p-apoc.jpg" width="600" height="800" loading="lazy" decoding="async" alt="Worn-out tools item card from the post-apocalyptic interface, on a dark hex-pattern panel"></span>
           <span class="poster__title">Apocalyptic Game UI<span class="poster__sub">2025 &middot; Interface concept</span></span>
+        </a>
+      </li>
+      <li>
+        <a class="poster" href="../cat-bed/">
+          <span class="poster__art ui-card"><img src="../../assets/img/p-catbed.jpg" width="600" height="800" loading="lazy" decoding="async" alt="Isometric cat bed asset shown on a green farm-game tile ground: a timber platform with a patterned cushion, a palm in a gold urn and a carved water bowl"></span>
+          <span class="poster__title">Cat Bed<span class="poster__sub">2026 &middot; Game art</span></span>
         </a>
       </li>
       <li>
@@ -298,6 +310,12 @@
         <a class="poster" href="../game-store-ui/">
           <span class="poster__art ui-card"><img src="../../assets/img/p-store.jpg" width="600" height="800" loading="lazy" decoding="async" alt="Game store navigation menu: dashboard, game store, my library, coming soon and settings"></span>
           <span class="poster__title">Game Store UI<span class="poster__sub">2024 &middot; Storefront</span></span>
+        </a>
+      </li>
+      <li>
+        <a class="poster" href="../dragon-fest/">
+          <span class="poster__art ui-card"><img src="../../assets/img/p-dragonfest.jpg" width="600" height="800" loading="lazy" decoding="async" alt="Dragon Fest event art: a dragon egg hatching into a dragon, over the line Can you climb to the top?"></span>
+          <span class="poster__title">Dragon Fest<span class="poster__sub">2025 &middot; Event concept</span></span>
         </a>
       </li>
     </ul>
@@ -342,7 +360,7 @@
 
 </div><!-- /.sheet -->
 
-<script src="../../assets/app.js?v=18" defer></script>
+<script src="../../assets/app.js?v=19" defer></script>
 
 </body>
 </html>

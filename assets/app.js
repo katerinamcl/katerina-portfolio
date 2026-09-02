@@ -332,7 +332,7 @@
          is folded into their background-position instead (see styles.css) */
   var decor = document.querySelectorAll(
     ".kr-shrooms, .ac-desk, .ip-arcade, .rc-helms, .bb-page-boxes, .df-scene, " +
-    ".hy-plot, .ap-ruins, .pg-desk, .gs-arcade"
+    ".hy-plot, .ap-ruins, .pg-desk, .gs-arcade, .cb-farm"
   );
   var decorPseudo = document.querySelector(".hero, .band, .level, .foot");
   if (decor.length || decorPseudo) {

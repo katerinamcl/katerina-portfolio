@@ -312,6 +312,7 @@ input, textarea, select { cursor: auto; }
 :root[data-proj="hydro-grow-station"] { --cursor:url("cursors/hydro-grow-station.png"); --cursor-click:url("cursors/hydro-grow-station-click.png"); }
 :root[data-proj="parent-guidance-app"]{ --cursor:url("cursors/parent-guidance-app.png");--cursor-click:url("cursors/parent-guidance-app-click.png"); }
 :root[data-proj="ui-studies"]         { --cursor:url("cursors/ui-studies.png");         --cursor-click:url("cursors/ui-studies-click.png"); }
+:root[data-proj="cat-bed"]            { --cursor:url("cursors/cat-bed.png");            --cursor-click:url("cursors/cat-bed-click.png"); }
 
 img { max-width: 100%; height: auto; display: block; }
 a { color: var(--ink); }
