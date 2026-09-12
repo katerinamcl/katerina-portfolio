@@ -22,10 +22,10 @@ character-art|character-art-06.jpg|667|1000|animeart1.png|4751|112
 character-art|character-art-07.jpg|1000|1000|selfpfp1.png|2035|87
 character-art|character-art-08.jpg|1000|1000|ervinnnn1.png|2103|89
 character-art|character-art-09.jpg|1000|1000|Temi1.png|1129|48
-character-art|character-art-10.jpg|1000|1000|Temi2.png|1105|48
 character-art|character-art-11.jpg|750|1000|prechar1.jpg|729|128
 character-art|character-art-12.jpg|750|1000|prechar2.jpg|717|123
 character-art|character-art-13.jpg|750|1000|prechar3.jpg|858|143
 character-art|character-art-14.jpg|750|1000|prechar4.jpg|617|104
 character-art|character-art-15.jpg|714|1000|unnamedcharacter1.png|1321|76
 character-art|character-art-16.jpg|750|1000|randomchar1.png|674|138
+character-art|character-art-17.jpg|1000|667|image045.jpeg|544|90

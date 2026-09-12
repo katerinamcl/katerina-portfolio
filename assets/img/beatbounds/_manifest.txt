@@ -56,3 +56,4 @@ ground-tiles|ground-tiles-17.png|128|128|GroundTiles\InGameTiles\Mountain5.2.png
 ground-tiles|ground-tiles-18.png|128|128|GroundTiles\InGameTiles\Mountain6.2.png
 ground-tiles|ground-tiles-19.png|128|128|GroundTiles\PoisonWater\Poisonwater1.1.png
 ground-tiles|ground-tiles-20.png|128|128|GroundTiles\PoisonWater\Poisonwater1.2.png
+narrative|narrative-07.jpg|1400|1400|Narrative\image067.jpeg
